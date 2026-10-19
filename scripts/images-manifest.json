@@ -1,0 +1,54 @@
+{
+  "casais": [
+    "casais-1.jpg",
+    "casais-2.jpg",
+    "casais-3.jpg",
+    "casais-4.jpg",
+    "casais-5.jpg"
+  ],
+  "familias": [
+    "familias-1.jpg",
+    "familias-2.jpg",
+    "familias-3.jpg",
+    "familias-4.jpg",
+    "familias-5.jpg"
+  ],
+  "gestantes": [
+    "gestantes-1.jpg",
+    "gestantes-2.jpg",
+    "gestantes-3.jpg",
+    "gestantes-4.jpg",
+    "gestantes-5.jpg"
+  ],
+  "casamentos": [
+    "casamentos-1.jpg",
+    "casamentos-2.jpg",
+    "casamentos-3.jpg",
+    "casamentos-4.jpg",
+    "casamentos-5.jpg",
+    "casamentos-6.jpg"
+  ],
+  "aniversarios": [
+    "aniversarios-1.jpg",
+    "aniversarios-2.jpg",
+    "aniversarios-3.jpg",
+    "aniversarios-4.jpg"
+  ],
+  "bio": [
+    "bio-1.jpg",
+    "bio-2.jpg",
+    "bio-3.jpg"
+  ],
+  "hero": [
+    "hero-1.jpg",
+    "hero-2.jpg",
+    "hero-3.jpg",
+    "hero-4.jpg"
+  ],
+  "nova": [
+    "nova-1.jpg",
+    "nova-2.jpg",
+    "nova-3.jpg",
+    "nova-4.jpg"
+  ]
+}
