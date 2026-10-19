@@ -8,26 +8,32 @@ export function About() {
       <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 md:px-8 lg:grid-cols-2 lg:gap-20">
         {/* Colagem de fotos */}
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <Reveal className="relative z-10 aspect-[4/5] w-[82%] overflow-hidden">
+          <Reveal className="relative z-10 aspect-[4/5] w-[82%] overflow-hidden shadow-2xl">
             <Image
-              src="/img/bio-2.jpg"
-              alt="Micael e Vanusa fotografando um casamento"
+              src="/img/vanusa.jpg"
+              alt="Vanusa — Fotógrafa da Memória Viva Fotografia"
               fill
               sizes="(min-width: 1024px) 40vw, 80vw"
               className="object-cover grayscale transition-transform duration-700 hover:scale-105"
             />
+            <div className="pointer-events-none absolute bottom-4 left-4 z-10 rounded-full bg-black/60 px-3.5 py-1 text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur-md">
+              Vanusa
+            </div>
           </Reveal>
           <Reveal
             delay={0.2}
-            className="absolute -bottom-10 right-0 z-20 aspect-square w-[46%] overflow-hidden border-[6px] border-neutral-50"
+            className="absolute -bottom-10 right-0 z-20 aspect-square w-[52%] overflow-hidden border-[6px] border-neutral-50 shadow-2xl"
           >
             <Image
-              src="/img/bio-1.jpg"
-              alt="Detalhe do equipamento fotográfico do casal"
+              src="/img/micael.jpg"
+              alt="Micael — Fotógrafo da Memória Viva Fotografia"
               fill
-              sizes="(min-width: 1024px) 20vw, 40vw"
+              sizes="(min-width: 1024px) 25vw, 45vw"
               className="object-cover grayscale transition-transform duration-700 hover:scale-105"
             />
+            <div className="pointer-events-none absolute bottom-4 right-4 z-10 rounded-full bg-black/60 px-3.5 py-1 text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur-md">
+              Micael
+            </div>
           </Reveal>
           {/* Moldura decorativa */}
           <div
