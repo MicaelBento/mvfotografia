@@ -72,3 +72,19 @@ Work Log:
   - Build de produção concluído com sucesso e site publicado com SSL ativo.
   - Validadas rotas em produção: `https://mvfotografia-f9hn.vercel.app` (HTTP 200 OK).
 
+---
+Task ID: 3
+Agent: Antigravity
+Task: Substituir fotos genéricas da seção "Nossa História" pelas fotos reais de Micael e Vanusa enviadas pelo usuário.
+
+Work Log:
+- Processadas imagens enviadas pelo usuário:
+  - Vanusa: retrato editorial em preto e branco com câmera (salvo em `public/img/vanusa.jpg` e `public/img/bio-2.jpg`).
+  - Micael: retrato em preto e branco fotografando com câmera Canon e teleobjetiva (salvo em `public/img/micael.jpg` e `public/img/bio-1.jpg`).
+- Atualizado componente `src/components/site/about.tsx`:
+  - Enquadramento perfeito na proporção vertical 4:5 para a foto da Vanusa e formato 1:1 quadrado para a foto do Micael.
+  - Adicionadas identificações refinadas e sutis com backdrop-blur ("Vanusa" e "Micael") e atributos alt semânticos e acessíveis.
+- Testado build de produção local (`npm run build` bem-sucedido em 1.4s).
+- Commitado e enviado para a branch `main` no GitHub (`c1c37e4`).
+- Deploy automático acionado na Vercel e validado em produção com sucesso (HTTP 200 OK para as fotos e para a página principal).
+
