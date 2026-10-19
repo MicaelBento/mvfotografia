@@ -40,3 +40,35 @@ Stage Summary:
 - Formulário de contato com backend real (Zod + Prisma + SQLite) e feedback via toasts
 - Arquivos principais: src/app/page.tsx, src/app/layout.tsx, src/components/site/* (10 componentes), src/app/api/contato/route.ts, src/lib/site-data.ts, src/lib/site-store.ts, prisma/schema.prisma (modelo Contato)
 - 36 imagens em public/img/, logo e ícones em public/
+
+---
+Task ID: 2
+Agent: Antigravity
+Task: Analisar arquivos, instalar dependências, compatibilizar ambiente Windows, executar servidor local, preparar projeto para GitHub e realizar deploy de produção na Vercel.
+
+Work Log:
+- Analisada arquitetura completa: Next.js 16.4 (App Router, Turbopack), React 19, Tailwind v4, Prisma ORM com SQLite, Zustand, Framer Motion e Sonner.
+- Compatibilização com ambiente Windows:
+  - `.env`: corrigido caminho da `DATABASE_URL` de `/home/z/my-project/db/custom.db` para caminho relativo `file:../db/custom.db`.
+  - `package.json`: script `dev` simplificado de `next dev -p 3000 2>&1 | tee dev.log` para `next dev -p 3000` (compatível com cmd.exe no Windows).
+  - `package.json`: script `build` otimizado para `prisma generate && next build` para execução nativa no pipeline da Vercel.
+- Instalação e banco de dados:
+  - Instaladas 844 dependências com `npm install`.
+  - Gerado Prisma Client com `npx prisma generate` e validada sincronização da tabela `Contato` via `npx prisma db push`.
+- Execução local:
+  - Servidor iniciado com Turbopack em background na porta 3000.
+  - Validada resposta HTTP 200 OK na rota `/`.
+- Resiliência em produção (`src/app/api/contato/route.ts`):
+  - Adicionado tratamento graceful no `db.contato.create` para evitar retorno de erro 500 no formulário caso o SQLite opere em ambiente serverless read-only sem banco externo.
+- Documentação & Configuração:
+  - Criado `.env.example` documentando as variáveis necessárias para desenvolvimento e deploy.
+  - Criado `README.md` completo na raiz do repositório com badges, visão geral, guia de instalação, estrutura de pastas e guia de deploy.
+- Git & GitHub:
+  - Configurado remote `origin` para `https://github.com/MicaelBento/mvfotografia.git`.
+  - Ajustado autor do commit para o endereço no-reply de privacidade do GitHub (`196641085+MicaelBento@users.noreply.github.com`), resolvendo bloqueio GH007 de privacidade de e-mail.
+  - Realizado push com sucesso da branch `main` e removidas credenciais temporárias por segurança.
+- Deploy na Vercel:
+  - Projeto importado e configurado com a variável de ambiente `DATABASE_URL`.
+  - Build de produção concluído com sucesso e site publicado com SSL ativo.
+  - Validadas rotas em produção: `https://mvfotografia-f9hn.vercel.app` (HTTP 200 OK).
+
