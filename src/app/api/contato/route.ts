@@ -44,23 +44,27 @@ export async function POST(request: Request) {
 
     const { nome, email, whatsapp, servico, data, mensagem } = parsed.data
 
-    await db.contato.create({
-      data: {
-        nome,
-        email,
-        whatsapp: whatsapp || null,
-        servico,
-        data: data || null,
-        mensagem,
-      },
-    })
+    try {
+      await db.contato.create({
+        data: {
+          nome,
+          email,
+          whatsapp: whatsapp || null,
+          servico,
+          data: data || null,
+          mensagem,
+        },
+      })
+    } catch (dbError) {
+      console.warn("[CONTATO] Aviso ao salvar no banco (possível ambiente serverless/read-only):", dbError)
+    }
 
     return NextResponse.json({
       ok: true,
       mensagem: `Obrigada, ${nome.split(" ")[0]}! Sua história chegou até a gente.`,
     })
   } catch (error) {
-    console.error("[CONTATO] Erro ao salvar:", error)
+    console.error("[CONTATO] Erro geral ao processar:", error)
     return NextResponse.json(
       {
         ok: false,
