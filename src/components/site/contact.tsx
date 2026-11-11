@@ -15,12 +15,13 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 import {
-  servicos,
+  getServicosPorModo,
   estudioLocalizacao,
   WHATSAPP_NUMERO,
 } from "@/lib/site-data"
 import { useSiteStore, type ContextoProposta } from "@/lib/site-store"
 import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
 import { SectionHeading } from "./section-heading"
 import { Reveal } from "./reveal"
 import { StudioMap } from "./studio-map"
@@ -113,7 +114,16 @@ function montarMensagemWhatsapp(params: {
   return linhas.join("\n")
 }
 
-export function Contact() {
+interface ContactProps {
+  modo?: "preview" | SiteModo
+}
+
+export function Contact({ modo = "corporativo" }: ContactProps) {
+  const theme =
+    modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
+  const modoSection: SiteModo = modo === "pessoal" ? "pessoal" : "corporativo"
+  const servicosLista = getServicosPorModo(modo)
+
   const servico = useSiteStore((s) => s.servicoSelecionado)
   const setServico = useSiteStore((s) => s.setServico)
   const contextoProposta = useSiteStore((s) => s.contextoProposta)
@@ -127,17 +137,23 @@ export function Contact() {
 
   const nomeInputRef = useRef<HTMLInputElement>(null)
 
+  const servicoAtivo = servicosLista.includes(servico) ? servico : ""
+  const contextoAtivo =
+    contextoProposta && servicosLista.includes(contextoProposta.servico)
+      ? contextoProposta
+      : null
+
   const mensagemAutomatica = montarMensagemWhatsapp({
     nome,
-    servico,
+    servico: servicoAtivo,
     detalhe,
-    contexto: contextoProposta,
+    contexto: contextoAtivo,
   })
   const mensagemFinal = textoCustomizado ?? mensagemAutomatica
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagemFinal)}`
 
   function alternarServico(opcao: string) {
-    const proximo = servico === opcao ? "" : opcao
+    const proximo = servicoAtivo === opcao ? "" : opcao
     setServico(proximo)
     if (contextoProposta && contextoProposta.servico !== proximo) {
       setContextoProposta(null)
@@ -180,19 +196,37 @@ export function Contact() {
     }
   }
 
-  const inputClasse =
-    "h-11 w-full rounded-sm border border-[#F6F5F0]/15 bg-[#141413] px-3.5 text-sm font-light text-[#F6F5F0] placeholder:text-[#86837B] transition-colors focus:border-[#F6F5F0] focus:outline-none"
+  const inputClasse = cn(
+    "h-11 w-full rounded-sm border border-[#F6F5F0]/15 px-3.5 text-sm font-light text-[#F6F5F0] placeholder:text-[#86837B] transition-colors focus:border-[#F6F5F0] focus:outline-none",
+    theme.darkBg
+  )
+
+  const tituloContato =
+    modo === "pessoal" ? "Vamos registrar" : "Vamos planejar"
+  const destaqueContato =
+    modo === "pessoal" ? "sua memória?" : "sua produção?"
+  const nomePlaceholder =
+    modo === "pessoal"
+      ? "Ex.: Mariana ou Camila & Rafael"
+      : modo === "corporativo"
+        ? "Ex.: Dr. Henrique · Clínica Sombrio"
+        : "Ex.: Mariana ou Clínica Sombrio"
+  const detalhePlaceholder =
+    modo === "corporativo"
+      ? "Ex.: 15 produtos para catálogo, equipe de 6 pessoas ou locação na empresa"
+      : "Ex.: próximo mês, período da tarde ou locação externa"
 
   return (
-    <section id="contato" className="bg-[#141413] py-24 md:py-32">
+    <section id="contato" className={cn("py-24 md:py-32", theme.darkBg)}>
       <div className="mx-auto grid max-w-7xl gap-14 px-6 md:px-10 lg:grid-cols-12 lg:gap-16">
         {/* Informações e localização */}
         <div className="lg:col-span-5">
           <SectionHeading
             invertido
-            label="08 · Contato"
-            titulo="Vamos planejar"
-            destaque="sua produção?"
+            modo={modoSection}
+            label={modo === "preview" ? "Estúdio & Contato" : "08 · Contato"}
+            titulo={tituloContato}
+            destaque={destaqueContato}
             descricao="Informe seu nome, escolha opcionalmente o tipo de sessão e envie a mensagem pronta direto para o nosso WhatsApp."
           />
 
@@ -225,7 +259,12 @@ export function Contact() {
               })}
             </ul>
 
-            <div className="mt-8 flex items-start gap-3 rounded-sm border border-[#F6F5F0]/12 bg-[#1C1C1A] p-4 text-xs font-light leading-relaxed text-[#B8B5AC]">
+            <div
+              className={cn(
+                "mt-8 flex items-start gap-3 rounded-sm border border-[#F6F5F0]/12 p-4 text-xs font-light leading-relaxed text-[#B8B5AC]",
+                theme.darkCardBg
+              )}
+            >
               <Clock
                 className="mt-0.5 h-4 w-4 shrink-0 text-[#9E9B93]"
                 strokeWidth={1.5}
@@ -244,7 +283,10 @@ export function Contact() {
         <Reveal delay={0.1} className="lg:col-span-7">
           <form
             onSubmit={handleSubmitEnter}
-            className="rounded-md border border-[#F6F5F0]/15 bg-[#1C1C1A] p-7 md:p-9"
+            className={cn(
+              "rounded-md border border-[#F6F5F0]/15 p-7 md:p-9",
+              theme.darkCardBg
+            )}
             noValidate
           >
             <div className="flex items-start justify-between gap-4">
@@ -260,27 +302,36 @@ export function Contact() {
                   segundos.
                 </p>
               </div>
-              <span className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#F6F5F0]/15 bg-[#141413] text-[#F6F5F0] sm:flex">
+              <span
+                className={cn(
+                  "hidden h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#F6F5F0]/15 text-[#F6F5F0] sm:flex",
+                  theme.darkBg
+                )}
+              >
                 <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
               </span>
             </div>
 
-            {contextoProposta && (
-              <div className="mt-6 flex items-start justify-between gap-4 rounded-sm border border-[#F6F5F0]/18 bg-[#141413] px-4 py-3 text-xs">
+            {contextoAtivo && (
+              <div
+                className={cn(
+                  "mt-6 flex items-start justify-between gap-4 rounded-sm border border-[#F6F5F0]/18 px-4 py-3 text-xs",
+                  theme.darkBg
+                )}
+              >
                 <div className="space-y-1">
                   <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#9E9B93]">
                     Experiência adicionada à mensagem
                   </p>
                   <p className="font-light text-[#D4D1C7]">
                     <span className="font-medium text-[#F6F5F0]">
-                      {contextoProposta.momento}
+                      {contextoAtivo.momento}
                     </span>
-                    {contextoProposta.formato &&
-                      ` · ${contextoProposta.formato}`}
+                    {contextoAtivo.formato && ` · ${contextoAtivo.formato}`}
                   </p>
-                  {contextoProposta.extras.length > 0 && (
+                  {contextoAtivo.extras.length > 0 && (
                     <p className="font-light text-[#9E9B93]">
-                      Adicionais: {contextoProposta.extras.join(", ")}
+                      Adicionais: {contextoAtivo.extras.join(", ")}
                     </p>
                   )}
                 </div>
@@ -302,7 +353,7 @@ export function Contact() {
                   htmlFor="nome"
                   className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]"
                 >
-                  1. Seu nome ou empresa *
+                  1. {modo === "corporativo" ? "Seu nome ou empresa" : "Seu nome"} *
                 </label>
                 <input
                   ref={nomeInputRef}
@@ -318,7 +369,7 @@ export function Contact() {
                   }}
                   aria-invalid={erroNome}
                   autoComplete="name"
-                  placeholder="Ex.: Mariana ou Studio Nord"
+                  placeholder={nomePlaceholder}
                   className={cn(
                     inputClasse,
                     erroNome && "border-[#E58D8D] focus:border-[#E58D8D]"
@@ -337,8 +388,8 @@ export function Contact() {
                   2. O que deseja registrar (opcional)
                 </span>
                 <div className="flex flex-wrap gap-2">
-                  {servicos.map((item) => {
-                    const ativo = servico === item
+                  {servicosLista.map((item) => {
+                    const ativo = servicoAtivo === item
                     return (
                       <button
                         key={item}
@@ -349,7 +400,10 @@ export function Contact() {
                           "rounded-sm border px-3 py-2 text-xs font-light transition-colors focus-visible:!outline-[#F6F5F0]",
                           ativo
                             ? "border-[#F6F5F0] bg-[#F6F5F0] font-medium text-[#141413]"
-                            : "border-[#F6F5F0]/18 bg-[#141413] text-[#D4D1C7] hover:border-[#F6F5F0]/45 hover:text-[#F6F5F0]"
+                            : cn(
+                                "border-[#F6F5F0]/18 text-[#D4D1C7] hover:border-[#F6F5F0]/45 hover:text-[#F6F5F0]",
+                                theme.darkBg
+                              )
                         )}
                       >
                         {item}
@@ -372,7 +426,7 @@ export function Contact() {
                   name="detalhe"
                   value={detalhe}
                   onChange={(e) => setDetalhe(e.target.value)}
-                  placeholder="Ex.: próximo mês, período da tarde ou locação externa"
+                  placeholder={detalhePlaceholder}
                   className={inputClasse}
                 />
               </div>
@@ -403,7 +457,10 @@ export function Contact() {
                   rows={4}
                   value={mensagemFinal}
                   onChange={(e) => setTextoCustomizado(e.target.value)}
-                  className="w-full resize-none rounded-sm border border-[#F6F5F0]/20 bg-[#141413] px-4 py-3.5 text-sm font-light leading-relaxed text-[#F6F5F0] transition-colors focus:border-[#F6F5F0] focus:outline-none"
+                  className={cn(
+                    "w-full resize-none rounded-sm border border-[#F6F5F0]/20 px-4 py-3.5 text-sm font-light leading-relaxed text-[#F6F5F0] transition-colors focus:border-[#F6F5F0] focus:outline-none",
+                    theme.darkBg
+                  )}
                 />
               </div>
             </div>

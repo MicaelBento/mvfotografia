@@ -4,15 +4,25 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { faqs } from "@/lib/site-data"
+import { getFaqsPorModo } from "@/lib/site-data"
+import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
 import { SectionHeading } from "./section-heading"
 import { Reveal } from "./reveal"
 
-export function Faq() {
+interface FaqProps {
+  modo: SiteModo
+}
+
+export function Faq({ modo }: FaqProps) {
+  const theme = modoThemes[modo]
+  const items = getFaqsPorModo(modo)
+
   return (
-    <section id="faq" className="bg-[#ECEAE3] py-24 md:py-32">
+    <section id="faq" className={cn("py-24 md:py-32", theme.stoneBg)}>
       <div className="mx-auto max-w-4xl px-6 md:px-10">
         <SectionHeading
+          modo={modo}
           label="07 · Dúvidas Frequentes"
           titulo="Informações"
           destaque="e processo"
@@ -23,18 +33,35 @@ export function Faq() {
           <Accordion
             type="single"
             collapsible
-            className="mt-10 rounded-md border border-[#141413]/12 bg-[#FDFCFA] px-6 md:px-8"
+            className={cn(
+              "mt-10 rounded-md border px-6 md:px-8",
+              theme.borderLight,
+              theme.cardBg
+            )}
           >
-            {faqs.map((f, i) => (
+            {items.map((f, i) => (
               <AccordionItem
                 key={f.pergunta}
                 value={`item-${i}`}
-                className="border-[#141413]/10 last:border-b-0"
+                className={cn(theme.borderLight, "last:border-b-0")}
               >
-                <AccordionTrigger className="py-5 text-left text-base font-medium leading-snug text-[#141413] hover:no-underline hover:text-[#57554F] md:text-[17px] [&>svg]:h-4 [&>svg]:w-4">
+                <AccordionTrigger
+                  className={cn(
+                    "py-5 text-left text-base font-medium leading-snug hover:no-underline md:text-[17px] [&>svg]:h-4 [&>svg]:w-4",
+                    theme.inkText,
+                    modo === "pessoal"
+                      ? "hover:text-[#665E57]"
+                      : "hover:text-[#57554F]"
+                  )}
+                >
                   {f.pergunta}
                 </AccordionTrigger>
-                <AccordionContent className="pb-6 text-sm font-light leading-relaxed text-[#57554F] md:text-base">
+                <AccordionContent
+                  className={cn(
+                    "pb-6 text-sm font-light leading-relaxed md:text-base",
+                    theme.mutedText
+                  )}
+                >
                   {f.resposta}
                 </AccordionContent>
               </AccordionItem>

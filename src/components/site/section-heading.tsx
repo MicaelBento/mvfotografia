@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
 import { Reveal } from "./reveal"
 
 interface SectionHeadingProps {
@@ -8,6 +9,7 @@ interface SectionHeadingProps {
   descricao?: string
   invertido?: boolean
   centralizado?: boolean
+  modo?: SiteModo
   className?: string
 }
 
@@ -18,8 +20,11 @@ export function SectionHeading({
   descricao,
   invertido = false,
   centralizado = false,
+  modo = "corporativo",
   className,
 }: SectionHeadingProps) {
+  const theme = modoThemes[modo]
+
   return (
     <Reveal
       className={cn(
@@ -31,7 +36,11 @@ export function SectionHeading({
       <p
         className={cn(
           "label-mini mb-4",
-          invertido ? "text-[#9E9B93]" : "text-[#57554F]"
+          invertido
+            ? modo === "pessoal"
+              ? "text-[#B5AAA0]"
+              : "text-[#9E9B93]"
+            : theme.mutedText
         )}
       >
         {label}
@@ -39,7 +48,11 @@ export function SectionHeading({
       <h2
         className={cn(
           "text-3xl font-medium tracking-[-0.025em] leading-[1.08] md:text-5xl",
-          invertido ? "text-[#F6F5F0]" : "text-[#141413]"
+          invertido
+            ? modo === "pessoal"
+              ? "text-[#FAF7F2]"
+              : "text-[#F6F5F0]"
+            : theme.inkText
         )}
       >
         {titulo}
@@ -48,8 +61,14 @@ export function SectionHeading({
             {" "}
             <span
               className={cn(
-                "font-light",
-                invertido ? "text-[#A8A49B]" : "text-[#57554F]"
+                modo === "pessoal"
+                  ? "font-serif-site italic font-normal"
+                  : "font-light",
+                invertido
+                  ? modo === "pessoal"
+                    ? "text-[#C5BBB1]"
+                    : "text-[#A8A49B]"
+                  : theme.mutedText
               )}
             >
               {destaque}
@@ -62,7 +81,11 @@ export function SectionHeading({
           className={cn(
             "mt-5 max-w-2xl text-base leading-relaxed font-light md:text-[17px]",
             centralizado && "mx-auto",
-            invertido ? "text-[#B8B5AC]" : "text-[#57554F]"
+            invertido
+              ? modo === "pessoal"
+                ? "text-[#C5BBB1]"
+                : "text-[#B8B5AC]"
+              : theme.mutedText
           )}
         >
           {descricao}

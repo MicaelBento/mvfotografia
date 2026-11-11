@@ -1,9 +1,11 @@
+import Link from "next/link"
 import Image from "next/image"
 import { Instagram, Facebook, MessageCircle, ExternalLink } from "lucide-react"
 import { estudioLocalizacao } from "@/lib/site-data"
+import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
 
-const navegacao = [
-  { href: "#inicio", label: "Início" },
+const navegacaoSecoes = [
   { href: "#historia", label: "O Estúdio" },
   { href: "#servicos", label: "Especialidades" },
   { href: "#portfolio", label: "Portfólio" },
@@ -12,13 +14,17 @@ const navegacao = [
   { href: "#contato", label: "Contato" },
 ]
 
-const servicosFooter = [
-  "Casais & Famílias",
-  "Gestantes",
-  "Aniversários",
-  "Corporativo & Retratos",
-  "Produtos & Marketing",
-  "Projetos sob consulta",
+const navegacaoPreview = [
+  { href: "/pessoal", label: "Frente Pessoal" },
+  { href: "/corporativo", label: "Corporativo & Marketing" },
+  { href: "#localizacao", label: "Localização do Estúdio" },
+  { href: "#contato", label: "WhatsApp Direto" },
+]
+
+const frentesLinks = [
+  { href: "/", label: "Escolha inicial (Preview)" },
+  { href: "/pessoal", label: "Pessoal · Ensaios & Afeto" },
+  { href: "/corporativo", label: "Corporativo & Marketing" },
 ]
 
 const sociais = [
@@ -39,14 +45,22 @@ const sociais = [
   },
 ]
 
-export function Footer() {
+interface FooterProps {
+  modo?: "preview" | SiteModo
+}
+
+export function Footer({ modo = "preview" }: FooterProps) {
+  const theme =
+    modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
+  const navegacao = modo === "preview" ? navegacaoPreview : navegacaoSecoes
+
   return (
-    <footer className="border-t border-[#F6F5F0]/12 bg-[#141413]">
+    <footer className={cn("border-t border-[#F6F5F0]/12", theme.darkBg)}>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
           {/* Marca */}
           <div className="md:col-span-5">
-            <div className="flex items-center gap-3.5">
+            <Link href="/" className="inline-flex items-center gap-3.5">
               <Image
                 src="/logo-branco.svg"
                 alt="Logotipo Memória Viva Estúdio"
@@ -64,7 +78,7 @@ export function Footer() {
                   Micael &amp; Vanusa
                 </p>
               </div>
-            </div>
+            </Link>
             <p className="mt-5 max-w-sm text-sm font-light leading-relaxed text-[#B8B5AC]">
               Estúdio próprio no Centro de Sombrio · SC (3º andar, Sala 302 —
               acima da CDL). Fotografia pessoal, corporativa, produtos e
@@ -77,25 +91,39 @@ export function Footer() {
             <p className="label-mini text-[#9E9B93]">Navegue</p>
             <ul className="mt-4 space-y-2.5">
               {navegacao.map((n) => (
-                <li key={n.href}>
-                  <a
-                    href={n.href}
-                    className="text-sm font-light text-[#D4D1C7] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
-                  >
-                    {n.label}
-                  </a>
+                <li key={n.href + n.label}>
+                  {n.href.startsWith("/") ? (
+                    <Link
+                      href={n.href}
+                      className="text-sm font-light text-[#D4D1C7] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                    >
+                      {n.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={n.href}
+                      className="text-sm font-light text-[#D4D1C7] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                    >
+                      {n.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Atuação */}
+          {/* Frentes */}
           <div className="md:col-span-2">
-            <p className="label-mini text-[#9E9B93]">Atuação</p>
+            <p className="label-mini text-[#9E9B93]">Frentes</p>
             <ul className="mt-4 space-y-2.5">
-              {servicosFooter.map((s) => (
-                <li key={s} className="text-sm font-light text-[#B8B5AC]">
-                  {s}
+              {frentesLinks.map((f) => (
+                <li key={f.href}>
+                  <Link
+                    href={f.href}
+                    className="text-sm font-light text-[#B8B5AC] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                  >
+                    {f.label}
+                  </Link>
                 </li>
               ))}
             </ul>

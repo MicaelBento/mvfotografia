@@ -1,3 +1,5 @@
+import type { SiteModo } from "./site-modes"
+
 export interface GalleryImage {
   src: string
   w: number
@@ -16,8 +18,11 @@ export type CategoriaKey =
   | "casamentos"
   | "nova"
 
+export type GrupoExperiencia = "pessoal" | "comercial"
+
 export interface Categoria {
   key: CategoriaKey
+  grupo: GrupoExperiencia
   nome: string
   titulo: string
   frase: string
@@ -29,6 +34,7 @@ export interface Categoria {
 export const categorias: Categoria[] = [
   {
     key: "casais",
+    grupo: "pessoal",
     nome: "Casais",
     titulo: "Conexão natural",
     frase: "Retratos autênticos, sem poses rígidas.",
@@ -39,6 +45,7 @@ export const categorias: Categoria[] = [
   },
   {
     key: "familias",
+    grupo: "pessoal",
     nome: "Famílias",
     titulo: "Tempo real em família",
     frase: "Espontaneidade e técnica na medida certa.",
@@ -49,6 +56,7 @@ export const categorias: Categoria[] = [
   },
   {
     key: "gestantes",
+    grupo: "pessoal",
     nome: "Gestantes",
     titulo: "Maternidade editorial",
     frase: "Luz controlada, conforto e presença.",
@@ -59,6 +67,7 @@ export const categorias: Categoria[] = [
   },
   {
     key: "aniversarios",
+    grupo: "pessoal",
     nome: "Aniversários",
     titulo: "Celebrações & ciclos",
     frase: "Olhar documental sobre encontros e detalhes.",
@@ -69,6 +78,7 @@ export const categorias: Categoria[] = [
   },
   {
     key: "corporativo",
+    grupo: "comercial",
     nome: "Corporativo & Retratos",
     titulo: "Posicionamento & Autoridade",
     frase: "Retratos profissionais para especialistas e equipes.",
@@ -79,6 +89,7 @@ export const categorias: Categoria[] = [
   },
   {
     key: "produtos-marketing",
+    grupo: "comercial",
     nome: "Produtos & Marketing",
     titulo: "Fotografia Comercial de Marca",
     frase: "Imagens com fidelidade e alto apelo comercial.",
@@ -103,7 +114,11 @@ export const galeria: GalleryImage[] = [
   { src: "/img/gestantes-4.jpg", w: 894, h: 894, alt: "Gestante com vestido fluido", categoria: "gestantes" },
   { src: "/img/gestantes-5.jpg", w: 1200, h: 857, alt: "Casal esperando o bebê", categoria: "gestantes" },
   { src: "/img/corporativo-1.jpg", w: 896, h: 1200, alt: "Retrato corporativo autoral em estúdio com iluminação suave", categoria: "corporativo" },
+  { src: "/img/corporativo-2.jpg", w: 896, h: 1200, alt: "Retrato executivo de arquiteto e especialista com direção natural", categoria: "corporativo" },
+  { src: "/img/corporativo-3.jpg", w: 1200, h: 896, alt: "Retrato editorial de sócios e liderança em reunião de trabalho", categoria: "corporativo" },
   { src: "/img/produtos-1.jpg", w: 896, h: 1200, alt: "Fotografia comercial de produto still life sobre pedra e linho", categoria: "produtos-marketing" },
+  { src: "/img/produtos-2.jpg", w: 896, h: 1200, alt: "Fotografia still life de cerâmica artesanal e café especial sobre pedra travertino", categoria: "produtos-marketing" },
+  { src: "/img/produtos-3.jpg", w: 1200, h: 896, alt: "Campanha comercial minimalista de cosmético e embalagem em luz natural", categoria: "produtos-marketing" },
   { src: "/img/casamentos-1.jpg", w: 1200, h: 1800, alt: "Noiva no dia do casamento", categoria: "casamentos" },
   { src: "/img/casamentos-2.jpg", w: 1800, h: 1199, alt: "Cerimônia de casamento emocionante", categoria: "casamentos" },
   { src: "/img/casamentos-4.jpg", w: 1600, h: 1067, alt: "Noivos se olhando com ternura", categoria: "casamentos" },
@@ -126,8 +141,6 @@ export type ExperienciaId =
   | "aniversarios"
   | "corporativo"
   | "produtos-marketing"
-
-export type GrupoExperiencia = "pessoal" | "comercial"
 
 export interface FormatoExperiencia {
   id: string
@@ -405,6 +418,7 @@ export const experienciasPorMomento: ExperienciaMomento[] = [
 ]
 
 export interface Depoimento {
+  grupo: GrupoExperiencia
   nome: string
   servico: string
   texto: string
@@ -412,36 +426,42 @@ export interface Depoimento {
 
 export const depoimentos: Depoimento[] = [
   {
+    grupo: "pessoal",
     nome: "Juliana M.",
     servico: "Ensaio de gestante · Estúdio próprio",
     texto:
       "O ambiente do estúdio em Sombrio é super reservado e acolhedor. A Vanusa me dirigiu com tanta segurança e o Micael cuidou de cada luz que esqueci completamente a timidez. As fotos ficaram com nível de revista.",
   },
   {
+    grupo: "comercial",
     nome: "Dr. Henrique & Equipe",
     servico: "Retratos corporativos & clínica",
     texto:
       "Precisávamos renovar a imagem do consultório e os retratos profissionais da equipe. A direção foi objetiva, sem tomar nosso dia inteiro, e o material elevou imediatamente a percepção da nossa marca no site e no Instagram.",
   },
   {
+    grupo: "pessoal",
     nome: "Família Schmitt",
     servico: "Ensaio de família",
     texto:
       "Com duas crianças pequenas, achávamos difícil conseguir fotos naturais. Eles conduziram tudo no ritmo dos meninos, sem poses forçadas. O resultado é a nossa família de verdade — autêntica e cheia de vida.",
   },
   {
+    grupo: "comercial",
     nome: "Atelier & Marca Local",
     servico: "Produtos & campanha de lançamento",
     texto:
       "As fotos de catálogo e campanha mudaram a apresentação dos nossos produtos no e-commerce e no WhatsApp. Fidelidade de cor impecável e entrega dentro do prazo combinado.",
   },
   {
+    grupo: "pessoal",
     nome: "Camila & Rafael",
     servico: "Ensaio de casal",
     texto:
       "O Micael e a Vanusa capturaram exatamente quem nós somos, sem encenação. A direção é leve, precisa e faz a gente se sentir confortável desde os primeiros minutos.",
   },
   {
+    grupo: "pessoal",
     nome: "Regina Alves",
     servico: "Aniversário de 80 anos",
     texto:
@@ -450,46 +470,70 @@ export const depoimentos: Depoimento[] = [
 ]
 
 export interface Faq {
+  grupo: GrupoExperiencia | "ambos"
   pergunta: string
   resposta: string
 }
 
 export const faqs: Faq[] = [
   {
+    grupo: "ambos",
     pergunta: "Onde fica o estúdio e qual é a região de atendimento?",
     resposta:
       "Nosso estúdio próprio fica no Centro de Sombrio/SC — no 3º andar, Sala 302 (andar acima da CDL de Sombrio, Av. Getúlio Vargas, 150). Atendemos regularmente em Sombrio e em toda a região (Extremo Sul Catarinense e Litoral Norte Gaúcho), além de projetos em outras cidades mediante consulta.",
   },
   {
+    grupo: "ambos",
     pergunta: "Como funciona o agendamento de ensaio ou diária comercial?",
     resposta:
       "O primeiro contato é feito direto pelo WhatsApp, sem formulários longos. Alinhamos o objetivo da sessão, apresentamos o formato ideal e reservamos sua data mediante sinal de 30%, trabalhando sempre com agenda dedicada.",
   },
   {
+    grupo: "ambos",
     pergunta: "Qual é o prazo de entrega das fotografias?",
     resposta:
       "Enviamos uma prévia selecionada em até 48h após a sessão. A galeria final tratada em alta resolução é entregue em até 10 dias úteis para ensaios, retratos corporativos e catálogos (com opção de entrega expressa para campanhas urgentes).",
   },
   {
+    grupo: "ambos",
     pergunta: "Vocês realizam produções na sede da minha empresa ou em locações externas?",
     resposta:
       "Sim. Além da estrutura completa com iluminação controlada no nosso estúdio próprio, levamos equipamento móvel até empresas, clínicas, escritórios, residências e locações externas em Sombrio, região e sob consulta.",
   },
   {
+    grupo: "ambos",
     pergunta: "Como funciona a orientação de roupas, estilo e briefing comercial?",
     resposta:
       "Para ensaios pessoais e retratos corporativos, enviamos orientações práticas de cores, caimentos e combinações que valorizam sua imagem. Para fotografia de produtos e marketing, alinhamos previamente os ângulos, fundos e proporções ideais para cada canal (e-commerce, redes sociais ou anúncios).",
   },
   {
+    grupo: "pessoal",
     pergunta: "Casamentos, recém-nascidos e projetos específicos estão disponíveis?",
     resposta:
       "Sim, atendemos casamentos, sessões de recém-nascidos (lifestyle) e demandas especiais mediante consulta de agenda e escopo pelo WhatsApp.",
   },
   {
+    grupo: "ambos",
     pergunta: "Quais são as formas de pagamento e como recebo os arquivos?",
     resposta:
       "Aceitamos Pix, transferência, boleto ou cartão em até 6x sem juros (com emissão fiscal e planos recorrentes para empresas). As imagens são entregues em galeria online privada em alta resolução e versões otimizadas para web, com backup ativo por 5 anos.",
   },
+]
+
+export const servicosPessoal = [
+  "Ensaio de casal",
+  "Ensaio de família",
+  "Ensaio de gestante",
+  "Aniversário",
+  "Casamento (sob consulta)",
+  "Recém-nascido (sob consulta)",
+  "Outro / projeto sob consulta",
+]
+
+export const servicosCorporativo = [
+  "Fotografia corporativa & retratos",
+  "Produtos & Marketing",
+  "Outro / projeto sob consulta",
 ]
 
 export const servicos = [
@@ -503,6 +547,41 @@ export const servicos = [
   "Recém-nascido (sob consulta)",
   "Outro / projeto sob consulta",
 ]
+
+export function grupoDeModo(modo: SiteModo): GrupoExperiencia {
+  return modo === "pessoal" ? "pessoal" : "comercial"
+}
+
+export function getCategoriasPorModo(modo: SiteModo): Categoria[] {
+  const grupo = grupoDeModo(modo)
+  return categorias.filter((c) => c.grupo === grupo)
+}
+
+export function getGaleriaPorModo(modo: SiteModo): GalleryImage[] {
+  const chaves = new Set(getCategoriasPorModo(modo).map((c) => c.key))
+  return galeria.filter((g) => chaves.has(g.categoria))
+}
+
+export function getExperienciasPorModo(modo: SiteModo): ExperienciaMomento[] {
+  const grupo = grupoDeModo(modo)
+  return experienciasPorMomento.filter((e) => e.grupo === grupo)
+}
+
+export function getDepoimentosPorModo(modo: SiteModo): Depoimento[] {
+  const grupo = grupoDeModo(modo)
+  return depoimentos.filter((d) => d.grupo === grupo)
+}
+
+export function getFaqsPorModo(modo: SiteModo): Faq[] {
+  const grupo = grupoDeModo(modo)
+  return faqs.filter((f) => f.grupo === "ambos" || f.grupo === grupo)
+}
+
+export function getServicosPorModo(modo: SiteModo | "preview"): string[] {
+  if (modo === "pessoal") return servicosPessoal
+  if (modo === "corporativo") return servicosCorporativo
+  return servicos
+}
 
 export const stats = [
   { valor: "12+", rotulo: "anos de experiência" },

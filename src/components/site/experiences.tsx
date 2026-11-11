@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
 import {
@@ -11,42 +11,54 @@ import {
   Sparkles,
 } from "lucide-react"
 import {
-  experienciasPorMomento,
+  getExperienciasPorModo,
   WHATSAPP_NUMERO,
+  type ExperienciaMomento,
   type ExperienciaId,
 } from "@/lib/site-data"
 import { irParaContato, irParaGaleria } from "@/lib/site-store"
+import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
 import { SectionHeading } from "./section-heading"
 import { Reveal } from "./reveal"
-import { cn } from "@/lib/utils"
 
-function formatoPadraoDe(id: ExperienciaId): string {
-  const momento = experienciasPorMomento.find((e) => e.id === id)
+function formatoPadraoDe(momento: ExperienciaMomento): string {
   return (
-    momento?.formatos.find((f) => f.destaque)?.id ??
-    momento?.formatos[0].id ??
-    ""
+    momento.formatos.find((f) => f.destaque)?.id ??
+    momento.formatos[0].id
   )
 }
 
-export function Experiences() {
-  const [momentoAtivo, setMomentoAtivo] = useState<ExperienciaId>("casais")
+interface ExperiencesProps {
+  modo: SiteModo
+}
+
+export function Experiences({ modo }: ExperiencesProps) {
+  const theme = modoThemes[modo]
+  const experiencias = useMemo(() => getExperienciasPorModo(modo), [modo])
+  const isCorporativo = modo === "corporativo"
+
+  const [momentoAtivo, setMomentoAtivo] = useState<ExperienciaId>(
+    () => experiencias[0].id
+  )
   const [formatoId, setFormatoId] = useState<string>(() =>
-    formatoPadraoDe("casais")
+    formatoPadraoDe(experiencias[0])
   )
   const [extrasMarcados, setExtrasMarcados] = useState<string[]>([])
 
   const atual =
-    experienciasPorMomento.find((e) => e.id === momentoAtivo) ??
-    experienciasPorMomento[0]
+    experiencias.find((e) => e.id === momentoAtivo) ?? experiencias[0]
 
   const formatoAtivo =
-    atual.formatos.find((f) => f.id === formatoId) ?? atual.formatos[0]
+    atual.formatos.find((f) => f.id === formatoId) ??
+    atual.formatos.find((f) => f.destaque) ??
+    atual.formatos[0]
 
   function selecionarMomento(id: ExperienciaId) {
-    if (id === momentoAtivo) return
+    if (id === atual.id) return
+    const proximo = experiencias.find((e) => e.id === id) ?? experiencias[0]
     setMomentoAtivo(id)
-    setFormatoId(formatoPadraoDe(id))
+    setFormatoId(formatoPadraoDe(proximo))
     setExtrasMarcados([])
   }
 
@@ -72,55 +84,51 @@ export function Experiences() {
     textoWhatsapp
   )}`
 
-  const indicePrimeiroComercial = experienciasPorMomento.findIndex(
-    (e) => e.grupo === "comercial"
-  )
-
   return (
-    <section id="experiencias" className="bg-[#141413] py-24 md:py-32">
+    <section
+      id="experiencias"
+      className={cn("py-24 md:py-32", theme.darkBg)}
+    >
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <SectionHeading
           invertido
-          label="05 · Experiências & Projetos"
-          titulo="Do seu momento"
-          destaque="à sua marca"
+          modo={modo}
+          label="05 · Formatos & Proposta"
+          titulo={isCorporativo ? "Planos sob medida" : "Formatos pensados"}
+          destaque={isCorporativo ? "para sua marca" : "para o seu momento"}
           descricao="Selecione a categoria para explorar formatos exemplificativos. Sem tabelas rígidas: adaptamos duração, entregas e logística para a sua demanda."
         />
 
-        {/* Passo 1: Seletor por categoria pessoal e comercial */}
+        {/* Passo 1: Seletor por categoria */}
         <Reveal delay={0.08}>
           <div
             role="tablist"
-            aria-label="Escolher tipo de ensaio ou projeto comercial"
+            aria-label="Escolher tipo de ensaio ou projeto"
             className="mt-10 flex flex-wrap items-center gap-2"
           >
-            {experienciasPorMomento.map((exp, idx) => {
+            {experiencias.map((exp) => {
               const ativo = exp.id === atual.id
               return (
-                <div key={exp.id} className="contents">
-                  {idx === indicePrimeiroComercial && (
-                    <span
-                      aria-hidden="true"
-                      className="mx-1 hidden h-5 w-px bg-[#F6F5F0]/20 md:inline-block"
-                    />
+                <button
+                  key={exp.id}
+                  id={`tab-${exp.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={ativo}
+                  aria-controls={`painel-${exp.id}`}
+                  onClick={() => selecionarMomento(exp.id)}
+                  className={cn(
+                    "rounded-sm border px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                    ativo
+                      ? "border-[#FAF7F2] bg-[#FAF7F2] text-[#141413]"
+                      : cn(
+                          "border-[#F6F5F0]/20 text-[#C5BBB1] hover:border-[#F6F5F0]/60 hover:text-[#F6F5F0]",
+                          theme.darkCardBg
+                        )
                   )}
-                  <button
-                    id={`tab-${exp.id}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={ativo}
-                    aria-controls={`painel-${exp.id}`}
-                    onClick={() => selecionarMomento(exp.id)}
-                    className={cn(
-                      "rounded-sm border px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
-                      ativo
-                        ? "border-[#F6F5F0] bg-[#F6F5F0] text-[#141413]"
-                        : "border-[#F6F5F0]/20 bg-[#1C1C1A] text-[#B8B5AC] hover:border-[#F6F5F0]/60 hover:text-[#F6F5F0]"
-                    )}
-                  >
-                    {exp.nomeCurto}
-                  </button>
-                </div>
+                >
+                  {exp.nomeCurto}
+                </button>
               )
             })}
           </div>
@@ -139,16 +147,16 @@ export function Experiences() {
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
             className="mt-8"
           >
-            {/* Contexto + atalho opcional ao portfólio */}
+            {/* Contexto + atalho ao portfólio */}
             <div className="flex flex-col gap-3 border-t border-[#F6F5F0]/12 pt-6 md:flex-row md:items-center md:justify-between">
-              <p className="max-w-2xl text-sm font-light leading-relaxed text-[#B8B5AC] md:text-base">
+              <p className="max-w-2xl text-sm font-light leading-relaxed text-[#C5BBB1] md:text-base">
                 {atual.descricaoMomento}
               </p>
               {atual.categoriaGaleria ? (
                 <button
                   type="button"
                   onClick={() => irParaGaleria(atual.categoriaGaleria!)}
-                  className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#F6F5F0]/75 transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                  className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#F6F5F0]/80 transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
                 >
                   Ver portfólio de {atual.nomeCurto}
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
@@ -162,7 +170,12 @@ export function Experiences() {
 
             {/* Destaque visual explicativo para categorias comerciais */}
             {atual.grupo === "comercial" && (
-              <div className="mt-6 flex flex-col gap-4 rounded-sm border border-[#F6F5F0]/15 bg-[#1C1C1A] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div
+                className={cn(
+                  "mt-6 flex flex-col gap-4 rounded-sm border border-[#F6F5F0]/15 p-4 sm:flex-row sm:items-center sm:justify-between",
+                  theme.darkCardBg
+                )}
+              >
                 <div className="flex items-center gap-3.5">
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-sm border border-[#F6F5F0]/20 bg-[#242320]">
                     <Image
@@ -201,7 +214,7 @@ export function Experiences() {
               </div>
             )}
 
-            {/* Passo 2: 2 Formatos exemplificativos */}
+            {/* Passo 2: 2 Formatos */}
             <div className="mt-8 grid gap-6 md:grid-cols-2">
               {atual.formatos.map((formato) => {
                 const selecionado = formato.id === formatoAtivo.id
@@ -214,8 +227,11 @@ export function Experiences() {
                     className={cn(
                       "group relative flex h-full flex-col rounded-md border p-7 text-left transition-colors duration-200 md:p-9 focus-visible:!outline-[#F6F5F0]",
                       selecionado
-                        ? "border-[#F6F5F0] bg-[#F6F5F0] text-[#141413]"
-                        : "border-[#F6F5F0]/15 bg-[#1C1C1A] text-[#F6F5F0] hover:border-[#F6F5F0]/45"
+                        ? cn("border-[#FAF7F2]", theme.cardBg, theme.inkText)
+                        : cn(
+                            "border-[#F6F5F0]/15 text-[#F6F5F0] hover:border-[#F6F5F0]/45",
+                            theme.darkCardBg
+                          )
                     )}
                   >
                     {formato.destaque && (
@@ -223,8 +239,11 @@ export function Experiences() {
                         className={cn(
                           "absolute -top-3 left-7 inline-flex items-center gap-1.5 rounded-sm px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em]",
                           selecionado
-                            ? "bg-[#141413] text-[#F6F5F0]"
-                            : "border border-[#F6F5F0]/25 bg-[#141413] text-[#F6F5F0]"
+                            ? cn(theme.darkBg, "text-[#FAF7F2]")
+                            : cn(
+                                "border border-[#F6F5F0]/25 text-[#F6F5F0]",
+                                theme.darkBg
+                              )
                         )}
                       >
                         <Sparkles className="h-3 w-3" strokeWidth={1.5} />
@@ -235,13 +254,18 @@ export function Experiences() {
                     <p
                       className={cn(
                         "label-mini",
-                        selecionado ? "text-[#57554F]" : "text-[#9E9B93]"
+                        selecionado ? theme.mutedText : "text-[#A8A199]"
                       )}
                     >
                       {formato.ritmo}
                     </p>
 
-                    <h3 className="mt-2.5 text-2xl font-medium tracking-[-0.02em] md:text-3xl">
+                    <h3
+                      className={cn(
+                        "mt-2.5 text-2xl font-medium tracking-[-0.02em] md:text-3xl",
+                        modo === "pessoal" && "font-serif-site text-3xl md:text-4xl"
+                      )}
+                    >
                       {formato.nome}
                     </h3>
 
@@ -249,8 +273,8 @@ export function Experiences() {
                       className={cn(
                         "mt-2.5 border-b pb-5 text-sm font-light leading-relaxed",
                         selecionado
-                          ? "border-[#141413]/12 text-[#57554F]"
-                          : "border-[#F6F5F0]/12 text-[#B8B5AC]"
+                          ? cn(theme.borderLight, theme.mutedText)
+                          : "border-[#F6F5F0]/12 text-[#C5BBB1]"
                       )}
                     >
                       {formato.subtitulo}
@@ -265,14 +289,14 @@ export function Experiences() {
                           <Check
                             className={cn(
                               "mt-0.5 h-4 w-4 shrink-0",
-                              selecionado ? "text-[#141413]" : "text-[#F6F5F0]"
+                              selecionado ? theme.inkText : "text-[#F6F5F0]"
                             )}
                             strokeWidth={2}
                           />
                           <span
                             className={cn(
                               "font-light",
-                              selecionado ? "text-[#2E2E2B]" : "text-[#D4D1C7]"
+                              selecionado ? theme.inkText : "text-[#DCD7D0]"
                             )}
                           >
                             {item}
@@ -285,8 +309,8 @@ export function Experiences() {
                       className={cn(
                         "mt-7 flex items-center justify-between border-t pt-4 text-[11px] font-semibold uppercase tracking-[0.18em]",
                         selecionado
-                          ? "border-[#141413]/12 text-[#141413]"
-                          : "border-[#F6F5F0]/10 text-[#B8B5AC] group-hover:text-[#F6F5F0]"
+                          ? cn(theme.borderLight, theme.inkText)
+                          : "border-[#F6F5F0]/10 text-[#C5BBB1] group-hover:text-[#F6F5F0]"
                       )}
                     >
                       <span>
@@ -298,7 +322,7 @@ export function Experiences() {
                         className={cn(
                           "flex h-5 w-5 items-center justify-center rounded-sm border transition-colors",
                           selecionado
-                            ? "border-[#141413] bg-[#141413] text-[#F6F5F0]"
+                            ? cn(theme.darkBg, "border-transparent text-[#FAF7F2]")
                             : "border-[#F6F5F0]/30 text-transparent group-hover:border-[#F6F5F0]/70"
                         )}
                         aria-hidden="true"
@@ -311,14 +335,19 @@ export function Experiences() {
               })}
             </div>
 
-            {/* Passo 3: Personalização leve + Barra de ação */}
-            <div className="mt-6 rounded-md border border-[#F6F5F0]/15 bg-[#1C1C1A] p-6 md:p-8">
+            {/* Passo 3: Personalização + Ações */}
+            <div
+              className={cn(
+                "mt-6 rounded-md border border-[#F6F5F0]/15 p-6 md:p-8",
+                theme.darkCardBg
+              )}
+            >
               <div className="flex flex-col gap-4">
                 <div>
-                  <p className="label-mini text-[#9E9B93]">
+                  <p className="label-mini text-[#A8A199]">
                     Personalização opcional
                   </p>
-                  <p className="mt-1.5 text-sm font-light text-[#B8B5AC]">
+                  <p className="mt-1.5 text-sm font-light text-[#C5BBB1]">
                     Marque recursos adicionais que gostaria de incluir no
                     orçamento:
                   </p>
@@ -336,8 +365,8 @@ export function Experiences() {
                         className={cn(
                           "inline-flex items-center gap-2 rounded-sm border px-3.5 py-2 text-xs transition-colors focus-visible:!outline-[#F6F5F0]",
                           marcado
-                            ? "border-[#F6F5F0] bg-[#F6F5F0] font-medium text-[#141413]"
-                            : "border-[#F6F5F0]/20 bg-[#141413]/60 font-light text-[#D4D1C7] hover:border-[#F6F5F0]/55 hover:text-[#F6F5F0]"
+                            ? "border-[#FAF7F2] bg-[#FAF7F2] font-medium text-[#141413]"
+                            : "border-[#F6F5F0]/20 bg-black/20 font-light text-[#D4D1C7] hover:border-[#F6F5F0]/55 hover:text-[#F6F5F0]"
                         )}
                       >
                         {marcado && (
@@ -352,16 +381,16 @@ export function Experiences() {
 
               <div className="mt-6 flex flex-col gap-5 border-t border-[#F6F5F0]/10 pt-6 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#9E9B93]">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#A8A199]">
                     Resumo da seleção
                   </p>
                   <p className="mt-1 text-sm font-light text-[#D4D1C7]">
-                    <span className="font-medium text-[#F6F5F0]">
+                    <span className="font-medium text-[#FAF7F2]">
                       {atual.nomeCurto}
                     </span>{" "}
                     · {formatoAtivo.nome}
                     {extrasMarcados.length > 0 && (
-                      <span className="text-[#9E9B93]">
+                      <span className="text-[#A8A199]">
                         {" "}
                         + {extrasMarcados.join(", ")}
                       </span>
@@ -380,7 +409,10 @@ export function Experiences() {
                         extras: extrasMarcados,
                       })
                     }
-                    className="inline-flex items-center justify-center gap-2.5 rounded-sm bg-[#F6F5F0] px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#141413] transition-colors hover:bg-[#ECEAE3] focus-visible:!outline-[#F6F5F0]"
+                    className={cn(
+                      "inline-flex items-center justify-center gap-2.5 rounded-sm px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      theme.darkPrimaryBtn
+                    )}
                   >
                     Levar para mensagem
                     <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
@@ -390,7 +422,10 @@ export function Experiences() {
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2.5 rounded-sm border border-[#F6F5F0]/30 px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#F6F5F0] transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0]/10 focus-visible:!outline-[#F6F5F0]"
+                    className={cn(
+                      "inline-flex items-center justify-center gap-2.5 rounded-sm border px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      theme.darkSecondaryBtn
+                    )}
                   >
                     <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                     WhatsApp direto
@@ -401,19 +436,28 @@ export function Experiences() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Projetos especiais, casamentos e recém-nascidos mediante consulta */}
+        {/* Sob consulta específico de cada frente */}
         <Reveal delay={0.14}>
-          <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-md border border-[#F6F5F0]/12 bg-[#1C1C1A]/70 px-6 py-5 md:flex-row md:items-center md:px-8">
+          <div
+            className={cn(
+              "mt-8 flex flex-col items-start justify-between gap-5 rounded-md border border-[#F6F5F0]/12 px-6 py-5 md:flex-row md:items-center md:px-8",
+              theme.darkCardBg
+            )}
+          >
             <div className="space-y-1">
               <p className="text-sm font-light text-[#D4D1C7]">
-                <span className="font-medium text-[#F6F5F0]">
-                  Casamentos, recém-nascidos e projetos externos fora da rota
+                <span className="font-medium text-[#FAF7F2]">
+                  {isCorporativo
+                    ? "Grandes catálogos, produções industriais ou logística fora da região"
+                    : "Casamentos, recém-nascidos e locações fora da região"}
                 </span>{" "}
-                são atendidos mediante consulta de agenda.
+                são atendidos mediante consulta personalizada de agenda.
               </p>
-              <p className="text-xs font-light text-[#9E9B93]">
-                Estúdio próprio em Sombrio/SC · Atendimento em toda a região ·
-                Parcelamento em até 6x sem juros e planos para empresas.
+              <p className="text-xs font-light text-[#A8A199]">
+                Estúdio próprio em Sombrio/SC · Atendimento em toda a região ·{" "}
+                {isCorporativo
+                  ? "Emissão fiscal e planos recorrentes para empresas."
+                  : "Parcelamento em até 6x sem juros."}
               </p>
             </div>
 
@@ -423,11 +467,16 @@ export function Experiences() {
                 irParaContato({
                   servico: "Outro / projeto sob consulta",
                   momento: "Projeto sob consulta",
-                  formato: "Casamento, recém-nascido ou demanda especial",
+                  formato: isCorporativo
+                    ? "Escopo comercial personalizado"
+                    : "Casamento, recém-nascido ou demanda especial",
                   extras: [],
                 })
               }
-              className="inline-flex shrink-0 items-center gap-2 rounded-sm border border-[#F6F5F0]/30 px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#F6F5F0] transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0]"
+              className={cn(
+                "inline-flex shrink-0 items-center gap-2 rounded-sm border px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                theme.darkSecondaryBtn
+              )}
             >
               Consultar projeto especial
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.75} />
