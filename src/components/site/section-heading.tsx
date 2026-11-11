@@ -17,7 +17,7 @@ export function SectionHeading({
   destaque,
   descricao,
   invertido = false,
-  centralizado = true,
+  centralizado = false,
   className,
 }: SectionHeadingProps) {
   return (
@@ -30,38 +30,39 @@ export function SectionHeading({
     >
       <p
         className={cn(
-          "label-mini mb-5",
-          invertido ? "text-neutral-400" : "text-neutral-500"
+          "label-mini mb-4",
+          invertido ? "text-[#9E9B93]" : "text-[#57554F]"
         )}
       >
         {label}
       </p>
       <h2
         className={cn(
-          "font-serif-site text-4xl md:text-5xl lg:text-6xl leading-[1.05] font-medium",
-          invertido ? "text-white" : "text-neutral-900"
+          "text-3xl font-medium tracking-[-0.025em] leading-[1.08] md:text-5xl",
+          invertido ? "text-[#F6F5F0]" : "text-[#141413]"
         )}
       >
         {titulo}
         {destaque && (
           <>
             {" "}
-            <em
+            <span
               className={cn(
-                "font-serif-site italic",
-                invertido ? "text-neutral-300" : "text-neutral-400"
+                "font-light",
+                invertido ? "text-[#A8A49B]" : "text-[#57554F]"
               )}
             >
               {destaque}
-            </em>
+            </span>
           </>
         )}
       </h2>
       {descricao && (
         <p
           className={cn(
-            "mt-6 text-base md:text-lg leading-relaxed font-light",
-            invertido ? "text-neutral-300" : "text-neutral-600"
+            "mt-5 max-w-2xl text-base leading-relaxed font-light md:text-[17px]",
+            centralizado && "mx-auto",
+            invertido ? "text-[#B8B5AC]" : "text-[#57554F]"
           )}
         >
           {descricao}

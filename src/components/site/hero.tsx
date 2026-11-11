@@ -2,14 +2,14 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { ChevronDown } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 20 },
   visible: (d: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, delay: d, ease: [0.21, 0.47, 0.32, 0.98] as const },
+    transition: { duration: 0.6, delay: d, ease: [0.22, 1, 0.36, 1] as const },
   }),
 }
 
@@ -20,126 +20,133 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-black"
+      className="bg-[#F6F5F0] pb-20 pt-28 md:pb-28 md:pt-36"
     >
-      {/* Imagem de fundo com efeito Ken Burns */}
-      <div className="absolute inset-0">
-        <div className="animate-kenburns relative h-full w-full">
-          <Image
-            src="/img/hero-1.jpg"
-            alt="Casal em silhueta ao pôr do sol"
-            fill
-            loading="eager"
-            fetchPriority="high"
-            sizes="100vw"
-            className="object-cover opacity-55"
-          />
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 md:px-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+        {/* Coluna editorial esquerda */}
+        <div className="lg:col-span-7">
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.05}
+            className="label-mini text-[#57554F]"
+          >
+            Estúdio Próprio · Sombrio, Região &amp; Sob Consulta
+          </motion.p>
+
+          <motion.h1
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.14}
+            className="mt-5 text-4xl font-medium leading-[1.03] tracking-[-0.03em] text-[#141413] sm:text-5xl lg:text-[4.25rem]"
+          >
+            Imagem com precisão.
+            <span className="mt-1 block font-light text-[#57554F]">
+              Direção com propósito.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.24}
+            className="mt-7 max-w-xl text-base font-light leading-relaxed text-[#57554F] md:text-lg"
+          >
+            No nosso estúdio próprio no Centro de Sombrio ou em locações na
+            região, Micael &amp; Vanusa unem técnica de iluminação e direção
+            humana — de ensaios de gestante e família a retratos corporativos,
+            produtos e campanhas de marketing.
+          </motion.p>
+
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.34}
+            className="mt-9 flex flex-wrap items-center gap-3.5"
+          >
+            <button
+              type="button"
+              onClick={() => scrollTo("experiencias")}
+              className="inline-flex items-center gap-2.5 rounded-sm bg-[#141413] px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#F6F5F0] transition-colors hover:bg-[#2E2E2B]"
+            >
+              Explorar formatos
+              <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollTo("portfolio")}
+              className="rounded-sm border border-[#141413]/25 px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#141413] transition-colors hover:border-[#141413] hover:bg-[#ECEAE3]"
+            >
+              Ver portfólio
+            </button>
+          </motion.div>
+
+          {/* Especificações do estúdio */}
+          <motion.dl
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.44}
+            className="mt-12 grid grid-cols-1 gap-6 border-t border-[#141413]/12 pt-7 sm:grid-cols-3"
+          >
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
+                Estúdio Próprio
+              </dt>
+              <dd className="mt-1 text-xs font-light leading-relaxed text-[#57554F]">
+                3º andar, Sala 302 · Acima da CDL de Sombrio/SC
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
+                Pessoal &amp; Marcas
+              </dt>
+              <dd className="mt-1 text-xs font-light leading-relaxed text-[#57554F]">
+                De gestantes e famílias a corporativo e produtos
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
+                Entrega Ágil
+              </dt>
+              <dd className="mt-1 text-xs font-light leading-relaxed text-[#57554F]">
+                Prévia em 48h e galeria em alta resolução
+              </dd>
+            </div>
+          </motion.dl>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/35 to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_100%)]" />
-      </div>
 
-      {/* Conteúdo */}
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 pb-28 pt-32 text-center">
-        <motion.span
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.15}
-          className="mb-8 block"
-        >
-          <Image
-            src="/logo-branco.svg"
-            alt="Símbolo da Memória Viva Estúdio"
-            width={540}
-            height={504}
-            unoptimized
-            loading="eager"
-            fetchPriority="high"
-            className="mx-auto h-16 w-auto drop-shadow-[0_6px_24px_rgba(0,0,0,0.65)] md:h-20"
-          />
-        </motion.span>
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.3}
-          className="label-mini text-shadow-hero text-neutral-300"
-        >
-          Memória Viva Estúdio · Micael & Vanusa
-        </motion.p>
-
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.45}
-          className="text-shadow-hero font-serif-site mt-6 text-5xl font-medium leading-[1.02] text-white md:text-7xl lg:text-8xl"
-        >
-          O tempo passa.
-          <br />
-          <em className="italic text-neutral-300">A memória fica.</em>
-        </motion.h1>
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.6}
-          className="text-shadow-hero mt-8 max-w-2xl text-base font-light leading-relaxed text-neutral-200 md:text-lg"
-        >
-          Somos Micael &amp; Vanusa: um casal de fotógrafos que transforma
-          instantes reais em memória viva — histórias de casais, famílias e
-          casamentos contadas com luz, sensibilidade e arte.
-        </motion.p>
-
+        {/* Coluna visual direita */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          custom={0.75}
-          className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
+          custom={0.22}
+          className="lg:col-span-5"
         >
-          <button
-            type="button"
-            onClick={() => scrollTo("portfolio")}
-            className="rounded-full bg-white px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-black transition-all hover:bg-neutral-200 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
-          >
-            Ver portfólio
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollTo("contato")}
-            className="rounded-full border border-white/40 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-white transition-all hover:border-white hover:bg-white/10"
-          >
-            Agendar conversa
-          </button>
+          <figure className="rounded-sm border border-[#141413]/12 bg-[#ECEAE3] p-3">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#DCD9D0]">
+              <Image
+                src="/img/casais-4.jpg"
+                alt="Retrato autoral em preto e branco com direção natural"
+                fill
+                loading="eager"
+                fetchPriority="high"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <figcaption className="flex items-center justify-between gap-4 pt-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#57554F]">
+              <span>01 / Direção de Imagem</span>
+              <span>Micael &amp; Vanusa</span>
+            </figcaption>
+          </figure>
         </motion.div>
       </div>
-
-      {/* Indicador de scroll */}
-      <motion.button
-        type="button"
-        onClick={() => scrollTo("manifesto")}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-white"
-        aria-label="Rolar para o conteúdo"
-      >
-        <span className="animate-floaty flex flex-col items-center gap-2">
-          <span className="text-[9px] uppercase tracking-[0.4em] text-neutral-400">
-            Explore
-          </span>
-          <ChevronDown className="h-5 w-5" strokeWidth={1.25} />
-        </span>
-      </motion.button>
-
-      {/* Texto lateral decorativo */}
-      <span className="absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 text-[9px] uppercase tracking-[0.5em] text-neutral-500 xl:block">
-        Fotografia · Santa Catarina · Brasil
-      </span>
     </section>
   )
 }

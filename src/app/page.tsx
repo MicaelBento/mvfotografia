@@ -13,7 +13,7 @@ import { WhatsAppFloat } from "@/components/site/whatsapp-float"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col bg-[#F6F5F0]">
       <Header />
       <main className="flex-1">
         <Hero />

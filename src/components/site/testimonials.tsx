@@ -14,15 +14,15 @@ import { Reveal } from "./reveal"
 
 export function Testimonials() {
   return (
-    <section id="depoimentos" className="bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-5xl px-6 md:px-8">
+    <section id="depoimentos" className="bg-[#F6F5F0] py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6 md:px-10">
         <SectionHeading
-          label="Depoimentos"
-          titulo="Quem viveu,"
-          destaque="conta melhor"
+          label="06 · Avaliações"
+          titulo="Quem produziu"
+          destaque="conosco"
         />
 
-        <Reveal delay={0.15} className="mt-14">
+        <Reveal delay={0.1} className="mt-12">
           <Carousel
             opts={{
               align: "start",
@@ -30,29 +30,29 @@ export function Testimonials() {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-6">
+            <CarouselContent className="-ml-5">
               {depoimentos.map((d) => (
                 <CarouselItem
                   key={d.nome}
-                  className="pl-6 md:basis-3/4 lg:basis-3/5"
+                  className="pl-5 md:basis-3/4 lg:basis-1/2"
                 >
-                  <figure className="flex h-full min-h-[340px] flex-col justify-between rounded-2xl border border-neutral-200 bg-neutral-50 p-8 md:p-12">
+                  <figure className="flex h-full min-h-[300px] flex-col justify-between rounded-md border border-[#141413]/12 bg-[#FDFCFA] p-7 md:p-9">
                     <div>
                       <Quote
-                        className="h-8 w-8 text-neutral-300"
-                        strokeWidth={1}
+                        className="h-6 w-6 text-[#B8B5AC]"
+                        strokeWidth={1.25}
                         aria-hidden="true"
                       />
-                      <blockquote className="font-serif-site mt-6 text-2xl font-light italic leading-snug text-neutral-800 md:text-[1.7rem]">
+                      <blockquote className="font-serif-site mt-5 text-xl italic leading-snug text-[#141413] md:text-2xl">
                         “{d.texto}”
                       </blockquote>
                     </div>
-                    <figcaption className="mt-10 flex items-end justify-between gap-4">
+                    <figcaption className="mt-8 flex items-end justify-between gap-4 border-t border-[#141413]/10 pt-5">
                       <div>
-                        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-neutral-900">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
                           {d.nome}
                         </p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">
+                        <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#57554F]">
                           {d.servico}
                         </p>
                       </div>
@@ -63,7 +63,7 @@ export function Testimonials() {
                         {Array.from({ length: 5 }).map((_, i) => (
                           <Star
                             key={i}
-                            className="h-4 w-4 fill-black text-black"
+                            className="h-3.5 w-3.5 fill-[#141413] text-[#141413]"
                             strokeWidth={0}
                           />
                         ))}
@@ -74,8 +74,10 @@ export function Testimonials() {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious className="left-2 h-12 w-12 rounded-full border-neutral-300 bg-white text-black hover:bg-black hover:text-white md:left-[-2rem]" />
-            <CarouselNext className="right-2 h-12 w-12 rounded-full border-neutral-300 bg-white text-black hover:bg-black hover:text-white md:right-[-2rem]" />
+            <div className="mt-6 flex items-center gap-2">
+              <CarouselPrevious className="static h-10 w-10 translate-y-0 rounded-sm border-[#141413]/20 bg-[#FDFCFA] text-[#141413] hover:bg-[#141413] hover:text-[#F6F5F0]" />
+              <CarouselNext className="static h-10 w-10 translate-y-0 rounded-sm border-[#141413]/20 bg-[#FDFCFA] text-[#141413] hover:bg-[#141413] hover:text-[#F6F5F0]" />
+            </div>
           </Carousel>
         </Reveal>
       </div>

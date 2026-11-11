@@ -35,7 +35,10 @@ export function Gallery() {
   }, [])
 
   const anterior = useCallback(
-    () => setIndice((i) => (i === null ? null : (i - 1 + filtradas.length) % filtradas.length)),
+    () =>
+      setIndice((i) =>
+        i === null ? null : (i - 1 + filtradas.length) % filtradas.length
+      ),
     [filtradas.length]
   )
   const proximo = useCallback(
@@ -43,7 +46,6 @@ export function Gallery() {
     [filtradas.length]
   )
 
-  // Navegação por teclado dentro do lightbox
   useEffect(() => {
     if (indice === null) return
     const onKey = (e: KeyboardEvent) => {
@@ -62,21 +64,21 @@ export function Gallery() {
   ]
 
   return (
-    <section id="portfolio" className="bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-6 md:px-8">
+    <section id="portfolio" className="bg-[#ECEAE3] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
         <SectionHeading
-          label="Portfólio"
-          titulo="Histórias que"
-          destaque="ficaram para sempre"
-          descricao="Uma seleção de instantes que tivemos o privilégio de testemunhar. Toque em qualquer imagem para ampliar."
+          label="04 · Portfólio"
+          titulo="Seleção de trabalhos"
+          destaque="e ensaios"
+          descricao="Fidelidade de cor, direção de luz e espontaneidade. Clique em qualquer fotografia para ampliar."
         />
 
         {/* Filtros */}
-        <Reveal delay={0.1}>
+        <Reveal delay={0.08}>
           <div
             role="tablist"
             aria-label="Filtrar portfólio por categoria"
-            className="mt-12 flex flex-wrap items-center justify-center gap-2.5"
+            className="mt-10 flex flex-wrap items-center gap-2"
           >
             {opcoes.map((o) => (
               <button
@@ -85,10 +87,10 @@ export function Gallery() {
                 aria-selected={categoriaAtiva === o.key}
                 onClick={() => setCategoria(o.key)}
                 className={cn(
-                  "rounded-full border px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-all",
+                  "rounded-sm border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors",
                   categoriaAtiva === o.key
-                    ? "border-black bg-black text-white"
-                    : "border-neutral-300 text-neutral-500 hover:border-black hover:text-black"
+                    ? "border-[#141413] bg-[#141413] text-[#F6F5F0]"
+                    : "border-[#141413]/20 bg-[#F6F5F0]/70 text-[#57554F] hover:border-[#141413] hover:text-[#141413]"
                 )}
               >
                 {o.label}
@@ -98,17 +100,17 @@ export function Gallery() {
         </Reveal>
 
         {/* Grade masonry */}
-        <div className="masonry mt-12">
+        <div className="masonry mt-10">
           {filtradas.map((img, i) => (
             <Reveal
               key={img.src}
-              delay={(i % 4) * 0.08}
+              delay={(i % 4) * 0.05}
               className="masonry-item"
             >
               <button
                 type="button"
                 onClick={() => setIndice(i)}
-                className="group relative block w-full overflow-hidden bg-neutral-100"
+                className="group relative block w-full overflow-hidden rounded-sm border border-[#141413]/10 bg-[#DCD9D0]"
                 style={{ aspectRatio: `${img.w} / ${img.h}` }}
                 aria-label={`Ampliar foto: ${img.alt}`}
               >
@@ -117,10 +119,10 @@ export function Gallery() {
                   alt={img.alt}
                   fill
                   sizes="(min-width: 1280px) 24vw, (min-width: 768px) 33vw, 50vw"
-                  className="object-cover grayscale transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
-                <span className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <span className="text-left text-[10px] font-medium uppercase tracking-[0.25em] text-white">
+                <span className="absolute inset-0 flex items-end bg-gradient-to-t from-[#141413]/75 via-transparent to-transparent p-3.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="text-left text-[10px] font-medium uppercase tracking-[0.2em] text-[#F6F5F0]">
                     {nomeCategoria(img.categoria)}
                   </span>
                 </span>
@@ -139,7 +141,7 @@ export function Gallery() {
       >
         <DialogContent
           showCloseButton={false}
-          className="fixed inset-0 z-[70] flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-none border-0 bg-black p-4 left-0 top-0 sm:p-8"
+          className="fixed left-0 top-0 z-[70] flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-none border-0 bg-[#141413] p-4 sm:p-8"
         >
           {atual && (
             <>
@@ -158,19 +160,19 @@ export function Gallery() {
                   width={atual.w}
                   height={atual.h}
                   sizes="90vw"
-                  className="max-h-[78vh] w-auto max-w-full rounded-sm object-contain shadow-2xl"
+                  className="max-h-[78vh] w-auto max-w-full rounded-sm object-contain"
                   priority
                 />
               </div>
 
-              <div className="flex w-full max-w-3xl flex-col items-center gap-2 pb-2">
-                <p className="text-[10px] uppercase tracking-[0.35em] text-neutral-500">
+              <div className="flex w-full max-w-3xl flex-col items-center gap-1.5 pb-2 text-center">
+                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#9E9B93]">
                   {nomeCategoria(atual.categoria)}
                 </p>
-                <p className="font-serif-site text-xl italic text-neutral-200 md:text-2xl">
+                <p className="text-sm font-light text-[#E6E4DD] md:text-base">
                   {atual.alt}
                 </p>
-                <p className="text-xs tabular-nums text-neutral-500">
+                <p className="text-xs tabular-nums text-[#86837B]">
                   {indice !== null ? indice + 1 : 0} / {filtradas.length}
                 </p>
               </div>
@@ -182,25 +184,25 @@ export function Gallery() {
             type="button"
             onClick={anterior}
             aria-label="Foto anterior"
-            className="absolute left-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur transition-all hover:border-white hover:bg-white hover:text-black md:left-6"
+            className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0] md:left-6"
           >
-            <ChevronLeft className="h-6 w-6" strokeWidth={1.25} />
+            <ChevronLeft className="h-5 w-5" strokeWidth={1.5} />
           </button>
           <button
             type="button"
             onClick={proximo}
             aria-label="Próxima foto"
-            className="absolute right-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur transition-all hover:border-white hover:bg-white hover:text-black md:right-6"
+            className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0] md:right-6"
           >
-            <ChevronRight className="h-6 w-6" strokeWidth={1.25} />
+            <ChevronRight className="h-5 w-5" strokeWidth={1.5} />
           </button>
           <button
             type="button"
             onClick={() => setIndice(null)}
             aria-label="Fechar visualização"
-            className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur transition-all hover:border-white hover:bg-white hover:text-black"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0]"
           >
-            <X className="h-5 w-5" strokeWidth={1.25} />
+            <X className="h-5 w-5" strokeWidth={1.5} />
           </button>
         </DialogContent>
       </Dialog>

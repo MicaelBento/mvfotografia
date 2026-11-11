@@ -7,9 +7,8 @@ import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const links = [
-  { href: "#inicio", label: "Início" },
-  { href: "#historia", label: "Nossa História" },
-  { href: "#servicos", label: "Serviços" },
+  { href: "#historia", label: "O Estúdio" },
+  { href: "#servicos", label: "Especialidades" },
   { href: "#portfolio", label: "Portfólio" },
   { href: "#experiencias", label: "Experiências" },
   { href: "#faq", label: "Dúvidas" },
@@ -20,7 +19,7 @@ export function Header() {
   const [menuAberto, setMenuAberto] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 32)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
@@ -35,34 +34,34 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 bg-black transition-all duration-500",
+          "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
           scrolled
-            ? "border-b border-white/10 py-2 shadow-[0_10px_40px_rgba(0,0,0,0.45)]"
-            : "border-b border-transparent py-4"
+            ? "border-[#141413]/12 bg-[#F6F5F0]/95 py-3 backdrop-blur-md"
+            : "border-[#141413]/8 bg-[#F6F5F0]/90 py-4 backdrop-blur-sm"
         )}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-10">
           {/* Marca */}
           <a
             href="#inicio"
             className="group flex items-center gap-3.5"
-            aria-label="Micael e Vanusa — voltar ao início"
+            aria-label="Memória Viva Estúdio — voltar ao início"
           >
             <Image
-              src="/logo-branco.svg"
+              src="/logo-preto.svg"
               alt="Logotipo Memória Viva Estúdio"
               width={540}
               height={504}
               unoptimized
               loading="eager"
-              className="h-9 w-auto shrink-0 transition-opacity duration-300 group-hover:opacity-80"
+              className="h-8 w-auto shrink-0 transition-opacity duration-200 group-hover:opacity-75"
             />
             <span className="flex flex-col leading-none">
-              <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-white">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#141413]">
                 Memória Viva
               </span>
-              <span className="mt-1.5 text-[9px] uppercase tracking-[0.42em] text-neutral-400">
-                Micael & Vanusa
+              <span className="mt-1 text-[9px] uppercase tracking-[0.26em] text-[#57554F]">
+                Estúdio · Micael &amp; Vanusa
               </span>
             </span>
           </a>
@@ -76,16 +75,16 @@ export function Header() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-[11px] font-medium uppercase tracking-[0.24em] text-neutral-300 transition-colors hover:text-white"
+                className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#57554F] transition-colors hover:text-[#141413]"
               >
                 {l.label}
               </a>
             ))}
             <a
               href="#contato"
-              className="ml-2 rounded-full border border-white/40 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-all hover:bg-white hover:text-black"
+              className="ml-1 rounded-sm bg-[#141413] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#F6F5F0] transition-colors hover:bg-[#2E2E2B]"
             >
-              Agendar
+              Agendar / Orçar
             </a>
           </nav>
 
@@ -93,11 +92,11 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMenuAberto(true)}
-            className="flex h-11 w-11 items-center justify-center text-white lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-sm border border-[#141413]/15 text-[#141413] lg:hidden"
             aria-label="Abrir menu"
             aria-expanded={menuAberto}
           >
-            <Menu className="h-6 w-6" strokeWidth={1.5} />
+            <Menu className="h-5 w-5" strokeWidth={1.5} />
           </button>
         </div>
       </header>
@@ -109,50 +108,45 @@ export function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-black"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[60] flex flex-col bg-[#141413] text-[#F6F5F0]"
             role="dialog"
             aria-modal="true"
             aria-label="Menu de navegação"
           >
-            <div className="flex items-center justify-between px-5 py-5">
-              <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-neutral-400">
+            <div className="flex items-center justify-between border-b border-[#F6F5F0]/10 px-6 py-4">
+              <span className="text-[10px] font-medium uppercase tracking-[0.26em] text-[#9E9B93]">
                 Memória Viva Estúdio
               </span>
               <button
                 type="button"
                 onClick={() => setMenuAberto(false)}
-                className="flex h-11 w-11 items-center justify-center text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-sm border border-[#F6F5F0]/20 text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
                 aria-label="Fechar menu"
               >
-                <X className="h-6 w-6" strokeWidth={1.5} />
+                <X className="h-5 w-5" strokeWidth={1.5} />
               </button>
             </div>
 
-            <nav className="flex flex-1 flex-col items-center justify-center gap-2 px-8 pb-16">
-              {[...links, { href: "#contato", label: "Contato" }].map(
+            <nav className="flex flex-1 flex-col justify-center gap-2 px-8 pb-12">
+              {[...links, { href: "#contato", label: "Agendar / Orçar" }].map(
                 (l, i) => (
                   <motion.a
                     key={l.href}
                     href={l.href}
                     onClick={() => setMenuAberto(false)}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.08 + i * 0.06, duration: 0.5 }}
-                    className="font-serif-site py-3 text-4xl font-medium text-neutral-200 transition-colors hover:text-white"
+                    transition={{ delay: 0.04 + i * 0.04, duration: 0.35 }}
+                    className="border-b border-[#F6F5F0]/8 py-3.5 text-2xl font-medium tracking-[-0.02em] text-[#E6E4DD] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
                   >
                     {l.label}
                   </motion.a>
                 )
               )}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
-                className="mt-10 text-[10px] uppercase tracking-[0.4em] text-neutral-500"
-              >
-                O tempo passa. A memória fica.
-              </motion.p>
+              <p className="mt-8 text-[10px] uppercase tracking-[0.26em] text-[#86837B]">
+                Estúdio em Sombrio · Região &amp; Sob Consulta
+              </p>
             </nav>
           </motion.div>
         )}

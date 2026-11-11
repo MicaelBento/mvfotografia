@@ -4,81 +4,75 @@ import { Reveal } from "./reveal"
 
 export function About() {
   return (
-    <section id="historia" className="bg-neutral-50 py-24 md:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 md:px-8 lg:grid-cols-2 lg:gap-20">
-        {/* Colagem de fotos */}
-        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <Reveal className="relative z-10 aspect-[4/5] w-[82%] overflow-hidden shadow-2xl">
-            <Image
-              src="/img/vanusa.jpg"
-              alt="Vanusa — Fotógrafa da Memória Viva Estúdio"
-              fill
-              sizes="(min-width: 1024px) 40vw, 80vw"
-              className="object-cover grayscale transition-transform duration-700 hover:scale-105"
-            />
-            <div className="pointer-events-none absolute bottom-4 left-4 z-10 rounded-full bg-black/60 px-3.5 py-1 text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur-md">
-              Vanusa
-            </div>
+    <section id="historia" className="bg-[#ECEAE3] py-24 md:py-32">
+      <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 md:px-10 lg:grid-cols-12 lg:gap-16">
+        {/* Grade editorial da dupla */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:col-span-6">
+          <Reveal>
+            <figure className="rounded-sm border border-[#141413]/12 bg-[#F6F5F0] p-2.5">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#DCD9D0]">
+                <Image
+                  src="/img/vanusa.jpg"
+                  alt="Vanusa — Fotógrafa e Diretora de Retrato da Memória Viva Estúdio"
+                  fill
+                  sizes="(min-width: 1024px) 24vw, 80vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="flex items-center justify-between pt-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#57554F]">
+                <span className="text-[#141413]">Vanusa</span>
+                <span>Direção &amp; Retrato</span>
+              </figcaption>
+            </figure>
           </Reveal>
-          <Reveal
-            delay={0.2}
-            className="absolute -bottom-10 right-0 z-20 aspect-square w-[52%] overflow-hidden border-[6px] border-neutral-50 shadow-2xl"
-          >
-            <Image
-              src="/img/micael.jpg"
-              alt="Micael — Fotógrafo da Memória Viva Estúdio"
-              fill
-              sizes="(min-width: 1024px) 25vw, 45vw"
-              className="object-cover grayscale transition-transform duration-700 hover:scale-105"
-            />
-            <div className="pointer-events-none absolute bottom-4 right-4 z-10 rounded-full bg-black/60 px-3.5 py-1 text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur-md">
-              Micael
-            </div>
+
+          <Reveal delay={0.1} className="sm:mt-10">
+            <figure className="rounded-sm border border-[#141413]/12 bg-[#F6F5F0] p-2.5">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#DCD9D0]">
+                <Image
+                  src="/img/micael.jpg"
+                  alt="Micael — Fotógrafo e Diretor de Luz da Memória Viva Estúdio"
+                  fill
+                  sizes="(min-width: 1024px) 24vw, 80vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="flex items-center justify-between pt-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#57554F]">
+                <span className="text-[#141413]">Micael</span>
+                <span>Luz &amp; Composição</span>
+              </figcaption>
+            </figure>
           </Reveal>
-          {/* Moldura decorativa */}
-          <div
-            aria-hidden="true"
-            className="absolute -left-4 -top-4 h-40 w-40 border-l border-t border-neutral-300"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -bottom-4 -right-4 h-40 w-40 border-b border-r border-neutral-300"
-          />
         </div>
 
         {/* Texto */}
-        <div>
+        <div className="lg:col-span-6">
           <SectionHeading
-            centralizado={false}
-            label="Nossa história"
-            titulo="Um casal, "
-            destaque="e a mesma paixão"
+            label="02 · O Estúdio"
+            titulo="Micael &amp; Vanusa,"
+            destaque="dois olhares complementares"
           />
 
-          <Reveal delay={0.15}>
-            <div className="mt-8 space-y-5 text-base font-light leading-relaxed text-neutral-600">
+          <Reveal delay={0.12}>
+            <div className="mt-7 space-y-4 text-base font-light leading-relaxed text-[#57554F]">
               <p>
-                Tudo começou em 2013, com uma câmera emprestada e a descoberta
-                de que fotografar pessoas era a nossa forma de amar o mundo.
-                Micael enxerga a luz onde ninguém vê; Vanusa encontra a história
-                que ninguém conta. Juntos, viramos uma dupla impossível de
-                separar — dentro e fora dos bastidores.
+                Desde 2013, construímos uma prática fotográfica baseada em
+                escuta, clareza visual e técnica apurada. Micael conduz luz,
+                enquadramento e precisão comercial; Vanusa conduz expressão,
+                linguagem corporal e narrativa humana.
               </p>
               <p>
-                Hoje, mais de 750 histórias depois, seguimos com a mesma
-                inquietação do primeiro clique: fazer com que cada pessoa se
-                veja nas fotos não como gostaria de ser, mas como realmente é —
-                porque é assim que a memória permanece viva.
+                Essa combinação permite transitar com naturalidade entre o
+                cuidado que uma gestante ou família espera e a objetividade que
+                uma empresa, executivo ou campanha de marketing exige — sempre
+                com a mesma assinatura limpa e atemporal.
               </p>
             </div>
 
-            <blockquote className="font-serif-site mt-10 border-l-2 border-neutral-900 pl-6 text-2xl italic leading-snug text-neutral-800 md:text-3xl">
-              “Não fotografamos cenas. Fotografamos pessoas sendo elas mesmas —
-              e isso muda tudo.”
+            <blockquote className="font-serif-site mt-8 border-l-2 border-[#141413] pl-5 text-2xl italic leading-snug text-[#141413]">
+              “Direção segura deixa pessoas à vontade e transforma produtos e
+              marcas em presença real.”
             </blockquote>
-            <p className="mt-4 pl-6 text-[11px] uppercase tracking-[0.3em] text-neutral-500">
-              — Micael &amp; Vanusa
-            </p>
           </Reveal>
         </div>
       </div>
