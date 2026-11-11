@@ -6,7 +6,7 @@ const navegacao = [
   { href: "#historia", label: "Nossa História" },
   { href: "#servicos", label: "Serviços" },
   { href: "#portfolio", label: "Portfólio" },
-  { href: "#investimentos", label: "Investimentos" },
+  { href: "#experiencias", label: "Experiências" },
   { href: "#faq", label: "Perguntas Frequentes" },
   { href: "#contato", label: "Contato" },
 ]
@@ -22,17 +22,17 @@ const servicosFooter = [
 
 const sociais = [
   {
-    href: "https://instagram.com/micalevanusa",
+    href: "https://instagram.com/memoriaviva.estudio",
     label: "Instagram",
     icone: <Instagram className="h-5 w-5" strokeWidth={1.25} />,
   },
   {
-    href: "https://wa.me/5548988000000",
+    href: "https://wa.me/5548998599989",
     label: "WhatsApp",
     icone: <MessageCircle className="h-5 w-5" strokeWidth={1.25} />,
   },
   {
-    href: "https://facebook.com/micalevanusa",
+    href: "https://facebook.com/memoriaviva.estudio",
     label: "Facebook",
     icone: <Facebook className="h-5 w-5" strokeWidth={1.25} />,
   },
@@ -46,21 +46,21 @@ export function Footer() {
           {/* Marca */}
           <div className="md:col-span-5">
             <div className="flex items-center gap-4">
-              <span className="relative block h-16 w-16 overflow-hidden rounded-full ring-1 ring-white/20">
-                <Image
-                  src="/logo.png"
-                  alt="Logotipo Memória Viva Fotografia"
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
-              </span>
+              <Image
+                src="/logo-branco.svg"
+                alt="Logotipo Memória Viva Estúdio"
+                width={540}
+                height={504}
+                unoptimized
+                loading="eager"
+                className="h-12 w-auto shrink-0"
+              />
               <div>
                 <p className="text-sm font-medium uppercase tracking-[0.22em] text-white">
-                  Micael &amp; Vanusa
+                  Memória Viva Estúdio
                 </p>
                 <p className="mt-1.5 text-[9px] uppercase tracking-[0.42em] text-neutral-400">
-                  Memória Viva Fotografia
+                  Micael & Vanusa
                 </p>
               </div>
             </div>
@@ -119,7 +119,7 @@ export function Footer() {
               ))}
             </div>
             <p className="mt-6 text-xs font-light leading-relaxed text-neutral-500">
-              Florianópolis · SC
+              Sombrio · SC
               <br />
               Seg a Sáb, 9h às 20h
             </p>
@@ -129,8 +129,8 @@ export function Footer() {
         {/* Barra inferior */}
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-center md:flex-row md:text-left">
           <p className="text-xs font-light text-neutral-500">
-            © {new Date().getFullYear()} Micael &amp; Vanusa · Memória Viva
-            Fotografia. Todos os direitos reservados.
+            © {new Date().getFullYear()} Memória Viva Estúdio · Micael
+            & Vanusa. Todos os direitos reservados.
           </p>
           <p className="flex items-center gap-1.5 text-xs font-light text-neutral-500">
             Feito com

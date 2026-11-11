@@ -106,52 +106,265 @@ export const galeria: GalleryImage[] = [
   { src: "/img/nova-4.jpg", w: 1064, h: 1064, alt: "Detalhes do recém-nascido", categoria: "nova" },
 ]
 
-export interface Plano {
+export const WHATSAPP_NUMERO = "5548998599989"
+
+export interface FormatoExperiencia {
+  id: string
   nome: string
-  publico: string
-  preco: string
+  ritmo: string
+  subtitulo: string
   destaque?: boolean
   itens: string[]
 }
 
-export const planos: Plano[] = [
+export interface ExperienciaMomento {
+  categoria: CategoriaKey
+  nomeCurto: string
+  servicoContato: string
+  descricaoMomento: string
+  formatos: [FormatoExperiencia, FormatoExperiencia]
+  extras: string[]
+}
+
+export const experienciasPorMomento: ExperienciaMomento[] = [
   {
-    nome: "Essencial",
-    publico: "Casais, gestantes e famílias",
-    preco: "R$ 890",
-    itens: [
-      "1h de ensaio em um local",
-      "30 fotografias selecionadas e tratadas",
-      "Direção de pose leve e natural",
-      "Galeria online por 60 dias",
-      "Entrega em até 10 dias úteis",
+    categoria: "casais",
+    nomeCurto: "Casais",
+    servicoContato: "Ensaio de casal",
+    descricaoMomento:
+      "Ensaios pensados para deixar vocês à vontade, entre conversas, risadas e o cenário que faz sentido para a história dos dois.",
+    formatos: [
+      {
+        id: "casais-essencial",
+        nome: "Encontro Essencial",
+        ritmo: "~1h a 1h30 · 1 cenário",
+        subtitulo: "Ideal para celebrar um ciclo, o namoro ou guardar o agora.",
+        itens: [
+          "1 cenário externo ou no aconchego da casa de vocês",
+          "Direção leve e natural com Micael & Vanusa",
+          "Guia de estilo para ajudar na escolha das roupas",
+          "Prévia de 5 fotos em 48h + galeria online em alta resolução",
+        ],
+      },
+      {
+        id: "casais-memoria-viva",
+        nome: "Experiência Memória Viva",
+        ritmo: "~2h30 · Até 2 cenários",
+        subtitulo: "Para viver o ensaio sem pressa, do café ao pôr do sol.",
+        destaque: true,
+        itens: [
+          "Conversa prévia para desenhar o roteiro com a cara de vocês",
+          "Até 2 locações e trocas de figurino no tempo de vocês",
+          "Galeria online estendida por 1 ano + backup de 5 anos",
+          "Seleção de impressões fine art em papel algodão",
+        ],
+      },
+    ],
+    extras: [
+      "Impressões Fine Art",
+      "Álbum de mesa",
+      "Ensaio em casa",
+      "Outra cidade / praia",
     ],
   },
   {
-    nome: "Experiência Memória Viva",
-    publico: "Para quem quer viver sem pressa",
-    preco: "R$ 1.690",
-    destaque: true,
-    itens: [
-      "2h30 de ensaio em até 2 locais",
-      "80 fotografias selecionadas e tratadas",
-      "Encontro prévio para conhecer sua história",
-      "Trocas de figurino inclusas",
-      "Galeria online por 1 ano",
-      "5 impressões fine art 20x25cm",
+    categoria: "familias",
+    nomeCurto: "Famílias",
+    servicoContato: "Ensaio de família",
+    descricaoMomento:
+      "Sem poses rígidas para as crianças: entramos na brincadeira para registrar a casa e os abraços como eles realmente acontecem.",
+    formatos: [
+      {
+        id: "familias-movimento",
+        nome: "Retrato em Movimento",
+        ritmo: "~1h a 1h30 · Ritmo das crianças",
+        subtitulo: "Perfeito para registrar a fase atual de forma leve e divertida.",
+        itens: [
+          "Ensaio ao ar livre ou no conforto da casa de vocês",
+          "Abordagem lúdica e paciente, respeitando pausas e brincadeiras",
+          "Participação livre de filhos, avós e pets",
+          "Prévia em 48h + galeria online protegida por senha",
+        ],
+      },
+      {
+        id: "familias-dia-memoria",
+        nome: "Um Dia de Memória em Família",
+        ritmo: "~2h30 · Casa + externo",
+        subtitulo: "Para transformar uma manhã ou tarde comum em recordação de geração.",
+        destaque: true,
+        itens: [
+          "Início em casa (café, brincadeiras) + passeio ao ar livre",
+          "Tempo livre para trocas, lanches e abraços sem correria",
+          "Galeria online por 1 ano para compartilhar com os avós",
+          "Impressões fine art prontas para guardar ou emoldurar",
+        ],
+      },
+    ],
+    extras: [
+      "Impressões Fine Art",
+      "Álbum da família",
+      "Participação dos avós",
+      "Outra cidade",
     ],
   },
   {
-    nome: "Casamentos",
-    publico: "O grande dia, do início ao fim",
-    preco: "Sob consulta",
-    itens: [
-      "Ensaio pré-wedding incluso",
-      "Cobertura documental completa",
-      "Segundo fotógrafo no grande dia",
-      "400+ fotografias tratadas",
+    categoria: "gestantes",
+    nomeCurto: "Gestantes",
+    servicoContato: "Ensaio de gestante",
+    descricaoMomento:
+      "Um tempo tranquilo para celebrar a espera, respeitando o conforto e o ritmo da mãe em cada detalhe.",
+    formatos: [
+      {
+        id: "gestantes-doce-espera",
+        nome: "Doce Espera",
+        ritmo: "~1h a 1h30 · Luz suave",
+        subtitulo: "Delicado e confortável, respeitando o bem-estar da gestante.",
+        itens: [
+          "Realizado ao ar livre, em casa ou em estúdio parceiro",
+          "Guia completo de cores, tecidos fluidos e conforto",
+          "Participação especial do parceiro(a) e irmãos mais velhos",
+          "Prévia em 48h + galeria online em alta resolução",
+        ],
+      },
+      {
+        id: "gestantes-maternidade",
+        nome: "História da Maternidade",
+        ritmo: "~2h30 · Até 2 cenários",
+        subtitulo: "Da intimidade do quartinho ao pôr do sol, sem pressa.",
+        destaque: true,
+        itens: [
+          "Planejamento prévio de roteiro e trocas de figurino",
+          "Combinação de cenário íntimo (casa/estúdio) + natureza",
+          "Galeria online por 1 ano + impressões fine art 20x25cm",
+          "Possibilidade de integrar com o ensaio de recém-nascido",
+        ],
+      },
+    ],
+    extras: [
+      "Combo Gestante + Recém-nascido",
+      "Estúdio parceiro",
+      "Álbum artesanal",
+      "Impressões Fine Art",
+    ],
+  },
+  {
+    categoria: "casamentos",
+    nomeCurto: "Casamentos",
+    servicoContato: "Casamento",
+    descricaoMomento:
+      "Cobertura documental com dois olhares atentos do início ao fim — para vocês viverem cada abraço enquanto guardamos tudo.",
+    formatos: [
+      {
+        id: "casamentos-intima",
+        nome: "Cerimônia Íntima & Elopement",
+        ritmo: "Cobertura enxuta · Até 5h",
+        subtitulo: "Para mini weddings, cerimônias no civil com almoço ou a dois.",
+        itens: [
+          "Olhar documental e discreto focado na emoção real",
+          "Dois fotógrafos (Micael & Vanusa) em ângulos paralelos",
+          "Retratos do casal logo após a cerimônia sem perder a festa",
+          "Prévia em até 48h + galeria online para convidados",
+        ],
+      },
+      {
+        id: "casamentos-completo",
+        nome: "O Grande Dia Completo",
+        ritmo: "Do making of à pista",
+        subtitulo: "Cobertura integral para não perder um único abraço ou lágrima.",
+        destaque: true,
+        itens: [
+          "Ensaio pré-wedding incluso para criar conexão antes do altar",
+          "Cobertura completa sem limite rígido de momentos-chave",
+          "Segundo olhar fotográfico dedicado durante todo o evento",
+          "Álbum de luxo 30x30cm + galeria de 1 ano para convidados",
+        ],
+      },
+    ],
+    extras: [
+      "Ensaio Pré-Wedding",
       "Álbum de luxo 30x30cm",
-      "Galeria online para convidados",
+      "Álbuns para os pais",
+      "Prévia ampliada em 48h",
+    ],
+  },
+  {
+    categoria: "aniversarios",
+    nomeCurto: "Aniversários",
+    servicoContato: "Aniversário",
+    descricaoMomento:
+      "Do 1º aninho aos 80 anos, registramos a alegria espontânea, os encontros e a emoção de celebrar mais um ciclo.",
+    formatos: [
+      {
+        id: "aniversarios-celebracao",
+        nome: "Cobertura de Celebração",
+        ritmo: "~3h a 4h de festa",
+        subtitulo: "Para registrar a chegada, detalhes, parabéns e afetos.",
+        itens: [
+          "Olhar atento às crianças, amigos e família reunida",
+          "Fotos espontâneas de decoração e encontros antes do parabéns",
+          "Prévia rápida em 48h para compartilhar com quem esteve lá",
+          "Galeria online completa em alta resolução",
+        ],
+      },
+      {
+        id: "aniversarios-completa",
+        nome: "Festa Completa + Memória Impressa",
+        ritmo: "Evento integral",
+        subtitulo: "De 1 aninho aos 80 anos, do começo ao último abraço.",
+        destaque: true,
+        itens: [
+          "Cobertura estendida incluindo preparação e encerramento",
+          "Retratos com familiares sem travar o ritmo da festa",
+          "Galeria estendida por 1 ano para baixar e compartilhar",
+          "Álbum impresso de recordação ou caixa fine art",
+        ],
+      },
+    ],
+    extras: [
+      "Álbum da festa",
+      "Ensaio prévio do aniversariante",
+      "Horas adicionais",
+      "Impressões Fine Art",
+    ],
+  },
+  {
+    categoria: "nova",
+    nomeCurto: "Recém-nascidos",
+    servicoContato: "Recém-nascido",
+    descricaoMomento:
+      "Os primeiros dias passam num piscar de olhos — fotografamos com calma, silêncio e conforto no tempo do bebê.",
+    formatos: [
+      {
+        id: "nova-primeiros-dias",
+        nome: "Primeiros Dias em Casa",
+        ritmo: "~1h30 · Estilo lifestyle",
+        subtitulo: "No conforto, cheiro e segurança do lar — sem poses forçadas.",
+        itens: [
+          "Realizado preferencialmente entre o 5º e o 20º dia de vida",
+          "Pausas livres e ilimitadas para mamadas, trocas e colo",
+          "Foco nos detalhes: mãozinhas, bocejos, quarto e olhar dos pais",
+          "Prévia em 48h + galeria online protegida por senha",
+        ],
+      },
+      {
+        id: "nova-boas-vindas",
+        nome: "Boas-vindas Completo",
+        ritmo: "~2h30 · Sem pressa",
+        subtitulo: "Tempo extra para o ritmo natural do bebê e de toda a família.",
+        destaque: true,
+        itens: [
+          "Sessão em casa ou estúdio parceiro com conforto térmico",
+          "Participação tranquila de irmãos mais velhos e pets",
+          "Galeria estendida por 1 ano para toda a família",
+          "Mini álbum ou seleção de impressões fine art em papel algodão",
+        ],
+      },
+    ],
+    extras: [
+      "Estúdio parceiro",
+      "Combo Acompanhamento",
+      "Álbum primeiros dias",
+      "Impressões Fine Art",
     ],
   },
 ]

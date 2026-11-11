@@ -29,7 +29,8 @@ export function Hero() {
             src="/img/hero-1.jpg"
             alt="Casal em silhueta ao pôr do sol"
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover opacity-55"
           />
@@ -47,16 +48,16 @@ export function Hero() {
           custom={0.15}
           className="mb-8 block"
         >
-          <span className="relative block h-20 w-20 overflow-hidden rounded-full ring-1 ring-white/30 md:h-24 md:w-24">
-            <Image
-              src="/logo.png"
-              alt="Símbolo do estúdio Memória Viva Fotografia"
-              fill
-              sizes="96px"
-              className="object-cover"
-              priority
-            />
-          </span>
+          <Image
+            src="/logo-branco.svg"
+            alt="Símbolo da Memória Viva Estúdio"
+            width={540}
+            height={504}
+            unoptimized
+            loading="eager"
+            fetchPriority="high"
+            className="mx-auto h-16 w-auto drop-shadow-[0_6px_24px_rgba(0,0,0,0.65)] md:h-20"
+          />
         </motion.span>
 
         <motion.p
@@ -66,7 +67,7 @@ export function Hero() {
           custom={0.3}
           className="label-mini text-shadow-hero text-neutral-300"
         >
-          Micael &amp; Vanusa · Memória Viva Fotografia
+          Memória Viva Estúdio · Micael & Vanusa
         </motion.p>
 
         <motion.h1

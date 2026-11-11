@@ -19,7 +19,7 @@ const sans = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Micael & Vanusa | Memória Viva Fotografia",
+  title: "Micael & Vanusa | Memória Viva Estúdio",
   description:
     "Micael & Vanusa transformam instantes reais em memória viva: ensaios de casais, famílias, gestantes, casamentos e aniversários com sensibilidade e arte.",
   keywords: [
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "casamento",
     "aniversário",
     "Micael e Vanusa",
-    "Memória Viva Fotografia",
+    "Memória Viva Estúdio",
   ],
   authors: [{ name: "Micael & Vanusa" }],
   icons: {
@@ -42,10 +42,10 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "Micael & Vanusa | Memória Viva Fotografia",
+    title: "Micael & Vanusa | Memória Viva Estúdio",
     description:
       "O tempo passa. A memória fica. Fotografia que conta histórias de verdade.",
-    siteName: "Micael & Vanusa — Memória Viva Fotografia",
+    siteName: "Micael & Vanusa — Memória Viva Estúdio",
     type: "website",
     locale: "pt_BR",
   },

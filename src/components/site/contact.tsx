@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type FormEvent } from "react"
+import { useState, type FormEvent } from "react"
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2, Phone, Mail, Instagram, MapPin, Send, Clock } from "lucide-react"
+import { Loader2, Phone, Mail, Instagram, MapPin, Send, Clock, X } from "lucide-react"
 import { toast } from "sonner"
 import { servicos } from "@/lib/site-data"
 import { useSiteStore, irParaContato } from "@/lib/site-store"
@@ -27,8 +27,8 @@ const infos: ContatoInfo[] = [
   {
     icone: <Phone className="h-5 w-5" strokeWidth={1.25} />,
     titulo: "WhatsApp",
-    valor: "(48) 98800-0000",
-    href: "https://wa.me/5548988000000",
+    valor: "(48) 9985-99989",
+    href: "https://wa.me/5548998599989",
   },
   {
     icone: <Mail className="h-5 w-5" strokeWidth={1.25} />,
@@ -39,30 +39,46 @@ const infos: ContatoInfo[] = [
   {
     icone: <Instagram className="h-5 w-5" strokeWidth={1.25} />,
     titulo: "Instagram",
-    valor: "@micalevanusa",
-    href: "https://instagram.com/micalevanusa",
+    valor: "@memoriaviva.estudio",
+    href: "https://instagram.com/memoriaviva.estudio",
   },
   {
     icone: <MapPin className="h-5 w-5" strokeWidth={1.25} />,
     titulo: "Estúdio",
-    valor: "Florianópolis · SC — viajamos a qualquer lugar",
+    valor: "Sombrio · SC — viajamos a qualquer lugar",
     acao: () => irParaContato(),
   },
 ]
 
 export function Contact() {
-  const servicoSelecionado = useSiteStore((s) => s.servicoSelecionado)
-  const [servico, setServico] = useState("")
+  const servico = useSiteStore((s) => s.servicoSelecionado)
+  const setServico = useSiteStore((s) => s.setServico)
+  const contextoProposta = useSiteStore((s) => s.contextoProposta)
+  const setContextoProposta = useSiteStore((s) => s.setContextoProposta)
   const [enviando, setEnviando] = useState(false)
 
-  useEffect(() => {
-    if (servicoSelecionado) setServico(servicoSelecionado)
-  }, [servicoSelecionado])
+  function onChangeServico(novo: string) {
+    setServico(novo)
+    if (contextoProposta && contextoProposta.servico !== novo) {
+      setContextoProposta(null)
+    }
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
     const dados = new FormData(form)
+    const mensagemUsuario = String(dados.get("mensagem") ?? "").trim()
+    const prefixoContexto = contextoProposta
+      ? `[Experiência escolhida: ${contextoProposta.momento}${
+          contextoProposta.formato ? ` · ${contextoProposta.formato}` : ""
+        }${
+          contextoProposta.extras.length > 0
+            ? ` | Adicionais: ${contextoProposta.extras.join(", ")}`
+            : ""
+        }]\n\n`
+      : ""
+    const mensagemFinal = `${prefixoContexto}${mensagemUsuario}`.slice(0, 2000)
 
     setEnviando(true)
     try {
@@ -75,7 +91,7 @@ export function Contact() {
           whatsapp: dados.get("whatsapp"),
           servico: servico,
           data: dados.get("data"),
-          mensagem: dados.get("mensagem"),
+          mensagem: mensagemFinal,
         }),
       })
 
@@ -92,6 +108,7 @@ export function Contact() {
       })
       form.reset()
       setServico("")
+      setContextoProposta(null)
     } catch (err) {
       toast.error("Ops, algo travou no caminho", {
         description:
@@ -193,6 +210,35 @@ export function Contact() {
               Sem compromisso — só uma boa conversa começando.
             </p>
 
+            {contextoProposta && (
+              <div className="mt-6 flex items-start justify-between gap-4 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3.5 text-xs">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-neutral-400">
+                    Ponto de partida escolhido
+                  </p>
+                  <p className="font-light text-neutral-200">
+                    <span className="font-medium text-white">
+                      {contextoProposta.momento}
+                    </span>
+                    {contextoProposta.formato && ` · ${contextoProposta.formato}`}
+                  </p>
+                  {contextoProposta.extras.length > 0 && (
+                    <p className="font-light text-neutral-400">
+                      Adicionais: {contextoProposta.extras.join(", ")}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setContextoProposta(null)}
+                  aria-label="Limpar formato selecionado"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/15 text-neutral-400 transition-colors hover:border-white/50 hover:text-white focus-visible:!outline-white"
+                >
+                  <X className="h-3.5 w-3.5" strokeWidth={1.75} />
+                </button>
+              </div>
+            )}
+
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <div className="flex flex-col gap-2">
                 <label
@@ -271,7 +317,7 @@ export function Contact() {
                 </label>
                 <Select
                   value={servico}
-                  onValueChange={setServico}
+                  onValueChange={onChangeServico}
                   required
                   name="servico"
                 >

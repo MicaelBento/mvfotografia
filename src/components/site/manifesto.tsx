@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { stats } from "@/lib/site-data"
 import { Reveal } from "./reveal"
 
@@ -6,6 +7,15 @@ export function Manifesto() {
     <section id="manifesto" className="bg-white py-24 md:py-32">
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <Reveal className="text-center">
+          <Image
+            src="/logo-preto.svg"
+            alt=""
+            width={540}
+            height={504}
+            unoptimized
+            aria-hidden="true"
+            className="mx-auto mb-6 h-8 w-auto opacity-85"
+          />
           <p className="label-mini text-neutral-500">Nosso compromisso</p>
           <blockquote className="font-serif-site mx-auto mt-6 max-w-4xl text-3xl font-medium leading-snug text-neutral-900 md:text-5xl md:leading-tight">
             Não buscamos a pose perfeita. Buscamos o momento em que você{" "}

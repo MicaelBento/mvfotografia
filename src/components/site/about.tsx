@@ -11,7 +11,7 @@ export function About() {
           <Reveal className="relative z-10 aspect-[4/5] w-[82%] overflow-hidden shadow-2xl">
             <Image
               src="/img/vanusa.jpg"
-              alt="Vanusa — Fotógrafa da Memória Viva Fotografia"
+              alt="Vanusa — Fotógrafa da Memória Viva Estúdio"
               fill
               sizes="(min-width: 1024px) 40vw, 80vw"
               className="object-cover grayscale transition-transform duration-700 hover:scale-105"
@@ -26,7 +26,7 @@ export function About() {
           >
             <Image
               src="/img/micael.jpg"
-              alt="Micael — Fotógrafo da Memória Viva Fotografia"
+              alt="Micael — Fotógrafo da Memória Viva Estúdio"
               fill
               sizes="(min-width: 1024px) 25vw, 45vw"
               className="object-cover grayscale transition-transform duration-700 hover:scale-105"
@@ -51,7 +51,7 @@ export function About() {
           <SectionHeading
             centralizado={false}
             label="Nossa história"
-            titulo="Um casal, duas câmeras"
+            titulo="Um casal, "
             destaque="e a mesma paixão"
           />
 

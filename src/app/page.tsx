@@ -4,11 +4,12 @@ import { Manifesto } from "@/components/site/manifesto"
 import { About } from "@/components/site/about"
 import { Services } from "@/components/site/services"
 import { Gallery } from "@/components/site/gallery"
-import { Pricing } from "@/components/site/pricing"
+import { Experiences } from "@/components/site/experiences"
 import { Testimonials } from "@/components/site/testimonials"
 import { Faq } from "@/components/site/faq"
 import { Contact } from "@/components/site/contact"
 import { Footer } from "@/components/site/footer"
+import { WhatsAppFloat } from "@/components/site/whatsapp-float"
 
 export default function Home() {
   return (
@@ -20,12 +21,13 @@ export default function Home() {
         <About />
         <Services />
         <Gallery />
-        <Pricing />
+        <Experiences />
         <Testimonials />
         <Faq />
         <Contact />
       </main>
       <Footer />
+      <WhatsAppFloat />
     </div>
   )
 }

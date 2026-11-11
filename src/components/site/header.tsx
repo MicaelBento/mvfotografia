@@ -11,7 +11,7 @@ const links = [
   { href: "#historia", label: "Nossa História" },
   { href: "#servicos", label: "Serviços" },
   { href: "#portfolio", label: "Portfólio" },
-  { href: "#investimentos", label: "Investimentos" },
+  { href: "#experiencias", label: "Experiências" },
   { href: "#faq", label: "Dúvidas" },
 ]
 
@@ -45,26 +45,24 @@ export function Header() {
           {/* Marca */}
           <a
             href="#inicio"
-            className="flex items-center gap-3"
+            className="group flex items-center gap-3.5"
             aria-label="Micael e Vanusa — voltar ao início"
           >
-            <span className="relative block h-11 w-11 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25">
-              <Image
-                src="/logo.png"
-                alt="Logotipo Memória Viva Fotografia"
-                fill
-                sizes="44px"
-                className="object-cover"
-                priority
-                loading="eager"
-              />
-            </span>
+            <Image
+              src="/logo-branco.svg"
+              alt="Logotipo Memória Viva Estúdio"
+              width={540}
+              height={504}
+              unoptimized
+              loading="eager"
+              className="h-9 w-auto shrink-0 transition-opacity duration-300 group-hover:opacity-80"
+            />
             <span className="flex flex-col leading-none">
               <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-white">
-                Micael &amp; Vanusa
+                Memória Viva
               </span>
               <span className="mt-1.5 text-[9px] uppercase tracking-[0.42em] text-neutral-400">
-                Memória Viva
+                Micael & Vanusa
               </span>
             </span>
           </a>
@@ -119,7 +117,7 @@ export function Header() {
           >
             <div className="flex items-center justify-between px-5 py-5">
               <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-neutral-400">
-                Memória Viva Fotografia
+                Memória Viva Estúdio
               </span>
               <button
                 type="button"
