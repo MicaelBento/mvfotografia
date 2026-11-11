@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { ArrowRight, MapPin, Sparkles, Building2 } from "lucide-react"
+import { ArrowRight, MapPin } from "lucide-react"
 import { estudioLocalizacao, stats } from "@/lib/site-data"
 import { Header } from "@/components/site/header"
 import { Contact } from "@/components/site/contact"
@@ -26,8 +26,6 @@ const fadeUp = {
 interface PreviewCardConfig {
   id: "pessoal" | "corporativo"
   href: "/pessoal" | "/corporativo"
-  eyebrow: string
-  badge: string
   titulo: string
   subtitulo: string
   descricao: string
@@ -50,8 +48,6 @@ const frentes: PreviewCardConfig[] = [
   {
     id: "pessoal",
     href: "/pessoal",
-    eyebrow: "01 · Ensaios & Afeto",
-    badge: "Estética Editorial",
     titulo: "Pessoal",
     subtitulo: "com tempo, leveza e verdade",
     descricao:
@@ -81,8 +77,6 @@ const frentes: PreviewCardConfig[] = [
   {
     id: "corporativo",
     href: "/corporativo",
-    eyebrow: "02 · Negócios & Marcas",
-    badge: "Estética Nórdica Comercial",
     titulo: "Corporativo & Marketing",
     subtitulo: "autoridade visual e imagens que convertem",
     descricao:
@@ -138,10 +132,7 @@ export function HomePreview() {
                 custom={0.04}
                 className="max-w-3xl"
               >
-                <p className="label-mini text-[#57554F]">
-                  Estúdio Próprio · Sombrio, Região &amp; Sob Consulta
-                </p>
-                <h1 className="mt-3 text-3xl font-medium leading-[1.06] tracking-[-0.03em] text-[#141413] sm:text-4xl lg:text-[3.25rem]">
+                <h1 className="text-3xl font-medium leading-[1.06] tracking-[-0.03em] text-[#141413] sm:text-4xl lg:text-[3.25rem]">
                   Escolha sua experiência{" "}
                   <span className="font-light text-[#57554F]">
                     no estúdio
@@ -188,35 +179,8 @@ export function HomePreview() {
                       }
                     >
                       <div>
-                        {/* Cabeçalho do Card */}
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span
-                            className={
-                              isPessoal
-                                ? "text-[10px] font-semibold uppercase tracking-[0.22em] text-[#665E57]"
-                                : "text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9E9B93]"
-                            }
-                          >
-                            {frente.eyebrow}
-                          </span>
-                          <span
-                            className={
-                              isPessoal
-                                ? "inline-flex items-center gap-1.5 rounded-sm border border-[#1D1917]/15 bg-[#F2ECE2] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#1D1917]"
-                                : "inline-flex items-center gap-1.5 rounded-sm border border-[#F6F5F0]/15 bg-[#1C1C1A] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#F6F5F0]"
-                            }
-                          >
-                            {isPessoal ? (
-                              <Sparkles className="h-3 w-3" strokeWidth={1.5} />
-                            ) : (
-                              <Building2 className="h-3 w-3" strokeWidth={1.5} />
-                            )}
-                            {frente.badge}
-                          </span>
-                        </div>
-
                         {/* Título & Subtítulo */}
-                        <h2 className="mt-4 text-3xl font-medium tracking-[-0.025em] sm:text-4xl">
+                        <h2 className="text-3xl font-medium tracking-[-0.025em] sm:text-4xl">
                           {frente.titulo}
                         </h2>
                         <p

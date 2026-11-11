@@ -3,7 +3,7 @@ import { modoThemes, type SiteModo } from "@/lib/site-modes"
 import { Reveal } from "./reveal"
 
 interface SectionHeadingProps {
-  label: string
+  label?: string
   titulo: string
   destaque?: string
   descricao?: string
@@ -33,18 +33,20 @@ export function SectionHeading({
         className
       )}
     >
-      <p
-        className={cn(
-          "label-mini mb-4",
-          invertido
-            ? modo === "pessoal"
-              ? "text-[#B5AAA0]"
-              : "text-[#9E9B93]"
-            : theme.mutedText
-        )}
-      >
-        {label}
-      </p>
+      {label && (
+        <p
+          className={cn(
+            "label-mini mb-4",
+            invertido
+              ? modo === "pessoal"
+                ? "text-[#B5AAA0]"
+                : "text-[#9E9B93]"
+              : theme.mutedText
+          )}
+        >
+          {label}
+        </p>
+      )}
       <h2
         className={cn(
           "text-3xl font-medium tracking-[-0.025em] leading-[1.08] md:text-5xl",

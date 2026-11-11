@@ -106,7 +106,6 @@ export function Gallery({ modo }: GalleryProps) {
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <SectionHeading
           modo={modo}
-          label="04 · Portfólio"
           titulo={
             isCorporativo ? "Produções comerciais" : "Histórias e momentos"
           }

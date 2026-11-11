@@ -23,7 +23,6 @@ export function Faq({ modo }: FaqProps) {
       <div className="mx-auto max-w-4xl px-6 md:px-10">
         <SectionHeading
           modo={modo}
-          label="07 · Dúvidas Frequentes"
           titulo="Informações"
           destaque="e processo"
           descricao="Detalhes sobre agenda, estrutura do estúdio próprio, prazos de entrega e formas de pagamento."

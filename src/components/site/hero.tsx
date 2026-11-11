@@ -1,9 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { modoThemes, type SiteModo } from "@/lib/site-modes"
 
@@ -17,7 +16,6 @@ const fadeUp = {
 }
 
 interface HeroConfig {
-  eyebrow: string
   titulo: string
   destaque: string
   descricao: string
@@ -33,7 +31,6 @@ interface HeroConfig {
 
 const heroConfig: Record<SiteModo, HeroConfig> = {
   pessoal: {
-    eyebrow: "Frente Pessoal · Sombrio, Região & Sob Consulta",
     titulo: "Histórias reais,",
     destaque: "com tempo e verdade.",
     descricao:
@@ -60,7 +57,6 @@ const heroConfig: Record<SiteModo, HeroConfig> = {
     legendaDir: "Micael & Vanusa",
   },
   corporativo: {
-    eyebrow: "Frente Comercial · Corporativo, Produtos & Marketing",
     titulo: "Imagem com precisão.",
     destaque: "Posicionamento e conversão.",
     descricao:
@@ -111,42 +107,13 @@ export function Hero({ modo }: HeroProps) {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 md:px-10 lg:grid-cols-12 lg:items-center lg:gap-14">
         {/* Coluna editorial esquerda */}
         <div className="lg:col-span-7">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={0.02}
-            className="mb-4"
-          >
-            <Link
-              href="/"
-              className={cn(
-                "inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.2em] transition-opacity hover:opacity-75",
-                theme.mutedText
-              )}
-            >
-              <ArrowLeft className="h-3 w-3" strokeWidth={1.75} />
-              Voltar à escolha inicial
-            </Link>
-          </motion.div>
-
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={0.06}
-            className={cn("label-mini", theme.mutedText)}
-          >
-            {cfg.eyebrow}
-          </motion.p>
-
           <motion.h1
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0.14}
             className={cn(
-              "mt-5 text-4xl font-medium leading-[1.03] tracking-[-0.03em] sm:text-5xl lg:text-[4.25rem]",
+              "text-4xl font-medium leading-[1.03] tracking-[-0.03em] sm:text-5xl lg:text-[4.25rem]",
               theme.inkText
             )}
           >

@@ -93,7 +93,6 @@ export function Experiences({ modo }: ExperiencesProps) {
         <SectionHeading
           invertido
           modo={modo}
-          label="05 · Formatos & Proposta"
           titulo={isCorporativo ? "Planos sob medida" : "Formatos pensados"}
           destaque={isCorporativo ? "para sua marca" : "para o seu momento"}
           descricao="Selecione a categoria para explorar formatos exemplificativos. Sem tabelas rígidas: adaptamos duração, entregas e logística para a sua demanda."
@@ -251,18 +250,9 @@ export function Experiences({ modo }: ExperiencesProps) {
                       </span>
                     )}
 
-                    <p
-                      className={cn(
-                        "label-mini",
-                        selecionado ? theme.mutedText : "text-[#A8A199]"
-                      )}
-                    >
-                      {formato.ritmo}
-                    </p>
-
                     <h3
                       className={cn(
-                        "mt-2.5 text-2xl font-medium tracking-[-0.02em] md:text-3xl",
+                        "text-2xl font-medium tracking-[-0.02em] md:text-3xl",
                         modo === "pessoal" && "font-serif-site text-3xl md:text-4xl"
                       )}
                     >

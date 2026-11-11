@@ -30,7 +30,6 @@ export function Services({ modo }: ServicesProps) {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             modo={modo}
-            label="03 · Especialidades"
             titulo={
               isCorporativo
                 ? "Produção visual para"

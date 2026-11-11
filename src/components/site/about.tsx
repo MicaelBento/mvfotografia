@@ -59,7 +59,6 @@ export function About({ modo }: AboutProps) {
                 )}
               >
                 <span className={theme.inkText}>Vanusa</span>
-                <span>Direção &amp; Retrato</span>
               </figcaption>
             </figure>
           </Reveal>
@@ -88,7 +87,6 @@ export function About({ modo }: AboutProps) {
                 )}
               >
                 <span className={theme.inkText}>Micael</span>
-                <span>Luz &amp; Composição</span>
               </figcaption>
             </figure>
           </Reveal>
@@ -98,7 +96,6 @@ export function About({ modo }: AboutProps) {
         <div className="lg:col-span-6">
           <SectionHeading
             modo={modo}
-            label="02 · O Estúdio"
             titulo="Micael & Vanusa,"
             destaque="dois olhares complementares"
           />

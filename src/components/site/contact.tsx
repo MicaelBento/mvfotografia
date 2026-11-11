@@ -224,7 +224,6 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
           <SectionHeading
             invertido
             modo={modoSection}
-            label={modo === "preview" ? "Estúdio & Contato" : "08 · Contato"}
             titulo={tituloContato}
             destaque={destaqueContato}
             descricao="Informe seu nome, escolha opcionalmente o tipo de sessão e envie a mensagem pronta direto para o nosso WhatsApp."
@@ -291,10 +290,7 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#9E9B93]">
-                  Contato sem fricção
-                </p>
-                <h3 className="mt-1.5 text-xl font-medium tracking-[-0.015em] text-[#F6F5F0]">
+                <h3 className="text-xl font-medium tracking-[-0.015em] text-[#F6F5F0]">
                   Atendimento direto no WhatsApp
                 </h3>
                 <p className="mt-1.5 text-sm font-light text-[#9E9B93]">

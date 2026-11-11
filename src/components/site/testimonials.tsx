@@ -100,7 +100,6 @@ export function Testimonials({ modo }: TestimonialsProps) {
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <SectionHeading
           modo={modo}
-          label="06 · Avaliações"
           titulo={isCorporativo ? "Marcas e clínicas" : "Histórias reais"}
           destaque={isCorporativo ? "atendidas" : "sobre nós"}
         />

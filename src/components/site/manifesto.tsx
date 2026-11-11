@@ -35,12 +35,9 @@ export function Manifesto({ modo }: ManifestoProps) {
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <Reveal className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-5">
-            <p className="label-mini text-[#B5AAA0]">
-              01 · Estrutura &amp; Método
-            </p>
             <h2
               className={cn(
-                "mt-4 text-3xl font-medium leading-[1.1] tracking-[-0.025em] md:text-4xl",
+                "text-3xl font-medium leading-[1.1] tracking-[-0.025em] md:text-4xl",
                 modo === "pessoal" && "font-serif-site text-4xl md:text-5xl"
               )}
             >
