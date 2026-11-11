@@ -1,4 +1,4 @@
-export const DEFAULT_SITE_URL = "https://mvfotografia-f9hn.vercel.app"
+export const DEFAULT_SITE_URL = "https://mvfotografia.whosfy.com"
 
 function normalizeSiteUrl(rawUrl: string | undefined): URL | null {
   const trimmed = rawUrl?.trim()
