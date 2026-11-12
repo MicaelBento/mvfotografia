@@ -23,6 +23,18 @@ export interface ModoTheme {
   darkSecondaryBtn: string
   tagLightBg: string
   serifAccentClass: string
+  accentText: string
+  darkAccentText: string
+  darkMutedText: string
+  darkBodyText: string
+  darkInkText: string
+  darkBorder: string
+  headingClass: string
+  cardRadius: string
+  frameRadius: string
+  controlRadius: string
+  quoteIconColor: string
+  starColor: string
 }
 
 export const modoThemes: Record<SiteModo, ModoTheme> = {
@@ -32,27 +44,39 @@ export const modoThemes: Record<SiteModo, ModoTheme> = {
     rotuloCompleto: "Pessoal · Ensaios & Afeto",
     href: "/pessoal",
     isRomanticEditorial: true,
-    pageBg: "bg-[#FAF7F2]",
-    lightBg: "bg-[#FAF7F2]",
-    stoneBg: "bg-[#F2ECE2]",
-    cardBg: "bg-[#FFFDF9]",
-    cardBgMuted: "bg-[#EFE7DA]/70",
-    darkBg: "bg-[#1D1917]",
-    darkCardBg: "bg-[#27211E]",
-    inkText: "text-[#1D1917]",
-    mutedText: "text-[#665E57]",
-    borderLight: "border-[#1D1917]/12",
-    borderHover: "hover:border-[#1D1917]/35",
+    pageBg: "bg-white",
+    lightBg: "bg-white",
+    stoneBg: "bg-neutral-50",
+    cardBg: "bg-white",
+    cardBgMuted: "bg-neutral-50",
+    darkBg: "bg-black",
+    darkCardBg: "bg-neutral-950",
+    inkText: "text-neutral-900",
+    mutedText: "text-neutral-600",
+    borderLight: "border-neutral-200",
+    borderHover: "hover:border-black",
     primaryBtn:
-      "bg-[#1D1917] text-[#FAF7F2] hover:bg-[#342D29]",
+      "bg-black text-white hover:bg-neutral-800",
     secondaryBtn:
-      "border-[#1D1917]/25 text-[#1D1917] hover:border-[#1D1917] hover:bg-[#EFE7DA]",
+      "border-neutral-300 text-neutral-900 hover:border-black hover:bg-black hover:text-white",
     darkPrimaryBtn:
-      "bg-[#FAF7F2] text-[#1D1917] hover:bg-[#EFE7DA]",
+      "bg-white text-black hover:bg-neutral-200",
     darkSecondaryBtn:
-      "border-[#FAF7F2]/30 text-[#FAF7F2] hover:border-[#FAF7F2] hover:bg-[#FAF7F2]/10",
-    tagLightBg: "bg-[#1D1917]/90 text-[#FAF7F2]",
-    serifAccentClass: "font-serif-site italic font-normal text-[#665E57]",
+      "border-white/40 text-white hover:border-white hover:bg-white/10",
+    tagLightBg: "bg-black/80 text-white border border-white/20",
+    serifAccentClass: "font-serif-site italic font-normal text-neutral-400",
+    accentText: "text-neutral-500",
+    darkAccentText: "text-neutral-400",
+    darkMutedText: "text-neutral-400",
+    darkBodyText: "text-neutral-200",
+    darkInkText: "text-white",
+    darkBorder: "border-white/15",
+    headingClass: "font-serif-site font-medium",
+    cardRadius: "rounded-2xl",
+    frameRadius: "rounded-none",
+    controlRadius: "rounded-full",
+    quoteIconColor: "text-neutral-300",
+    starColor: "text-black",
   },
   corporativo: {
     id: "corporativo",
@@ -81,6 +105,18 @@ export const modoThemes: Record<SiteModo, ModoTheme> = {
       "border-[#F6F5F0]/30 text-[#F6F5F0] hover:border-[#F6F5F0] hover:bg-[#F6F5F0]/10",
     tagLightBg: "bg-[#141413]/90 text-[#F6F5F0]",
     serifAccentClass: "font-light text-[#57554F]",
+    accentText: "text-[#141413]",
+    darkAccentText: "text-[#A8A49B]",
+    darkMutedText: "text-[#B8B5AC]",
+    darkBodyText: "text-[#D4D1C7]",
+    darkInkText: "text-[#F6F5F0]",
+    darkBorder: "border-[#F6F5F0]/12",
+    headingClass: "font-medium tracking-[-0.025em]",
+    cardRadius: "rounded-md",
+    frameRadius: "rounded-sm",
+    controlRadius: "rounded-sm",
+    quoteIconColor: "text-[#B8B5AC]",
+    starColor: "text-[#141413]",
   },
 }
 

@@ -100,29 +100,40 @@ export function Gallery({ modo }: GalleryProps) {
   ]
 
   const isCorporativo = modo === "corporativo"
+  const isPessoal = modo === "pessoal"
 
   return (
-    <section id="portfolio" className={cn("py-24 md:py-32", theme.stoneBg)}>
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+    <section
+      id="portfolio"
+      className={cn("py-24 md:py-32", isPessoal ? "bg-white" : theme.stoneBg)}
+    >
+      <div className={cn("mx-auto max-w-7xl", isPessoal ? "px-6 md:px-8" : "px-6 md:px-10")}>
         <SectionHeading
           modo={modo}
+          centralizado={isPessoal}
+          label={isPessoal ? "Portfólio" : undefined}
           titulo={
-            isCorporativo ? "Produções comerciais" : "Histórias e momentos"
+            isCorporativo ? "Produções comerciais" : "Histórias que"
           }
-          destaque={isCorporativo ? "e retratos" : "em imagem"}
+          destaque={isCorporativo ? "e retratos" : "ficaram para sempre"}
           descricao={
             isCorporativo
               ? "Direção de autoridade, fidelidade cromática e composição limpa. Clique em qualquer imagem para ampliar."
-              : "Luz suave, gestos espontâneos e sensibilidade documental. Clique em qualquer fotografia para ampliar."
+              : "Uma seleção de instantes que tivemos o privilégio de testemunhar. Toque em qualquer imagem para ampliar."
           }
         />
 
         {/* Filtros */}
-        <Reveal delay={0.08}>
+        <Reveal delay={isPessoal ? 0.1 : 0.08}>
           <div
             role="tablist"
             aria-label="Filtrar portfólio por categoria"
-            className="mt-10 flex flex-wrap items-center gap-2"
+            className={cn(
+              "flex flex-wrap items-center",
+              isPessoal
+                ? "mt-12 justify-center gap-2.5"
+                : "mt-10 gap-2"
+            )}
           >
             {opcoes.map((o) => {
               const ativo = filtroAtual === o.key
@@ -136,14 +147,25 @@ export function Gallery({ modo }: GalleryProps) {
                     setCategoria(o.key)
                   }}
                   className={cn(
-                    "rounded-sm border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors",
-                    ativo
-                      ? cn("border-transparent", theme.primaryBtn)
+                    "border transition-all",
+                    isPessoal
+                      ? cn(
+                          "rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em]",
+                          ativo
+                            ? "border-black bg-black text-white"
+                            : "border-neutral-300 text-neutral-500 hover:border-black hover:text-black"
+                        )
                       : cn(
-                          theme.borderLight,
-                          theme.lightBg,
-                          theme.mutedText,
-                          theme.borderHover
+                          "px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em]",
+                          theme.controlRadius,
+                          ativo
+                            ? cn("border-transparent", theme.primaryBtn)
+                            : cn(
+                                theme.borderLight,
+                                theme.lightBg,
+                                theme.mutedText,
+                                theme.borderHover
+                              )
                         )
                   )}
                 >
@@ -157,7 +179,7 @@ export function Gallery({ modo }: GalleryProps) {
         {/* Grade do portfólio */}
         <div
           className={cn(
-            "mt-10",
+            isPessoal ? "mt-12" : "mt-10",
             isCorporativo
               ? "grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
               : "masonry"
@@ -166,16 +188,22 @@ export function Gallery({ modo }: GalleryProps) {
           {filtradas.map((img, i) => (
             <Reveal
               key={img.src}
-              delay={(i % 4) * 0.05}
+              delay={(i % 4) * (isPessoal ? 0.08 : 0.05)}
               className={isCorporativo ? "" : "masonry-item"}
             >
               <button
                 type="button"
                 onClick={() => setIndice(i)}
                 className={cn(
-                  "group relative block w-full overflow-hidden rounded-sm border bg-[#DCD9D0]",
-                  theme.borderLight,
-                  isCorporativo && "aspect-[4/5]"
+                  "group relative block w-full overflow-hidden",
+                  isPessoal
+                    ? "bg-neutral-100"
+                    : cn(
+                        "border bg-[#DCD9D0]",
+                        theme.frameRadius,
+                        theme.borderLight,
+                        isCorporativo && "aspect-[4/5]"
+                      )
                 )}
                 style={
                   isCorporativo ? undefined : { aspectRatio: `${img.w} / ${img.h}` }
@@ -191,10 +219,29 @@ export function Gallery({ modo }: GalleryProps) {
                       ? "(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 100vw"
                       : "(min-width: 1280px) 24vw, (min-width: 768px) 33vw, 50vw"
                   }
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  className={cn(
+                    "object-cover transition-all",
+                    isPessoal
+                      ? "grayscale duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
+                      : "duration-500 group-hover:scale-[1.03]"
+                  )}
                 />
-                <span className="absolute inset-0 flex items-end bg-gradient-to-t from-[#141413]/75 via-transparent to-transparent p-3.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="text-left text-[10px] font-medium uppercase tracking-[0.2em] text-[#F6F5F0]">
+                <span
+                  className={cn(
+                    "absolute inset-0 flex items-end bg-gradient-to-t via-transparent to-transparent opacity-0 transition-opacity",
+                    isPessoal
+                      ? "from-black/70 p-4 duration-500 group-hover:opacity-100"
+                      : "from-[#141413]/75 p-3.5 duration-300 group-hover:opacity-100"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-left font-medium uppercase text-white",
+                      isPessoal
+                        ? "text-[10px] tracking-[0.25em]"
+                        : "text-[10px] tracking-[0.2em] text-[#F6F5F0]"
+                    )}
+                  >
                     {nomeCategoria(img.categoria)}
                   </span>
                 </span>
@@ -213,7 +260,10 @@ export function Gallery({ modo }: GalleryProps) {
       >
         <DialogContent
           showCloseButton={false}
-          className="fixed left-0 top-0 z-[70] flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-none border-0 bg-[#141413] p-4 sm:p-8"
+          className={cn(
+            "fixed left-0 top-0 z-[70] flex h-screen w-screen max-w-none translate-x-0 translate-y-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-none border-0 p-4 sm:p-8",
+            isPessoal ? "bg-black" : "bg-[#141413]"
+          )}
         >
           {atual && (
             <>
@@ -232,19 +282,40 @@ export function Gallery({ modo }: GalleryProps) {
                   width={atual.w}
                   height={atual.h}
                   sizes="90vw"
-                  className="max-h-[78vh] w-auto max-w-full rounded-sm object-contain"
+                  className={cn(
+                    "max-h-[78vh] w-auto max-w-full object-contain",
+                    isPessoal ? "rounded-sm shadow-2xl" : theme.frameRadius
+                  )}
                   priority
                 />
               </div>
 
-              <div className="flex w-full max-w-3xl flex-col items-center gap-1.5 pb-2 text-center">
-                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#9E9B93]">
+              <div className="flex w-full max-w-3xl flex-col items-center gap-2 pb-2 text-center">
+                <p
+                  className={cn(
+                    "text-[10px] font-medium uppercase",
+                    isPessoal
+                      ? "tracking-[0.35em] text-neutral-500"
+                      : cn("tracking-[0.24em]", theme.darkAccentText)
+                  )}
+                >
                   {nomeCategoria(atual.categoria)}
                 </p>
-                <p className="text-sm font-light text-[#E6E4DD] md:text-base">
+                <p
+                  className={cn(
+                    isPessoal
+                      ? "font-serif-site text-xl italic text-neutral-200 md:text-2xl"
+                      : "text-sm font-light text-[#E6E4DD] md:text-base"
+                  )}
+                >
                   {atual.alt}
                 </p>
-                <p className="text-xs tabular-nums text-[#86837B]">
+                <p
+                  className={cn(
+                    "text-xs tabular-nums",
+                    isPessoal ? "text-neutral-500" : "text-[#9E9B93]"
+                  )}
+                >
                   {indiceSeguro !== null ? indiceSeguro + 1 : 0} /{" "}
                   {filtradas.length}
                 </p>
@@ -257,25 +328,49 @@ export function Gallery({ modo }: GalleryProps) {
             type="button"
             onClick={anterior}
             aria-label="Foto anterior"
-            className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0] md:left-6"
+            className={cn(
+              "absolute left-3 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center border backdrop-blur transition-all focus-visible:!outline-[#F6F5F0] md:left-6",
+              isPessoal
+                ? "h-12 w-12 rounded-full border-white/20 bg-black/40 text-white hover:border-white hover:bg-white hover:text-black"
+                : cn(
+                    "h-11 w-11 border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413]",
+                    theme.controlRadius
+                  )
+            )}
           >
-            <ChevronLeft className="h-5 w-5" strokeWidth={1.5} />
+            <ChevronLeft className={isPessoal ? "h-6 w-6" : "h-5 w-5"} strokeWidth={isPessoal ? 1.25 : 1.5} />
           </button>
           <button
             type="button"
             onClick={proximo}
             aria-label="Próxima foto"
-            className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0] md:right-6"
+            className={cn(
+              "absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center border backdrop-blur transition-all focus-visible:!outline-[#F6F5F0] md:right-6",
+              isPessoal
+                ? "h-12 w-12 rounded-full border-white/20 bg-black/40 text-white hover:border-white hover:bg-white hover:text-black"
+                : cn(
+                    "h-11 w-11 border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413]",
+                    theme.controlRadius
+                  )
+            )}
           >
-            <ChevronRight className="h-5 w-5" strokeWidth={1.5} />
+            <ChevronRight className={isPessoal ? "h-6 w-6" : "h-5 w-5"} strokeWidth={isPessoal ? 1.25 : 1.5} />
           </button>
           <button
             type="button"
             onClick={() => setIndice(null)}
             aria-label="Fechar visualização"
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-sm border border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] backdrop-blur transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0]"
+            className={cn(
+              "absolute right-4 top-4 z-10 flex items-center justify-center border backdrop-blur transition-all focus-visible:!outline-[#F6F5F0]",
+              isPessoal
+                ? "h-12 w-12 rounded-full border-white/20 bg-black/40 text-white hover:border-white hover:bg-white hover:text-black"
+                : cn(
+                    "h-11 w-11 border-[#F6F5F0]/20 bg-[#141413]/70 text-[#F6F5F0] hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413]",
+                    theme.controlRadius
+                  )
+            )}
           >
-            <X className="h-5 w-5" strokeWidth={1.5} />
+            <X className="h-5 w-5" strokeWidth={isPessoal ? 1.25 : 1.5} />
           </button>
         </DialogContent>
       </Dialog>

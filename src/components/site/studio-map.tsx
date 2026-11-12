@@ -2,31 +2,68 @@
 
 import { ExternalLink, MapPin, ZoomIn } from "lucide-react"
 import { estudioLocalizacao } from "@/lib/site-data"
+import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
+
+interface StudioMapProps {
+  modo?: "preview" | SiteModo
+}
 
 /**
  * Mini-mapa interativo do estúdio com suporte nativo a zoom de pinça (dois dedos)
  * no player incorporado do Google Maps e atalho direto para abrir a rota externa.
  */
-export function StudioMap() {
+export function StudioMap({ modo = "corporativo" }: StudioMapProps) {
+  const theme =
+    modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
+
   return (
     <div
       id="mapa-estudio"
-      className="mt-6 overflow-hidden rounded-md border border-[#F6F5F0]/15 bg-[#1C1C1A]"
+      className={cn(
+        "mt-6 scroll-mt-24 overflow-hidden border",
+        theme.cardRadius,
+        theme.darkBorder,
+        theme.darkCardBg
+      )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#F6F5F0]/10 px-4 py-3">
+      <div
+        className={cn(
+          "flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3",
+          theme.darkBorder
+        )}
+      >
         <div className="flex items-center gap-2">
-          <MapPin className="h-3.5 w-3.5 text-[#9E9B93]" strokeWidth={1.75} />
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]">
+          <MapPin
+            className={cn("h-3.5 w-3.5", theme.darkAccentText)}
+            strokeWidth={1.75}
+          />
+          <span
+            className={cn(
+              "text-[10px] font-medium uppercase tracking-[0.2em]",
+              theme.darkMutedText
+            )}
+          >
             Mapa do Estúdio
           </span>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-light text-[#9E9B93]">
+        <span
+          className={cn(
+            "inline-flex items-center gap-1.5 text-[11px] font-light",
+            theme.darkMutedText
+          )}
+        >
           <ZoomIn className="h-3 w-3" strokeWidth={1.75} />
           Pinça (2 dedos) ou +/− para zoom
         </span>
       </div>
 
-      <div className="relative w-full bg-[#242320]">
+      <div
+        className={cn(
+          "relative w-full",
+          modo === "pessoal" ? "bg-neutral-900" : "bg-[#242320]"
+        )}
+      >
         <iframe
           src={estudioLocalizacao.googleMapsEmbedUrl}
           title="Mapa interativo do Memória Viva Estúdio — 3º andar, Sala 302, acima da CDL de Sombrio"
@@ -37,12 +74,22 @@ export function StudioMap() {
         />
       </div>
 
-      <div className="flex flex-col gap-3.5 border-t border-[#F6F5F0]/10 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        className={cn(
+          "flex flex-col gap-3.5 border-t p-4 sm:flex-row sm:items-center sm:justify-between",
+          theme.darkBorder
+        )}
+      >
         <div>
-          <p className="text-xs font-medium text-[#F6F5F0]">
+          <p className={cn("text-xs font-medium", theme.darkInkText)}>
             {estudioLocalizacao.referencia} · {estudioLocalizacao.complemento}
           </p>
-          <p className="mt-0.5 text-[11px] font-light text-[#9E9B93]">
+          <p
+            className={cn(
+              "mt-0.5 text-[11px] font-light",
+              theme.darkMutedText
+            )}
+          >
             {estudioLocalizacao.enderecoLinha} ·{" "}
             {estudioLocalizacao.cidadeEstado}
           </p>
@@ -52,7 +99,11 @@ export function StudioMap() {
           href={estudioLocalizacao.googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-sm bg-[#F6F5F0] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#141413] transition-colors hover:bg-[#E4E1D8] focus-visible:!outline-[#F6F5F0]"
+          className={cn(
+            "inline-flex shrink-0 items-center justify-center gap-2 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors focus-visible:!outline-[#F6F5F0]",
+            theme.controlRadius,
+            theme.darkPrimaryBtn
+          )}
         >
           Abrir no Google Maps
           <ExternalLink className="h-3.5 w-3.5" strokeWidth={1.75} />

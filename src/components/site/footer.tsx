@@ -1,16 +1,26 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Instagram, Facebook, MessageCircle, ExternalLink } from "lucide-react"
+import { Instagram, Facebook, MessageCircle, ExternalLink, Heart } from "lucide-react"
 import { estudioLocalizacao } from "@/lib/site-data"
 import { cn } from "@/lib/utils"
 import { modoThemes, type SiteModo } from "@/lib/site-modes"
+import { LogoEmblema } from "./logo-emblema"
 
-const navegacaoSecoes = [
-  { href: "#historia", label: "O Estúdio" },
+const navegacaoCorporativo = [
+  { href: "#inicio", label: "Início" },
   { href: "#servicos", label: "Especialidades" },
   { href: "#portfolio", label: "Portfólio" },
   { href: "#experiencias", label: "Experiências & Projetos" },
   { href: "#faq", label: "Dúvidas Frequentes" },
+  { href: "#contato", label: "Contato" },
+]
+
+const navegacaoPessoal = [
+  { href: "#inicio", label: "Início" },
+  { href: "#historia", label: "Nossa História" },
+  { href: "#servicos", label: "Serviços" },
+  { href: "#portfolio", label: "Portfólio" },
+  { href: "#faq", label: "Perguntas Frequentes" },
   { href: "#contato", label: "Contato" },
 ]
 
@@ -52,57 +62,134 @@ interface FooterProps {
 export function Footer({ modo = "preview" }: FooterProps) {
   const theme =
     modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
-  const navegacao = modo === "preview" ? navegacaoPreview : navegacaoSecoes
+  const isPessoal = modo === "pessoal"
+  const navegacao =
+    modo === "preview"
+      ? navegacaoPreview
+      : isPessoal
+        ? navegacaoPessoal
+        : navegacaoCorporativo
 
   return (
-    <footer className={cn("border-t border-[#F6F5F0]/12", theme.darkBg)}>
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 md:px-10">
+    <footer
+      className={cn(
+        "border-t",
+        isPessoal ? "border-white/10 bg-black" : cn(theme.darkBorder, theme.darkBg)
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto max-w-7xl px-6 pb-8 pt-16",
+          isPessoal ? "md:px-8" : "md:px-10"
+        )}
+      >
         <div className="grid gap-12 md:grid-cols-12">
           {/* Marca */}
           <div className="md:col-span-5">
-            <Link href="/" className="inline-flex items-center gap-3.5">
-              <Image
-                src="/logo-branco.svg"
-                alt="Logotipo Memória Viva Estúdio"
-                width={540}
-                height={504}
-                unoptimized
-                loading="eager"
-                className="h-10 w-auto shrink-0"
-              />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#F6F5F0]">
-                  Memória Viva Estúdio
+            {isPessoal ? (
+              <>
+                <Link
+                  href="/"
+                  className="group inline-flex items-center gap-4 focus-visible:!outline-white"
+                >
+                  <LogoEmblema tamanho="md" />
+                  <div>
+                    <p className="text-sm font-medium uppercase tracking-[0.22em] text-white">
+                      Micael &amp; Vanusa
+                    </p>
+                    <p className="mt-1.5 text-[9px] uppercase tracking-[0.42em] text-neutral-400">
+                      Memória Viva Fotografia
+                    </p>
+                  </div>
+                </Link>
+                <p className="font-serif-site mt-6 max-w-sm text-xl italic leading-snug text-neutral-300">
+                  “O tempo passa. A memória fica.”
                 </p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-[#9E9B93]">
-                  Micael &amp; Vanusa
+                <p className="mt-3 max-w-sm text-xs font-light leading-relaxed text-neutral-500">
+                  Estúdio próprio no Centro de Sombrio · SC (3º andar, Sala 302
+                  — acima da CDL). Atendimento em Sombrio, região e sob
+                  consulta.
                 </p>
-              </div>
-            </Link>
-            <p className="mt-5 max-w-sm text-sm font-light leading-relaxed text-[#B8B5AC]">
-              Estúdio próprio no Centro de Sombrio · SC (3º andar, Sala 302 —
-              acima da CDL). Fotografia pessoal, corporativa, produtos e
-              marketing com atendimento em Sombrio, região e sob consulta.
-            </p>
+              </>
+            ) : (
+              <>
+                <Link href="/" className="inline-flex items-center gap-3.5">
+                  <Image
+                    src="/logo-branco.svg"
+                    alt="Logotipo Memória Viva Estúdio"
+                    width={540}
+                    height={504}
+                    unoptimized
+                    loading="eager"
+                    className="h-10 w-auto shrink-0"
+                  />
+                  <div>
+                    <p
+                      className={cn(
+                        "text-xs font-semibold uppercase tracking-[0.22em]",
+                        theme.darkInkText
+                      )}
+                    >
+                      Memória Viva Estúdio
+                    </p>
+                    <p
+                      className={cn(
+                        "mt-1 text-[10px] uppercase tracking-[0.22em]",
+                        theme.darkMutedText
+                      )}
+                    >
+                      Micael &amp; Vanusa
+                    </p>
+                  </div>
+                </Link>
+                <p
+                  className={cn(
+                    "mt-5 max-w-sm text-sm font-light leading-relaxed",
+                    theme.darkMutedText
+                  )}
+                >
+                  Estúdio próprio no Centro de Sombrio · SC (3º andar, Sala 302
+                  — acima da CDL). Fotografia pessoal, corporativa, produtos e
+                  marketing com atendimento em Sombrio, região e sob consulta.
+                </p>
+              </>
+            )}
           </div>
 
           {/* Navegação */}
           <nav className="md:col-span-3" aria-label="Links do rodapé">
-            <p className="label-mini text-[#9E9B93]">Navegue</p>
-            <ul className="mt-4 space-y-2.5">
+            <p
+              className={cn(
+                "label-mini",
+                isPessoal ? "text-neutral-500" : theme.darkAccentText
+              )}
+            >
+              Navegue
+            </p>
+            <ul className={cn(isPessoal ? "mt-5 space-y-3" : "mt-4 space-y-2.5")}>
               {navegacao.map((n) => (
                 <li key={n.href + n.label}>
                   {n.href.startsWith("/") ? (
                     <Link
                       href={n.href}
-                      className="text-sm font-light text-[#D4D1C7] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                      className={cn(
+                        "text-sm font-light transition-colors focus-visible:!outline-[#F6F5F0]",
+                        isPessoal
+                          ? "text-neutral-400 hover:text-white"
+                          : cn(theme.darkBodyText, "hover:text-[#F6F5F0]")
+                      )}
                     >
                       {n.label}
                     </Link>
                   ) : (
                     <a
                       href={n.href}
-                      className="text-sm font-light text-[#D4D1C7] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                      className={cn(
+                        "text-sm font-light transition-colors focus-visible:!outline-[#F6F5F0]",
+                        isPessoal
+                          ? "text-neutral-400 hover:text-white"
+                          : cn(theme.darkBodyText, "hover:text-[#F6F5F0]")
+                      )}
                     >
                       {n.label}
                     </a>
@@ -114,13 +201,25 @@ export function Footer({ modo = "preview" }: FooterProps) {
 
           {/* Frentes */}
           <div className="md:col-span-2">
-            <p className="label-mini text-[#9E9B93]">Frentes</p>
-            <ul className="mt-4 space-y-2.5">
+            <p
+              className={cn(
+                "label-mini",
+                isPessoal ? "text-neutral-500" : theme.darkAccentText
+              )}
+            >
+              Frentes
+            </p>
+            <ul className={cn(isPessoal ? "mt-5 space-y-3" : "mt-4 space-y-2.5")}>
               {frentesLinks.map((f) => (
                 <li key={f.href}>
                   <Link
                     href={f.href}
-                    className="text-sm font-light text-[#B8B5AC] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                    className={cn(
+                      "text-sm font-light transition-colors focus-visible:!outline-[#F6F5F0]",
+                      isPessoal
+                        ? "text-neutral-400 hover:text-white"
+                        : cn(theme.darkMutedText, "hover:text-[#F6F5F0]")
+                    )}
                   >
                     {f.label}
                   </Link>
@@ -131,8 +230,15 @@ export function Footer({ modo = "preview" }: FooterProps) {
 
           {/* Social */}
           <div className="md:col-span-2">
-            <p className="label-mini text-[#9E9B93]">Canais</p>
-            <div className="mt-4 flex gap-2.5">
+            <p
+              className={cn(
+                "label-mini",
+                isPessoal ? "text-neutral-500" : theme.darkAccentText
+              )}
+            >
+              {isPessoal ? "Siga" : "Canais"}
+            </p>
+            <div className={cn(isPessoal ? "mt-5 flex gap-3" : "mt-4 flex gap-2.5")}>
               {sociais.map((s) => (
                 <a
                   key={s.label}
@@ -140,14 +246,29 @@ export function Footer({ modo = "preview" }: FooterProps) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-sm border border-[#F6F5F0]/20 text-[#D4D1C7] transition-colors hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413] focus-visible:!outline-[#F6F5F0]"
+                  className={cn(
+                    "flex items-center justify-center border transition-all focus-visible:!outline-[#F6F5F0]",
+                    isPessoal
+                      ? "h-11 w-11 rounded-full border-white/20 text-neutral-300 hover:border-white hover:bg-white hover:text-black"
+                      : cn(
+                          "h-10 w-10 hover:border-[#F6F5F0] hover:bg-[#F6F5F0] hover:text-[#141413]",
+                          theme.controlRadius,
+                          theme.darkBorder,
+                          theme.darkBodyText
+                        )
+                  )}
                 >
                   {s.icone}
                 </a>
               ))}
             </div>
-            <div className="mt-5 space-y-1.5 text-xs font-light leading-relaxed text-[#9E9B93]">
-              <p className="text-[#D4D1C7]">
+            <div
+              className={cn(
+                "mt-5 space-y-1.5 text-xs font-light leading-relaxed",
+                isPessoal ? "text-neutral-500" : theme.darkMutedText
+              )}
+            >
+              <p className={isPessoal ? "text-neutral-300" : theme.darkBodyText}>
                 {estudioLocalizacao.referencia}
                 <br />
                 {estudioLocalizacao.complemento} ·{" "}
@@ -158,7 +279,12 @@ export function Footer({ modo = "preview" }: FooterProps) {
                 href={estudioLocalizacao.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#F6F5F0] transition-colors hover:text-[#D4D1C7] focus-visible:!outline-[#F6F5F0]"
+                className={cn(
+                  "inline-flex items-center gap-1.5 pt-1 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                  isPessoal
+                    ? "text-white hover:text-neutral-300"
+                    : cn(theme.darkInkText, "hover:text-[#D4D1C7]")
+                )}
               >
                 Abrir no Google Maps
                 <ExternalLink className="h-3 w-3" strokeWidth={1.75} />
@@ -168,14 +294,38 @@ export function Footer({ modo = "preview" }: FooterProps) {
         </div>
 
         {/* Barra inferior */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[#F6F5F0]/10 pt-7 text-center md:flex-row md:text-left">
-          <p className="text-xs font-light text-[#9E9B93]">
-            © {new Date().getFullYear()} Memória Viva Estúdio · Micael &amp;
-            Vanusa. Todos os direitos reservados.
+        <div
+          className={cn(
+            "flex flex-col items-center justify-between gap-3 border-t text-center md:flex-row md:text-left",
+            isPessoal
+              ? "mt-14 border-white/10 pt-8"
+              : cn("mt-12 pt-7", theme.darkBorder)
+          )}
+        >
+          <p
+            className={cn(
+              "text-xs font-light",
+              isPessoal ? "text-neutral-500" : theme.darkMutedText
+            )}
+          >
+            © {new Date().getFullYear()} Micael &amp; Vanusa · Memória Viva
+            Fotografia. Todos os direitos reservados.
           </p>
-          <p className="text-xs font-light text-[#86837B]">
-            Sombrio &amp; Região · Atendimento externo sob consulta
-          </p>
+          {isPessoal ? (
+            <p className="flex items-center gap-1.5 text-xs font-light text-neutral-500">
+              Feito com
+              <Heart
+                className="h-3.5 w-3.5 fill-neutral-600 text-neutral-600"
+                strokeWidth={0}
+                aria-hidden="true"
+              />
+              para histórias que não podem ser esquecidas.
+            </p>
+          ) : (
+            <p className={cn("text-xs font-light", theme.darkMutedText)}>
+              Sombrio &amp; Região · Atendimento externo sob consulta
+            </p>
+          )}
         </div>
       </div>
     </footer>

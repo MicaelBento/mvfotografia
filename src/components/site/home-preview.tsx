@@ -49,16 +49,16 @@ const frentes: PreviewCardConfig[] = [
     id: "pessoal",
     href: "/pessoal",
     titulo: "Pessoal",
-    subtitulo: "com tempo, leveza e verdade",
+    subtitulo: "o tempo passa — a memória fica",
     descricao:
-      "Sessões reservadas no estúdio climatizado ou ao ar livre na região — conduzidas com sensibilidade para guardar fases reais da vida.",
+      "Ensaios de casais, famílias, gestantes, celebrações e histórias reais — conduzidos com sensibilidade no estúdio próprio ou ao ar livre.",
     imagemPrincipal: {
-      src: "/img/casais-4.jpg",
-      alt: "Casal sorrindo em ensaio pessoal da Memória Viva Estúdio",
+      src: "/img/hero-2.jpg",
+      alt: "Casal em silhueta ao entardecer em ensaio pessoal da Memória Viva",
     },
     miniaturas: [
       {
-        src: "/img/casais-2.jpg",
+        src: "/img/casais-4.jpg",
         alt: "Ensaio de casal em conexão natural",
       },
       {
@@ -70,8 +70,15 @@ const frentes: PreviewCardConfig[] = [
         alt: "Ensaio documental de família",
       },
     ],
-    tags: ["Casais", "Gestantes", "Famílias", "Aniversários"],
-    notaRodape: "Casamentos e recém-nascidos mediante consulta",
+    tags: [
+      "Casais",
+      "Famílias",
+      "Gestantes",
+      "Casamentos",
+      "Aniversários",
+      "Recém-nascidos",
+    ],
+    notaRodape: "Estúdio próprio em Sombrio · Região e sob consulta",
     cta: "Entrar na frente Pessoal",
   },
   {
@@ -174,19 +181,25 @@ export function HomePreview() {
                       href={frente.href}
                       className={
                         isPessoal
-                          ? "group flex h-full flex-col justify-between rounded-md border border-[#1D1917]/15 bg-[#FAF7F2] p-6 text-[#1D1917] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1D1917]/45 hover:shadow-lg sm:p-8"
+                          ? "group flex h-full flex-col justify-between rounded-2xl border border-neutral-300 bg-white p-6 text-neutral-900 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-black hover:shadow-lg sm:p-8"
                           : "group flex h-full flex-col justify-between rounded-md border border-[#F6F5F0]/15 bg-[#141413] p-6 text-[#F6F5F0] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#F6F5F0]/45 hover:shadow-xl sm:p-8"
                       }
                     >
                       <div>
                         {/* Título & Subtítulo */}
-                        <h2 className="text-3xl font-medium tracking-[-0.025em] sm:text-4xl">
+                        <h2
+                          className={
+                            isPessoal
+                              ? "font-serif-site text-4xl font-medium sm:text-[2.65rem]"
+                              : "text-3xl font-medium tracking-[-0.025em] sm:text-4xl"
+                          }
+                        >
                           {frente.titulo}
                         </h2>
                         <p
                           className={
                             isPessoal
-                              ? "font-serif-site mt-1 text-xl italic text-[#665E57] sm:text-2xl"
+                              ? "font-serif-site mt-1 text-xl italic text-neutral-500 sm:text-2xl"
                               : "mt-1.5 text-base font-light text-[#B8B5AC] sm:text-lg"
                           }
                         >
@@ -198,7 +211,7 @@ export function HomePreview() {
                           <div
                             className={
                               isPessoal
-                                ? "relative col-span-8 aspect-[4/3] overflow-hidden rounded-sm border border-[#1D1917]/10 bg-[#EFE7DA]"
+                                ? "relative col-span-8 aspect-[4/3] overflow-hidden bg-neutral-100"
                                 : "relative col-span-8 aspect-[4/3] overflow-hidden rounded-sm border border-[#F6F5F0]/12 bg-[#1C1C1A]"
                             }
                           >
@@ -208,7 +221,11 @@ export function HomePreview() {
                               fill
                               loading="eager"
                               sizes="(min-width: 1024px) 30vw, 65vw"
-                              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${frente.imagemPrincipal.className ?? ""}`}
+                              className={`object-cover transition-all duration-700 group-hover:scale-[1.03] ${
+                                isPessoal
+                                  ? "grayscale group-hover:grayscale-0"
+                                  : ""
+                              } ${frente.imagemPrincipal.className ?? ""}`}
                             />
                           </div>
 
@@ -218,7 +235,7 @@ export function HomePreview() {
                                 key={mini.src}
                                 className={
                                   isPessoal
-                                    ? "relative overflow-hidden rounded-sm border border-[#1D1917]/10 bg-[#EFE7DA]"
+                                    ? "relative overflow-hidden bg-neutral-100"
                                     : "relative overflow-hidden rounded-sm border border-[#F6F5F0]/12 bg-[#1C1C1A]"
                                 }
                               >
@@ -227,7 +244,11 @@ export function HomePreview() {
                                   alt={mini.alt}
                                   fill
                                   sizes="(min-width: 1024px) 12vw, 30vw"
-                                  className={`object-cover transition-transform duration-500 group-hover:scale-[1.05] ${mini.className ?? ""}`}
+                                  className={`object-cover transition-all duration-700 group-hover:scale-[1.05] ${
+                                    isPessoal
+                                      ? "grayscale group-hover:grayscale-0"
+                                      : ""
+                                  } ${mini.className ?? ""}`}
                                 />
                               </div>
                             ))}
@@ -237,7 +258,7 @@ export function HomePreview() {
                         <p
                           className={
                             isPessoal
-                              ? "mt-5 text-sm font-light leading-relaxed text-[#665E57]"
+                              ? "mt-5 text-sm font-light leading-relaxed text-neutral-600"
                               : "mt-5 text-sm font-light leading-relaxed text-[#B8B5AC]"
                           }
                         >
@@ -251,7 +272,7 @@ export function HomePreview() {
                               key={tag}
                               className={
                                 isPessoal
-                                  ? "rounded-sm border border-[#1D1917]/12 bg-[#F2ECE2]/80 px-2.5 py-1 text-[11px] font-normal text-[#1D1917]"
+                                  ? "rounded-full border border-neutral-300 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-neutral-600"
                                   : "rounded-sm border border-[#F6F5F0]/15 bg-[#1C1C1A] px-2.5 py-1 text-[11px] font-light text-[#D4D1C7]"
                               }
                             >
@@ -266,7 +287,7 @@ export function HomePreview() {
                         <p
                           className={
                             isPessoal
-                              ? "text-xs font-light text-[#665E57]"
+                              ? "text-xs font-light text-neutral-500"
                               : "text-xs font-light text-[#9E9B93]"
                           }
                         >
@@ -276,7 +297,7 @@ export function HomePreview() {
                         <div
                           className={
                             isPessoal
-                              ? "flex items-center justify-between rounded-sm bg-[#1D1917] px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#FAF7F2] transition-colors group-hover:bg-[#342D29]"
+                              ? "flex items-center justify-between rounded-full bg-black px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition-colors group-hover:bg-neutral-800"
                               : "flex items-center justify-between rounded-sm bg-[#F6F5F0] px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#141413] transition-colors group-hover:bg-[#ECEAE3]"
                           }
                         >

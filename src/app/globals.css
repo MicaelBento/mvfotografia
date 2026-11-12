@@ -105,11 +105,11 @@
   }
 
   section[id] {
-    scroll-margin-top: 4.5rem;
+    scroll-margin-top: 5rem;
   }
 }
 
-/* ---------- Utilidades escandinavas ---------- */
+/* ---------- Utilidades escandinavas & protótipo pessoal ---------- */
 
 .font-serif-site {
   font-family: var(--font-serif), Georgia, serif;
@@ -120,6 +120,50 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+.pessoal-prototype {
+  --font-sans-site: var(--font-sans-pessoal);
+  font-family: var(--font-sans-pessoal), system-ui, -apple-system, sans-serif;
+}
+
+.pessoal-prototype .label-mini {
+  letter-spacing: 0.38em;
+}
+
+.text-shadow-hero {
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Ken Burns suave no hero pessoal */
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-1%, 1%);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 18s ease-out forwards;
+}
+
+/* Indicador de scroll */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.4;
+  }
+}
+
+.animate-floaty {
+  animation: floaty 2.2s ease-in-out infinite;
 }
 
 /* Galeria masonry */
@@ -182,7 +226,9 @@ button:focus-visible {
 }
 
 .bg-\[\#141413\] a:focus-visible,
-.bg-\[\#141413\] button:focus-visible {
+.bg-\[\#141413\] button:focus-visible,
+.bg-black a:focus-visible,
+.bg-black button:focus-visible {
   outline-color: #f6f5f0;
 }
 

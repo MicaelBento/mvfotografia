@@ -37,6 +37,7 @@ export function Experiences({ modo }: ExperiencesProps) {
   const theme = modoThemes[modo]
   const experiencias = useMemo(() => getExperienciasPorModo(modo), [modo])
   const isCorporativo = modo === "corporativo"
+  const isPessoal = modo === "pessoal"
 
   const [momentoAtivo, setMomentoAtivo] = useState<ExperienciaId>(
     () => experiencias[0].id
@@ -87,15 +88,28 @@ export function Experiences({ modo }: ExperiencesProps) {
   return (
     <section
       id="experiencias"
-      className={cn("py-24 md:py-32", theme.darkBg)}
+      className={cn(
+        "relative overflow-hidden py-24 md:py-32",
+        theme.darkBg
+      )}
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      {isPessoal && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(227,186,168,0.07),transparent_58%)]"
+        />
+      )}
+      <div className="relative mx-auto max-w-7xl px-6 md:px-10">
         <SectionHeading
           invertido
           modo={modo}
           titulo={isCorporativo ? "Planos sob medida" : "Formatos pensados"}
           destaque={isCorporativo ? "para sua marca" : "para o seu momento"}
-          descricao="Selecione a categoria para explorar formatos exemplificativos. Sem tabelas rígidas: adaptamos duração, entregas e logística para a sua demanda."
+          descricao={
+            isCorporativo
+              ? "Selecione a categoria para explorar formatos exemplificativos. Sem tabelas rígidas: adaptamos duração, entregas e logística para a sua demanda."
+              : "Escolha o momento da sua vida para explorar propostas exemplificativas — ajustamos ritmo, cenário e impressões ao que faz sentido para você."
+          }
         />
 
         {/* Passo 1: Seletor por categoria */}
@@ -117,11 +131,18 @@ export function Experiences({ modo }: ExperiencesProps) {
                   aria-controls={`painel-${exp.id}`}
                   onClick={() => selecionarMomento(exp.id)}
                   className={cn(
-                    "rounded-sm border px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                    "border px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                    theme.controlRadius,
                     ativo
-                      ? "border-[#FAF7F2] bg-[#FAF7F2] text-[#141413]"
+                      ? isPessoal
+                        ? "border-[#F4DDD1] bg-[#F4DDD1] text-[#2C211D]"
+                        : "border-[#F6F5F0] bg-[#F6F5F0] text-[#141413]"
                       : cn(
-                          "border-[#F6F5F0]/20 text-[#C5BBB1] hover:border-[#F6F5F0]/60 hover:text-[#F6F5F0]",
+                          "border-[#FAF4EC]/20 hover:border-[#FAF4EC]/55",
+                          theme.darkMutedText,
+                          isPessoal
+                            ? "hover:text-[#FAF4EC]"
+                            : "hover:text-[#F6F5F0]",
                           theme.darkCardBg
                         )
                   )}
@@ -147,21 +168,41 @@ export function Experiences({ modo }: ExperiencesProps) {
             className="mt-8"
           >
             {/* Contexto + atalho ao portfólio */}
-            <div className="flex flex-col gap-3 border-t border-[#F6F5F0]/12 pt-6 md:flex-row md:items-center md:justify-between">
-              <p className="max-w-2xl text-sm font-light leading-relaxed text-[#C5BBB1] md:text-base">
+            <div
+              className={cn(
+                "flex flex-col gap-3 border-t pt-6 md:flex-row md:items-center md:justify-between",
+                theme.darkBorder
+              )}
+            >
+              <p
+                className={cn(
+                  "max-w-2xl text-sm font-light leading-relaxed md:text-base",
+                  theme.darkBodyText
+                )}
+              >
                 {atual.descricaoMomento}
               </p>
               {atual.categoriaGaleria ? (
                 <button
                   type="button"
                   onClick={() => irParaGaleria(atual.categoriaGaleria!)}
-                  className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#F6F5F0]/80 transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                  className={cn(
+                    "inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                    isPessoal
+                      ? "text-[#E3BAA8] hover:text-[#FAF4EC]"
+                      : "text-[#F6F5F0]/80 hover:text-[#F6F5F0]"
+                  )}
                 >
                   Ver portfólio de {atual.nomeCurto}
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                 </button>
               ) : (
-                <p className="shrink-0 text-[11px] font-medium uppercase tracking-[0.18em] text-[#9E9B93]">
+                <p
+                  className={cn(
+                    "shrink-0 text-[11px] font-medium uppercase tracking-[0.18em]",
+                    theme.darkMutedText
+                  )}
+                >
                   Cases enviados na conversa
                 </p>
               )}
@@ -224,11 +265,20 @@ export function Experiences({ modo }: ExperiencesProps) {
                     aria-pressed={selecionado}
                     onClick={() => setFormatoId(formato.id)}
                     className={cn(
-                      "group relative flex h-full flex-col rounded-md border p-7 text-left transition-colors duration-200 md:p-9 focus-visible:!outline-[#F6F5F0]",
+                      "group relative flex h-full flex-col border p-7 text-left transition-colors duration-200 md:p-9 focus-visible:!outline-[#F6F5F0]",
+                      theme.cardRadius,
                       selecionado
-                        ? cn("border-[#FAF7F2]", theme.cardBg, theme.inkText)
+                        ? cn(
+                            isPessoal ? "border-[#E3BAA8]" : "border-[#F6F5F0]",
+                            theme.cardBg,
+                            theme.inkText
+                          )
                         : cn(
-                            "border-[#F6F5F0]/15 text-[#F6F5F0] hover:border-[#F6F5F0]/45",
+                            theme.darkBorder,
+                            theme.darkInkText,
+                            isPessoal
+                              ? "hover:border-[#E3BAA8]/55"
+                              : "hover:border-[#F6F5F0]/45",
                             theme.darkCardBg
                           )
                     )}
@@ -236,12 +286,17 @@ export function Experiences({ modo }: ExperiencesProps) {
                     {formato.destaque && (
                       <span
                         className={cn(
-                          "absolute -top-3 left-7 inline-flex items-center gap-1.5 rounded-sm px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em]",
+                          "absolute -top-3 left-7 inline-flex items-center gap-1.5 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em]",
+                          theme.controlRadius,
                           selecionado
-                            ? cn(theme.darkBg, "text-[#FAF7F2]")
+                            ? isPessoal
+                              ? "bg-[#8E5947] text-[#FAF4EC]"
+                              : cn(theme.darkBg, "text-[#F6F5F0]")
                             : cn(
-                                "border border-[#F6F5F0]/25 text-[#F6F5F0]",
-                                theme.darkBg
+                                "border",
+                                theme.darkBorder,
+                                theme.darkBg,
+                                isPessoal ? "text-[#E3BAA8]" : "text-[#F6F5F0]"
                               )
                         )}
                       >
@@ -253,7 +308,7 @@ export function Experiences({ modo }: ExperiencesProps) {
                     <h3
                       className={cn(
                         "text-2xl font-medium tracking-[-0.02em] md:text-3xl",
-                        modo === "pessoal" && "font-serif-site text-3xl md:text-4xl"
+                        isPessoal && "font-serif-site text-3xl md:text-4xl"
                       )}
                     >
                       {formato.nome}
@@ -264,7 +319,7 @@ export function Experiences({ modo }: ExperiencesProps) {
                         "mt-2.5 border-b pb-5 text-sm font-light leading-relaxed",
                         selecionado
                           ? cn(theme.borderLight, theme.mutedText)
-                          : "border-[#F6F5F0]/12 text-[#C5BBB1]"
+                          : cn(theme.darkBorder, theme.darkMutedText)
                       )}
                     >
                       {formato.subtitulo}
@@ -279,14 +334,20 @@ export function Experiences({ modo }: ExperiencesProps) {
                           <Check
                             className={cn(
                               "mt-0.5 h-4 w-4 shrink-0",
-                              selecionado ? theme.inkText : "text-[#F6F5F0]"
+                              selecionado
+                                ? isPessoal
+                                  ? theme.accentText
+                                  : theme.inkText
+                                : isPessoal
+                                  ? theme.darkAccentText
+                                  : "text-[#F6F5F0]"
                             )}
                             strokeWidth={2}
                           />
                           <span
                             className={cn(
                               "font-light",
-                              selecionado ? theme.inkText : "text-[#DCD7D0]"
+                              selecionado ? theme.inkText : theme.darkBodyText
                             )}
                           >
                             {item}
@@ -300,7 +361,13 @@ export function Experiences({ modo }: ExperiencesProps) {
                         "mt-7 flex items-center justify-between border-t pt-4 text-[11px] font-semibold uppercase tracking-[0.18em]",
                         selecionado
                           ? cn(theme.borderLight, theme.inkText)
-                          : "border-[#F6F5F0]/10 text-[#C5BBB1] group-hover:text-[#F6F5F0]"
+                          : cn(
+                              theme.darkBorder,
+                              theme.darkMutedText,
+                              isPessoal
+                                ? "group-hover:text-[#FAF4EC]"
+                                : "group-hover:text-[#F6F5F0]"
+                            )
                       )}
                     >
                       <span>
@@ -310,9 +377,12 @@ export function Experiences({ modo }: ExperiencesProps) {
                       </span>
                       <span
                         className={cn(
-                          "flex h-5 w-5 items-center justify-center rounded-sm border transition-colors",
+                          "flex h-5 w-5 items-center justify-center border transition-colors",
+                          theme.controlRadius,
                           selecionado
-                            ? cn(theme.darkBg, "border-transparent text-[#FAF7F2]")
+                            ? isPessoal
+                              ? "border-transparent bg-[#8E5947] text-[#FAF4EC]"
+                              : cn(theme.darkBg, "border-transparent text-[#F6F5F0]")
                             : "border-[#F6F5F0]/30 text-transparent group-hover:border-[#F6F5F0]/70"
                         )}
                         aria-hidden="true"
@@ -328,16 +398,23 @@ export function Experiences({ modo }: ExperiencesProps) {
             {/* Passo 3: Personalização + Ações */}
             <div
               className={cn(
-                "mt-6 rounded-md border border-[#F6F5F0]/15 p-6 md:p-8",
+                "mt-6 border p-6 md:p-8",
+                theme.cardRadius,
+                theme.darkBorder,
                 theme.darkCardBg
               )}
             >
               <div className="flex flex-col gap-4">
                 <div>
-                  <p className="label-mini text-[#A8A199]">
+                  <p className={cn("label-mini", theme.darkAccentText)}>
                     Personalização opcional
                   </p>
-                  <p className="mt-1.5 text-sm font-light text-[#C5BBB1]">
+                  <p
+                    className={cn(
+                      "mt-1.5 text-sm font-light",
+                      theme.darkMutedText
+                    )}
+                  >
                     Marque recursos adicionais que gostaria de incluir no
                     orçamento:
                   </p>
@@ -353,10 +430,20 @@ export function Experiences({ modo }: ExperiencesProps) {
                         aria-pressed={marcado}
                         onClick={() => alternarExtra(extra)}
                         className={cn(
-                          "inline-flex items-center gap-2 rounded-sm border px-3.5 py-2 text-xs transition-colors focus-visible:!outline-[#F6F5F0]",
+                          "inline-flex items-center gap-2 border px-3.5 py-2 text-xs transition-colors focus-visible:!outline-[#F6F5F0]",
+                          theme.controlRadius,
                           marcado
-                            ? "border-[#FAF7F2] bg-[#FAF7F2] font-medium text-[#141413]"
-                            : "border-[#F6F5F0]/20 bg-black/20 font-light text-[#D4D1C7] hover:border-[#F6F5F0]/55 hover:text-[#F6F5F0]"
+                            ? isPessoal
+                              ? "border-[#F4DDD1] bg-[#F4DDD1] font-medium text-[#2C211D]"
+                              : "border-[#F6F5F0] bg-[#F6F5F0] font-medium text-[#141413]"
+                            : cn(
+                                "bg-black/20 font-light",
+                                theme.darkBorder,
+                                theme.darkBodyText,
+                                isPessoal
+                                  ? "hover:border-[#E3BAA8]/60 hover:text-[#FAF4EC]"
+                                  : "hover:border-[#F6F5F0]/55 hover:text-[#F6F5F0]"
+                              )
                         )}
                       >
                         {marcado && (
@@ -369,18 +456,33 @@ export function Experiences({ modo }: ExperiencesProps) {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-5 border-t border-[#F6F5F0]/10 pt-6 lg:flex-row lg:items-center lg:justify-between">
+              <div
+                className={cn(
+                  "mt-6 flex flex-col gap-5 border-t pt-6 lg:flex-row lg:items-center lg:justify-between",
+                  theme.darkBorder
+                )}
+              >
                 <div>
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#A8A199]">
+                  <p
+                    className={cn(
+                      "text-[10px] font-medium uppercase tracking-[0.2em]",
+                      theme.darkMutedText
+                    )}
+                  >
                     Resumo da seleção
                   </p>
-                  <p className="mt-1 text-sm font-light text-[#D4D1C7]">
-                    <span className="font-medium text-[#FAF7F2]">
+                  <p
+                    className={cn(
+                      "mt-1 text-sm font-light",
+                      theme.darkBodyText
+                    )}
+                  >
+                    <span className={cn("font-medium", theme.darkInkText)}>
                       {atual.nomeCurto}
                     </span>{" "}
                     · {formatoAtivo.nome}
                     {extrasMarcados.length > 0 && (
-                      <span className="text-[#A8A199]">
+                      <span className={theme.darkMutedText}>
                         {" "}
                         + {extrasMarcados.join(", ")}
                       </span>
@@ -400,7 +502,8 @@ export function Experiences({ modo }: ExperiencesProps) {
                       })
                     }
                     className={cn(
-                      "inline-flex items-center justify-center gap-2.5 rounded-sm px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      "inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      theme.controlRadius,
                       theme.darkPrimaryBtn
                     )}
                   >
@@ -413,7 +516,8 @@ export function Experiences({ modo }: ExperiencesProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "inline-flex items-center justify-center gap-2.5 rounded-sm border px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      "inline-flex items-center justify-center gap-2.5 border px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                      theme.controlRadius,
                       theme.darkSecondaryBtn
                     )}
                   >
@@ -430,20 +534,22 @@ export function Experiences({ modo }: ExperiencesProps) {
         <Reveal delay={0.14}>
           <div
             className={cn(
-              "mt-8 flex flex-col items-start justify-between gap-5 rounded-md border border-[#F6F5F0]/12 px-6 py-5 md:flex-row md:items-center md:px-8",
+              "mt-8 flex flex-col items-start justify-between gap-5 border px-6 py-5 md:flex-row md:items-center md:px-8",
+              theme.cardRadius,
+              theme.darkBorder,
               theme.darkCardBg
             )}
           >
             <div className="space-y-1">
-              <p className="text-sm font-light text-[#D4D1C7]">
-                <span className="font-medium text-[#FAF7F2]">
+              <p className={cn("text-sm font-light", theme.darkBodyText)}>
+                <span className={cn("font-medium", theme.darkInkText)}>
                   {isCorporativo
                     ? "Grandes catálogos, produções industriais ou logística fora da região"
                     : "Casamentos, recém-nascidos e locações fora da região"}
                 </span>{" "}
                 são atendidos mediante consulta personalizada de agenda.
               </p>
-              <p className="text-xs font-light text-[#A8A199]">
+              <p className={cn("text-xs font-light", theme.darkMutedText)}>
                 Estúdio próprio em Sombrio/SC · Atendimento em toda a região ·{" "}
                 {isCorporativo
                   ? "Emissão fiscal e planos recorrentes para empresas."
@@ -464,7 +570,8 @@ export function Experiences({ modo }: ExperiencesProps) {
                 })
               }
               className={cn(
-                "inline-flex shrink-0 items-center gap-2 rounded-sm border px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                "inline-flex shrink-0 items-center gap-2 border px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:!outline-[#F6F5F0]",
+                theme.controlRadius,
                 theme.darkSecondaryBtn
               )}
             >

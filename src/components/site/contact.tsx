@@ -122,6 +122,7 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
   const theme =
     modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
   const modoSection: SiteModo = modo === "pessoal" ? "pessoal" : "corporativo"
+  const isPessoal = modo === "pessoal"
   const servicosLista = getServicosPorModo(modo)
 
   const servico = useSiteStore((s) => s.servicoSelecionado)
@@ -197,17 +198,22 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
   }
 
   const inputClasse = cn(
-    "h-11 w-full rounded-sm border border-[#F6F5F0]/15 px-3.5 text-sm font-light text-[#F6F5F0] placeholder:text-[#86837B] transition-colors focus:border-[#F6F5F0] focus:outline-none",
-    theme.darkBg
+    "w-full border text-sm font-light transition-colors focus:outline-none",
+    isPessoal
+      ? "h-12 rounded-lg border-white/15 bg-white/5 px-4 text-white placeholder:text-neutral-500 focus:border-white focus:ring-1 focus:ring-white/40"
+      : cn(
+          "h-11 rounded-sm border-[#F6F5F0]/15 px-3.5 text-[#F6F5F0] placeholder:text-[#86837B] focus:border-[#F6F5F0]",
+          theme.darkBg
+        )
   )
 
   const tituloContato =
-    modo === "pessoal" ? "Vamos registrar" : "Vamos planejar"
+    modo === "pessoal" ? "Vamos eternizar" : "Vamos planejar"
   const destaqueContato =
-    modo === "pessoal" ? "sua memória?" : "sua produção?"
+    modo === "pessoal" ? "a sua história?" : "sua produção?"
   const nomePlaceholder =
     modo === "pessoal"
-      ? "Ex.: Mariana ou Camila & Rafael"
+      ? "Como podemos te chamar?"
       : modo === "corporativo"
         ? "Ex.: Dr. Henrique · Clínica Sombrio"
         : "Ex.: Mariana ou Clínica Sombrio"
@@ -217,20 +223,39 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
       : "Ex.: próximo mês, período da tarde ou locação externa"
 
   return (
-    <section id="contato" className={cn("py-24 md:py-32", theme.darkBg)}>
-      <div className="mx-auto grid max-w-7xl gap-14 px-6 md:px-10 lg:grid-cols-12 lg:gap-16">
+    <section
+      id="contato"
+      className={cn(
+        "relative overflow-hidden py-24 md:py-32",
+        isPessoal ? "bg-black" : theme.darkBg
+      )}
+    >
+      <div
+        className={cn(
+          "relative mx-auto grid max-w-7xl gap-16",
+          isPessoal
+            ? "px-6 md:px-8 lg:grid-cols-2 lg:gap-20"
+            : "gap-14 px-6 md:px-10 lg:grid-cols-12 lg:gap-16"
+        )}
+      >
         {/* Informações e localização */}
-        <div className="lg:col-span-5">
+        <div className={isPessoal ? "" : "lg:col-span-5"}>
           <SectionHeading
             invertido
+            centralizado={false}
             modo={modoSection}
+            label={isPessoal ? "Contato" : undefined}
             titulo={tituloContato}
             destaque={destaqueContato}
-            descricao="Informe seu nome, escolha opcionalmente o tipo de sessão e envie a mensagem pronta direto para o nosso WhatsApp."
+            descricao={
+              isPessoal
+                ? "Informe seu nome e envie a mensagem pronta direto para o nosso WhatsApp. Respondemos em até 24h úteis — geralmente em muito menos."
+                : "Informe seu nome, escolha opcionalmente o tipo de sessão e envie a mensagem pronta direto para o nosso WhatsApp."
+            }
           />
 
-          <Reveal delay={0.12}>
-            <ul className="mt-10 space-y-5">
+          <Reveal delay={isPessoal ? 0.2 : 0.12}>
+            <ul className={cn(isPessoal ? "mt-12 space-y-6" : "mt-10 space-y-5")}>
               {infos.map((info) => {
                 const isExternal = info.href.startsWith("http")
                 return (
@@ -239,16 +264,43 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                       href={info.href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="group flex items-center gap-4 focus-visible:!outline-[#F6F5F0]"
+                      className={cn(
+                        "group flex items-center focus-visible:!outline-[#F6F5F0]",
+                        isPessoal ? "gap-5" : "gap-4"
+                      )}
                     >
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#F6F5F0]/20 text-[#F6F5F0] transition-colors group-hover:border-[#F6F5F0] group-hover:bg-[#F6F5F0] group-hover:text-[#141413]">
+                      <span
+                        className={cn(
+                          "flex shrink-0 items-center justify-center rounded-full border transition-all",
+                          isPessoal
+                            ? "h-12 w-12 border-white/20 text-white group-hover:border-white group-hover:bg-white group-hover:text-black"
+                            : cn(
+                                "h-10 w-10 border-[#F6F5F0]/20 text-[#F6F5F0] group-hover:border-[#F6F5F0] group-hover:bg-[#F6F5F0] group-hover:text-[#141413]",
+                                theme.controlRadius
+                              )
+                        )}
+                      >
                         {info.icone}
                       </span>
                       <span>
-                        <span className="block text-[10px] uppercase tracking-[0.2em] text-[#9E9B93]">
+                        <span
+                          className={cn(
+                            "block text-[10px] uppercase",
+                            isPessoal
+                              ? "tracking-[0.28em] text-neutral-500"
+                              : cn("tracking-[0.2em]", theme.darkMutedText)
+                          )}
+                        >
                           {info.titulo}
                         </span>
-                        <span className="mt-0.5 block text-sm font-light text-[#D4D1C7] transition-colors group-hover:text-[#F6F5F0]">
+                        <span
+                          className={cn(
+                            "block font-light transition-colors",
+                            isPessoal
+                              ? "mt-1 text-base text-neutral-200 group-hover:text-white"
+                              : cn("mt-0.5 text-sm group-hover:text-[#F6F5F0]", theme.darkBodyText)
+                          )}
+                        >
                           {info.valor}
                         </span>
                       </span>
@@ -260,13 +312,24 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
 
             <div
               className={cn(
-                "mt-8 flex items-start gap-3 rounded-sm border border-[#F6F5F0]/12 p-4 text-xs font-light leading-relaxed text-[#B8B5AC]",
-                theme.darkCardBg
+                "flex items-start gap-3 border font-light leading-relaxed",
+                isPessoal
+                  ? "mt-10 rounded-xl border-white/10 bg-white/5 p-5 text-sm text-neutral-400"
+                  : cn(
+                      "mt-8 p-4 text-xs",
+                      theme.frameRadius,
+                      theme.darkBorder,
+                      theme.darkMutedText,
+                      theme.darkCardBg
+                    )
               )}
             >
               <Clock
-                className="mt-0.5 h-4 w-4 shrink-0 text-[#9E9B93]"
-                strokeWidth={1.5}
+                className={cn(
+                  "mt-0.5 h-4 w-4 shrink-0",
+                  isPessoal ? "text-neutral-500" : theme.darkAccentText
+                )}
+                strokeWidth={isPessoal ? 1.25 : 1.5}
               />
               <p>
                 Atendimento de segunda a sábado, das 9h às 20h, em nosso estúdio
@@ -274,34 +337,64 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
               </p>
             </div>
 
-            <StudioMap />
+            <StudioMap modo={modo} />
           </Reveal>
         </div>
 
         {/* Gerador rápido de mensagem WhatsApp */}
-        <Reveal delay={0.1} className="lg:col-span-7">
+        <Reveal delay={isPessoal ? 0.15 : 0.1} className={isPessoal ? "" : "lg:col-span-7"}>
           <form
             onSubmit={handleSubmitEnter}
             className={cn(
-              "rounded-md border border-[#F6F5F0]/15 p-7 md:p-9",
-              theme.darkCardBg
+              "border",
+              isPessoal
+                ? "rounded-2xl border-white/15 bg-neutral-950 p-8 md:p-10"
+                : cn(
+                    "p-7 md:p-9",
+                    theme.cardRadius,
+                    theme.darkBorder,
+                    theme.darkCardBg
+                  )
             )}
             noValidate
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-xl font-medium tracking-[-0.015em] text-[#F6F5F0]">
-                  Atendimento direto no WhatsApp
+                <h3
+                  className={cn(
+                    isPessoal
+                      ? "font-serif-site text-2xl font-medium text-white md:text-3xl"
+                      : cn("text-xl font-medium tracking-[-0.015em]", theme.darkInkText)
+                  )}
+                >
+                  {isPessoal
+                    ? "Pedir orçamento no WhatsApp"
+                    : "Atendimento direto no WhatsApp"}
                 </h3>
-                <p className="mt-1.5 text-sm font-light text-[#9E9B93]">
-                  Preencha apenas seu nome para montarmos sua mensagem pronta em
-                  segundos.
+                <p
+                  className={cn(
+                    "font-light",
+                    isPessoal
+                      ? "mt-2 text-sm text-neutral-400"
+                      : cn("mt-1.5 text-sm", theme.darkMutedText)
+                  )}
+                >
+                  {isPessoal
+                    ? "Sem compromisso — informe seu nome para abrir a conversa pronta."
+                    : "Preencha apenas seu nome para montarmos sua mensagem pronta em segundos."}
                 </p>
               </div>
               <span
                 className={cn(
-                  "hidden h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#F6F5F0]/15 text-[#F6F5F0] sm:flex",
-                  theme.darkBg
+                  "hidden h-10 w-10 shrink-0 items-center justify-center border sm:flex",
+                  isPessoal
+                    ? "rounded-full border-white/20 bg-black text-white"
+                    : cn(
+                        theme.controlRadius,
+                        theme.darkBorder,
+                        theme.darkInkText,
+                        theme.darkBg
+                      )
                 )}
               >
                 <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
@@ -311,22 +404,29 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
             {contextoAtivo && (
               <div
                 className={cn(
-                  "mt-6 flex items-start justify-between gap-4 rounded-sm border border-[#F6F5F0]/18 px-4 py-3 text-xs",
+                  "mt-6 flex items-start justify-between gap-4 border px-4 py-3 text-xs",
+                  theme.frameRadius,
+                  theme.darkBorder,
                   theme.darkBg
                 )}
               >
                 <div className="space-y-1">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#9E9B93]">
+                  <p
+                    className={cn(
+                      "text-[10px] font-medium uppercase tracking-[0.2em]",
+                      theme.darkAccentText
+                    )}
+                  >
                     Experiência adicionada à mensagem
                   </p>
-                  <p className="font-light text-[#D4D1C7]">
-                    <span className="font-medium text-[#F6F5F0]">
+                  <p className={cn("font-light", theme.darkBodyText)}>
+                    <span className={cn("font-medium", theme.darkInkText)}>
                       {contextoAtivo.momento}
                     </span>
                     {contextoAtivo.formato && ` · ${contextoAtivo.formato}`}
                   </p>
                   {contextoAtivo.extras.length > 0 && (
-                    <p className="font-light text-[#9E9B93]">
+                    <p className={cn("font-light", theme.darkMutedText)}>
                       Adicionais: {contextoAtivo.extras.join(", ")}
                     </p>
                   )}
@@ -335,19 +435,29 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                   type="button"
                   onClick={() => setContextoProposta(null)}
                   aria-label="Limpar formato selecionado"
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border border-[#F6F5F0]/15 text-[#9E9B93] transition-colors hover:border-[#F6F5F0]/50 hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                  className={cn(
+                    "flex h-7 w-7 shrink-0 items-center justify-center border transition-colors hover:border-[#F6F5F0]/50 hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]",
+                    theme.controlRadius,
+                    theme.darkBorder,
+                    theme.darkMutedText
+                  )}
                 >
                   <X className="h-3.5 w-3.5" strokeWidth={1.75} />
                 </button>
               </div>
             )}
 
-            <div className="mt-7 space-y-6">
+            <div className={cn(isPessoal ? "mt-8 space-y-6" : "mt-7 space-y-6")}>
               {/* Nome */}
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="nome"
-                  className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]"
+                  className={cn(
+                    "text-[10px] font-medium uppercase",
+                    isPessoal
+                      ? "tracking-[0.28em] text-neutral-400"
+                      : cn("tracking-[0.2em]", theme.darkMutedText)
+                  )}
                 >
                   1. {modo === "corporativo" ? "Seu nome ou empresa" : "Seu nome"} *
                 </label>
@@ -380,8 +490,15 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
 
               {/* Seleção rápida com 1 clique */}
               <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]">
-                  2. O que deseja registrar (opcional)
+                <span
+                  className={cn(
+                    "text-[10px] font-medium uppercase",
+                    isPessoal
+                      ? "tracking-[0.28em] text-neutral-400"
+                      : cn("tracking-[0.2em]", theme.darkMutedText)
+                  )}
+                >
+                  2. O que você quer eternizar? (opcional)
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {servicosLista.map((item) => {
@@ -393,12 +510,24 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                         aria-pressed={ativo}
                         onClick={() => alternarServico(item)}
                         className={cn(
-                          "rounded-sm border px-3 py-2 text-xs font-light transition-colors focus-visible:!outline-[#F6F5F0]",
-                          ativo
-                            ? "border-[#F6F5F0] bg-[#F6F5F0] font-medium text-[#141413]"
+                          "border px-3.5 py-2 text-xs font-light transition-colors focus-visible:!outline-[#F6F5F0]",
+                          isPessoal
+                            ? cn(
+                                "rounded-full",
+                                ativo
+                                  ? "border-white bg-white font-medium text-black"
+                                  : "border-white/15 bg-white/5 text-neutral-300 hover:border-white/50 hover:text-white"
+                              )
                             : cn(
-                                "border-[#F6F5F0]/18 text-[#D4D1C7] hover:border-[#F6F5F0]/45 hover:text-[#F6F5F0]",
-                                theme.darkBg
+                                theme.controlRadius,
+                                ativo
+                                  ? "border-[#F6F5F0] bg-[#F6F5F0] font-medium text-[#141413]"
+                                  : cn(
+                                      theme.darkBorder,
+                                      theme.darkBodyText,
+                                      "hover:border-[#F6F5F0]/45 hover:text-[#F6F5F0]",
+                                      theme.darkBg
+                                    )
                               )
                         )}
                       >
@@ -413,7 +542,12 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="detalhe-rapido"
-                  className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]"
+                  className={cn(
+                    "text-[10px] font-medium uppercase",
+                    isPessoal
+                      ? "tracking-[0.28em] text-neutral-400"
+                      : cn("tracking-[0.2em]", theme.darkMutedText)
+                  )}
                 >
                   3. Data prevista ou ideia rápida (opcional)
                 </label>
@@ -432,7 +566,12 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                 <div className="flex items-center justify-between gap-2">
                   <label
                     htmlFor="mensagem-whatsapp"
-                    className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#B8B5AC]"
+                    className={cn(
+                      "text-[10px] font-medium uppercase",
+                      isPessoal
+                        ? "tracking-[0.28em] text-neutral-400"
+                        : cn("tracking-[0.2em]", theme.darkMutedText)
+                    )}
                   >
                     Prévia da mensagem (editável)
                   </label>
@@ -440,7 +579,12 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                     <button
                       type="button"
                       onClick={() => setTextoCustomizado(null)}
-                      className="inline-flex items-center gap-1.5 text-[11px] font-light text-[#B8B5AC] transition-colors hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                      className={cn(
+                        "inline-flex items-center gap-1.5 text-[11px] font-light transition-colors focus-visible:!outline-[#F6F5F0]",
+                        isPessoal
+                          ? "text-neutral-400 hover:text-white"
+                          : cn(theme.darkMutedText, "hover:text-[#F6F5F0]")
+                      )}
                     >
                       <RotateCcw className="h-3 w-3" strokeWidth={1.75} />
                       Restaurar automática
@@ -454,20 +598,30 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
                   value={mensagemFinal}
                   onChange={(e) => setTextoCustomizado(e.target.value)}
                   className={cn(
-                    "w-full resize-none rounded-sm border border-[#F6F5F0]/20 px-4 py-3.5 text-sm font-light leading-relaxed text-[#F6F5F0] transition-colors focus:border-[#F6F5F0] focus:outline-none",
-                    theme.darkBg
+                    "w-full resize-none border px-4 py-3.5 text-sm font-light leading-relaxed transition-colors focus:outline-none",
+                    isPessoal
+                      ? "rounded-lg border-white/15 bg-white/5 text-white placeholder:text-neutral-500 focus:border-white focus:ring-1 focus:ring-white/40"
+                      : cn(
+                          "rounded-sm border-[#F6F5F0]/20 text-[#F6F5F0] focus:border-[#F6F5F0]",
+                          theme.darkBg
+                        )
                   )}
                 />
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleWhatsappClick}
-                className="flex flex-1 items-center justify-center gap-2.5 rounded-sm bg-[#F6F5F0] px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#141413] transition-colors hover:bg-[#E4E1D8] focus-visible:!outline-[#F6F5F0]"
+                className={cn(
+                  "flex flex-1 items-center justify-center gap-2.5 px-6 py-4 text-[11px] font-semibold uppercase transition-all focus-visible:!outline-[#F6F5F0]",
+                  isPessoal
+                    ? "rounded-full bg-white tracking-[0.28em] text-black hover:bg-neutral-200"
+                    : cn("tracking-[0.2em]", theme.controlRadius, theme.darkPrimaryBtn)
+                )}
               >
                 <MessageCircle className="h-4 w-4" strokeWidth={1.85} />
                 Enviar no WhatsApp
@@ -476,7 +630,12 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
               <button
                 type="button"
                 onClick={copiarMensagem}
-                className="inline-flex items-center justify-center gap-2 rounded-sm border border-[#F6F5F0]/25 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D4D1C7] transition-colors hover:border-[#F6F5F0] hover:text-[#F6F5F0] focus-visible:!outline-[#F6F5F0]"
+                className={cn(
+                  "inline-flex items-center justify-center gap-2 border px-5 py-4 text-[11px] font-semibold uppercase transition-colors focus-visible:!outline-[#F6F5F0]",
+                  isPessoal
+                    ? "rounded-full border-white/30 tracking-[0.22em] text-white hover:border-white hover:bg-white/10"
+                    : cn("tracking-[0.18em]", theme.controlRadius, theme.darkSecondaryBtn)
+                )}
               >
                 {copiado ? (
                   <>
@@ -492,9 +651,15 @@ export function Contact({ modo = "corporativo" }: ContactProps) {
               </button>
             </div>
 
-            <p className="mt-4 text-center text-xs font-light leading-relaxed text-[#9E9B93]">
-              Abre sua conversa direta com Micael e Vanusa no WhatsApp — sem
-              formulários longos nem espera.
+            <p
+              className={cn(
+                "mt-5 text-center text-xs font-light leading-relaxed",
+                isPessoal ? "text-neutral-500" : theme.darkMutedText
+              )}
+            >
+              {isPessoal
+                ? "Seus dados ficam entre nós — abre sua conversa direta no WhatsApp em segundos."
+                : "Abre sua conversa direta com Micael e Vanusa no WhatsApp — sem formulários longos nem espera."}
             </p>
           </form>
         </Reveal>

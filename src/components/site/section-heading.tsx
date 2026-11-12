@@ -24,6 +24,7 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const theme = modoThemes[modo]
+  const isPessoal = modo === "pessoal"
 
   return (
     <Reveal
@@ -36,12 +37,15 @@ export function SectionHeading({
       {label && (
         <p
           className={cn(
-            "label-mini mb-4",
-            invertido
-              ? modo === "pessoal"
-                ? "text-[#B5AAA0]"
-                : "text-[#9E9B93]"
-              : theme.mutedText
+            "label-mini",
+            isPessoal ? "mb-5" : "mb-4",
+            isPessoal
+              ? invertido
+                ? "text-neutral-400"
+                : "text-neutral-500"
+              : invertido
+                ? theme.darkMutedText
+                : theme.mutedText
           )}
         >
           {label}
@@ -49,45 +53,53 @@ export function SectionHeading({
       )}
       <h2
         className={cn(
-          "text-3xl font-medium tracking-[-0.025em] leading-[1.08] md:text-5xl",
-          invertido
-            ? modo === "pessoal"
-              ? "text-[#FAF7F2]"
-              : "text-[#F6F5F0]"
-            : theme.inkText
+          isPessoal
+            ? "font-serif-site text-4xl font-medium leading-[1.05] md:text-5xl lg:text-6xl"
+            : "text-3xl font-medium tracking-[-0.025em] leading-[1.08] md:text-5xl",
+          isPessoal
+            ? invertido
+              ? "text-white"
+              : "text-neutral-900"
+            : invertido
+              ? theme.darkInkText
+              : theme.inkText
         )}
       >
         {titulo}
         {destaque && (
           <>
             {" "}
-            <span
+            <em
               className={cn(
-                modo === "pessoal"
-                  ? "font-serif-site italic font-normal"
-                  : "font-light",
-                invertido
-                  ? modo === "pessoal"
-                    ? "text-[#C5BBB1]"
-                    : "text-[#A8A49B]"
-                  : theme.mutedText
+                isPessoal ? "font-serif-site italic" : "not-italic font-light",
+                isPessoal
+                  ? invertido
+                    ? "text-neutral-300"
+                    : "text-neutral-400"
+                  : invertido
+                    ? theme.darkAccentText
+                    : theme.mutedText
               )}
             >
               {destaque}
-            </span>
+            </em>
           </>
         )}
       </h2>
       {descricao && (
         <p
           className={cn(
-            "mt-5 max-w-2xl text-base leading-relaxed font-light md:text-[17px]",
+            isPessoal
+              ? "mt-6 text-base font-light leading-relaxed md:text-lg"
+              : "mt-5 max-w-2xl text-base leading-relaxed font-light md:text-[17px]",
             centralizado && "mx-auto",
-            invertido
-              ? modo === "pessoal"
-                ? "text-[#C5BBB1]"
-                : "text-[#B8B5AC]"
-              : theme.mutedText
+            isPessoal
+              ? invertido
+                ? "text-neutral-300"
+                : "text-neutral-600"
+              : invertido
+                ? theme.darkMutedText
+                : theme.mutedText
           )}
         >
           {descricao}

@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import { ExperienceLanding } from "@/components/site/experience-landing"
 
-const titulo = "Ensaios Pessoais — Casais, Gestantes, Famílias & Aniversários"
+const titulo =
+  "Ensaios Pessoais — Casais, Famílias, Gestantes, Casamentos & Celebrações"
 const descricao =
-  "Estúdio próprio reservado no Centro de Sombrio/SC (Sala 302, acima da CDL). Ensaios de casal, gestante, família e aniversários em Sombrio, região e sob consulta."
+  "Estúdio próprio reservado no Centro de Sombrio/SC (Sala 302, acima da CDL). O tempo passa, a memória fica: ensaios de casal, família, gestante, casamento, aniversário e recém-nascido em Sombrio, região e sob consulta."
 const ogAlt =
   "Memória Viva Estúdio — Ensaios pessoais de gestante, família, casal e aniversários em Sombrio/SC"
 

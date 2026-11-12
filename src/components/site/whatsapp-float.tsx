@@ -1,10 +1,20 @@
+import { cn } from "@/lib/utils"
+import { modoThemes, type SiteModo } from "@/lib/site-modes"
+
 const WHATSAPP_URL =
   "https://wa.me/5548998599989?text=Ol%C3%A1%2C%20Micael%20e%20Vanusa!%20Vim%20pelo%20site%20da%20Mem%C3%B3ria%20Viva%20Est%C3%BAdio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+
+interface WhatsAppFloatProps {
+  modo?: "preview" | SiteModo
+}
 
 /**
  * Botão flutuante de direcionamento rápido para o WhatsApp do estúdio.
  */
-export function WhatsAppFloat() {
+export function WhatsAppFloat({ modo = "corporativo" }: WhatsAppFloatProps) {
+  const theme =
+    modo === "pessoal" ? modoThemes.pessoal : modoThemes.corporativo
+
   return (
     <a
       href={WHATSAPP_URL}
@@ -14,7 +24,15 @@ export function WhatsAppFloat() {
       title="Conversar no WhatsApp"
       className="group fixed bottom-5 right-5 z-40 flex items-center gap-3 focus:outline-none sm:bottom-7 sm:right-7"
     >
-      <span className="pointer-events-none hidden translate-x-2 rounded-sm border border-[#F6F5F0]/15 bg-[#141413]/95 px-3.5 py-2 text-[10px] font-medium uppercase tracking-[0.18em] text-[#F6F5F0] opacity-0 backdrop-blur-md transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:inline-flex">
+      <span
+        className={cn(
+          "pointer-events-none hidden translate-x-2 border px-3.5 py-2 text-[10px] font-medium uppercase tracking-[0.18em] opacity-0 backdrop-blur-md transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:inline-flex",
+          theme.controlRadius,
+          theme.darkBorder,
+          theme.darkBg,
+          theme.darkInkText
+        )}
+      >
         Falar no WhatsApp
       </span>
 

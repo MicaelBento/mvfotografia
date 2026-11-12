@@ -36,10 +36,10 @@ export const categorias: Categoria[] = [
     key: "casais",
     grupo: "pessoal",
     nome: "Casais",
-    titulo: "Conexão natural",
-    frase: "Retratos autênticos, sem poses rígidas.",
+    titulo: "O olhar que diz tudo",
+    frase: "O amor não precisa de pose — precisa de verdade.",
     descricao:
-      "Sessões em nosso estúdio próprio em Sombrio ou em locações externas na região, com direção leve, luz precisa e composição atemporal.",
+      "Ensaios românticos no nosso estúdio próprio em Sombrio ou em cenários da região — registrando o jeito de olhar, rir e se abraçar que só existe entre vocês.",
     imagem: "/img/casais-2.jpg",
     tag: "Pessoal",
   },
@@ -47,10 +47,10 @@ export const categorias: Categoria[] = [
     key: "familias",
     grupo: "pessoal",
     nome: "Famílias",
-    titulo: "Tempo real em família",
-    frase: "Espontaneidade e técnica na medida certa.",
+    titulo: "O caos mais bonito do mundo",
+    frase: "Crianças crescem. As fotos ficam.",
     descricao:
-      "Encontros leves no estúdio climatizado, em casa ou ao ar livre em Sombrio e região, respeitando o ritmo das crianças e registrando vínculos reais.",
+      "O coração da casa em movimento: correria, gargalhadas e abraços apertados — no estúdio climatizado, em casa ou ao ar livre, respeitando o ritmo de cada um.",
     imagem: "/img/familias-3.jpg",
     tag: "Pessoal",
   },
@@ -58,23 +58,45 @@ export const categorias: Categoria[] = [
     key: "gestantes",
     grupo: "pessoal",
     nome: "Gestantes",
-    titulo: "Maternidade editorial",
-    frase: "Luz controlada, conforto e presença.",
+    titulo: "A espera mais doce",
+    frase: "Nove meses de amor em um único clique.",
     descricao:
-      "Produção em estúdio próprio equipado no Centro de Sombrio ou locação externa, com direção cuidadosa de postura, paleta e iluminação.",
+      "Um ensaio delicado no conforto reservado do estúdio em Sombrio ou em locação externa para celebrar a maternidade e a força que ela carrega.",
     imagem: "/img/gestantes-3.jpg",
     tag: "Pessoal",
+  },
+  {
+    key: "casamentos",
+    grupo: "pessoal",
+    nome: "Casamentos",
+    titulo: "O dia que não pode ser esquecido",
+    frase: "A festa passa. A memória fica para sempre.",
+    descricao:
+      "Cobertura documental e sensível do primeiro ao último minuto, mediante consulta prévia de agenda em Sombrio, região e destinos.",
+    imagem: "/img/casamentos-3.jpg",
+    tag: "Sob consulta",
   },
   {
     key: "aniversarios",
     grupo: "pessoal",
     nome: "Aniversários",
-    titulo: "Celebrações & ciclos",
-    frase: "Olhar documental sobre encontros e detalhes.",
+    titulo: "Cada ciclo merece festa",
+    frase: "Idades passam. A alegria fica registrada.",
     descricao:
-      "Cobertura de comemorações infantis, adultas e encontros íntimos em Sombrio e região, com atenção à atmosfera, aos convidados e à espontaneidade.",
+      "De 1 aninho aos 80, cada aniversário é uma história à parte — registramos os encontros, os abraços e aquela emoção que não cabe em palavras.",
     imagem: "/img/aniversarios-1.jpg",
     tag: "Pessoal",
+  },
+  {
+    key: "nova",
+    grupo: "pessoal",
+    nome: "Recém-nascidos",
+    titulo: "Os primeiros dias de tudo",
+    frase: "Tão pequenos, e já tão grandes em nossos corações.",
+    descricao:
+      "As mãozinhas, o bocejo e o sono tranquilo no colo — eternizados com calma, conforto e todo o cuidado, em atendimento sob consulta.",
+    imagem: "/img/nova-2.jpg",
+    tag: "Sob consulta",
   },
   {
     key: "corporativo",
@@ -588,6 +610,13 @@ export const stats = [
   { valor: "750+", rotulo: "projetos e ensaios entregues" },
   { valor: "Próprio", rotulo: "estúdio no Centro de Sombrio" },
   { valor: "48h", rotulo: "entrega da prévia inicial" },
+]
+
+export const statsCorporativo = [
+  { valor: "12+ anos", rotulo: "direção comercial & autoral" },
+  { valor: "Cor fiel", rotulo: "calibração para produtos e marca" },
+  { valor: "Multi-formato", rotulo: "4:5, 9:16 e alta resolução" },
+  { valor: "Estúdio ou Sede", rotulo: "Sombrio, região e sob consulta" },
 ]
 
 export const estudioLocalizacao = {
